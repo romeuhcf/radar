@@ -11,7 +11,8 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
-
+  get "/pages/*id" => 'pages#show', as: :page, format: false
+  root to: 'pages#show', id: 'home'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
