@@ -3,18 +3,18 @@ Rails.application.routes.draw do
 
   require 'sidekiq/web'
   require 'sidekiq/cron/web'
-  mount Sidekiq::Web => '/sidekiq'
-  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  authenticate :user do
+    mount Sidekiq::Web => '/sidekiq'
+    mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
-  authenticate :user do
-    get "/pages/*id" => 'pages#show', as: :page, format: false
-    root to: 'pages#show', id: 'home'
-  end
+  get "/pages/*id" => 'pages#show', as: :page, format: false
+  root to: 'pages#show', id: 'home'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
