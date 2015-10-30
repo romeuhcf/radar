@@ -6,4 +6,4 @@ ActionMailer::Base.smtp_settings = {
   :domain    => 'mailergrid.cmamail.com.br'
 }
 ActionMailer::Base.delivery_method = :smtp
-
+ActionMailer::Base.default_url_options[:host] = 'http://www.sendorama.com.br'
