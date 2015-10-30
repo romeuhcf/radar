@@ -39,7 +39,7 @@ test: &test
 
 legacy: &legacy
   adapter: mysql2
-  encoding: latin1
+  encoding: utf8
   reconnect: true
   pool: 45
   username: paloma
@@ -49,19 +49,6 @@ legacy: &legacy
 production:
   <<: *legacy
   database: mailergrid_2_production
-  cmacomm:
-    <<: *legacy
-    database: cmacomm_production
-  mpresscomm:
-    <<: *legacy
-    database: mpresscomm_production
-  smscomm:
-    <<: *legacy
-    database: smscomm_production
-    host: baseativa-sms
-  mailmktcomm:
-    <<: *legacy
-    database: mailmktcomm_production
   redis:
     host: redis
     timeout: 10
@@ -70,19 +57,6 @@ production:
 staging:
   <<: *legacy
   database: mailergrid_2_staging
-  cmacomm:
-    <<: *legacy
-    database: cmacomm_staging
-  mpresscomm:
-    <<: *legacy
-    database: mpresscomm_staging
-  smscomm:
-    <<: *legacy
-    database: smscomm_staging
-    host: baseativa-sms
-  mailmktcomm:
-    <<: *legacy
-    database: mailmktcomm_staging
   redis:
     host: redis
     timeout: 10
