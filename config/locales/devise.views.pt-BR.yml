@@ -10,6 +10,9 @@ pt-BR:
     models:
       user: Usuário
   devise:
+    failure:
+      user:
+        invalid: "Usuário ou senha desconhecido"
     confirmations:
       new:
         resend_confirmation_instructions: Reenviar instruções de confirmação
@@ -53,6 +56,9 @@ pt-BR:
     sessions:
       new:
         sign_in: Login
+      user:
+        signed_out: "Sessão encerrada com sucesso. Até breve!"
+        signed_in: "Sessão iniciada com sucesso. Olá!"
     shared:
       links:
         back: Voltar

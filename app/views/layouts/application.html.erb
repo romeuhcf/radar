@@ -18,7 +18,8 @@
 <body>
 <%= render 'layouts/navbar' %>
 <div class="container">
-<%= yield %>
+  <%= render 'layouts/messages' %>
+  <%= yield %>
 </div>
 <%= javascript_include_tag 'application'%>
 </body>

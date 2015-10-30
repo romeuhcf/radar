@@ -1,27 +1,46 @@
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
           <a class="navbar-brand" href="#">Radar</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          = form_tag session_path(:user), class: 'navbar-form navbar-right' do
-            <div class="form-group">
-              = text_field_tag 'user[email]', nil, placeholder: "Email", class: "form-control"
+          - if current_user
+            <div class="pull-right">
+              <ul class="nav pull-right">
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    = image_tag "#{(request.ssl? ? 'https://secure' : 'http://www')}.gravatar.com/avatar/#{Digest::MD5.hexdigest current_user.email}?s=30", style: 'padding-top:5px;padding-right: 5px;'
+                    =current_user.email
+                    <b class="caret"></b>
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a href="#"><i class="icon icon-cog"></i> Preferences</a></li>
+                    <li><a href="#"><i class="icon-envelope"></i> Contact Support</a></li>
+                    <li class="divider"></li>
+                    li= link_to t('admin.misc.log_out'), destroy_user_session_path, :method => Devise.sign_out_via
+                  </ul>
+                </li>
+              </ul>
             </div>
- 
-            <div class="form-group">
-              = password_field_tag 'user[password]', nil,  placeholder: "Password",  class: "form-control"
-            </div>
- 
-            <button type="submit" class="btn btn-success">
-              = t 'Sign in'
-            </button>
+          - else              
+           = form_tag session_path(:user), class: 'navbar-form navbar-right' do
+             <div class="form-group">
+               = text_field_tag 'user[email]', nil, placeholder: "Email", class: "form-control"
+             </div>
+
+             <div class="form-group">
+               = password_field_tag 'user[password]', nil,  placeholder: "Password",  class: "form-control"
+             </div>
+
+             <button type="submit" class="btn btn-success">
+               = t 'Sign in'
+             </button>
         </div><!--/.navbar-collapse -->
       </div>
     </nav>
