@@ -39,7 +39,6 @@ group :development, :test do
   gem 'quiet_assets'
   gem 'annotate_models'
 end
-
 # monitoring
 gem 'newrelic_rpm'
 
@@ -51,12 +50,15 @@ gem 'wkhtmltopdf-binary-edge', '~> 0.12.2.1'
 
 # authz
 gem 'devise'
-
+gem "devise-async"
 # admin 
 gem 'rails_admin'
 
 group :development do
   gem 'web-console', '~> 2.0'
+
+  gem 'devise-bootstrap-views'
+  gem 'devise-i18n-views'
 end
 
 #deployment
