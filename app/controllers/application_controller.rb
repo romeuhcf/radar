@@ -1,3 +1,4 @@
+#
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
@@ -10,5 +11,4 @@ class ApplicationController < ActionController::Base
   def set_mailer_host
     ActionMailer::Base.default_url_options[:host] = request.host_with_port
   end
-
 end

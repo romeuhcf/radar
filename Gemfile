@@ -33,6 +33,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'rspec-rails'
   gem 'capybara'
+  gem 'database_cleaner'
   gem 'simplecov', '~> 0.7.1', require: false
   gem 'faker'
   gem 'quiet_assets'
