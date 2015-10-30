@@ -19,7 +19,7 @@ gem 'groupdate'
 
 # queues
 gem "sidekiq", '< 4'
-gem 'sidetiq'
+gem 'sidekiq-cron'
 gem 'sidekiq-limit_fetch'
 
 # static pages
