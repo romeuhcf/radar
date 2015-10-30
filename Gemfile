@@ -37,6 +37,7 @@ group :development, :test do
   gem 'simplecov', '~> 0.7.1', require: false
   gem 'faker'
   gem 'quiet_assets'
+  gem 'annotate_models'
 end
 
 # monitoring
