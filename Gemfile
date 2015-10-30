@@ -21,6 +21,7 @@ gem 'groupdate'
 gem "sidekiq", '< 4'
 gem 'sidekiq-cron'
 gem 'sidekiq-limit_fetch'
+gem 'sinatra', :require => nil
 
 # static pages
 gem 'high_voltage'
