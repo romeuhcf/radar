@@ -7,7 +7,7 @@ set :repo_url, "git@bitbucket.org:romeuhcf/radar.git"
 set :deploy_to, "/home/deploy/vhosts/mailergrid2.#{fetch(:stage)}"
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 set :passenger_restart_with_touch, true
-
+set :bundle_binstubs, -> { shared_path.join('bin') }            # default: nil
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
