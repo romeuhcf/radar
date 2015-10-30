@@ -1,0 +1,92 @@
+# MySQL.  Versions 4.1 and 5.0 are recommended.
+#
+# Install the MYSQL driver
+#   gem install mysql2
+#
+# Ensure the MySQL gem is defined in your Gemfile
+#   gem 'mysql2'
+#
+# And be sure to use new-style password hashing:
+#   http://dev.mysql.com/doc/refman/5.0/en/old-client.html
+development:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: mailergrid_2_development
+  pool: 5
+  username: root
+  password:
+  host: localhost
+  redis:
+    host: 127.0.0.1
+    namespace: mailergrid_2:<%=Rails.env%>
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test: &test
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: mailergrid_2_test
+  pool: 5
+  username: root
+  password:
+  host: localhost
+  redis:
+    host: 127.0.0.1
+    namespace: mailergrid_2:<%=Rails.env%>
+
+legacy: &legacy
+  adapter: mysql2
+  encoding: latin1
+  reconnect: true
+  pool: 45
+  username: paloma
+  password: 12345
+  host: baseativa-cma
+  
+production:
+  <<: *legacy
+  database: mailergrid_2_production
+  cmacomm:
+    <<: *legacy
+    database: cmacomm_production
+  mpresscomm:
+    <<: *legacy
+    database: mpresscomm_production
+  smscomm:
+    <<: *legacy
+    database: smscomm_production
+    host: baseativa-sms
+  mailmktcomm:
+    <<: *legacy
+    database: mailmktcomm_production
+  redis:
+    host: redis
+    timeout: 10
+    namespace: mailergrid_2:<%=Rails.env%>
+
+staging:
+  <<: *legacy
+  database: mailergrid_2_staging
+  cmacomm:
+    <<: *legacy
+    database: cmacomm_staging
+  mpresscomm:
+    <<: *legacy
+    database: mpresscomm_staging
+  smscomm:
+    <<: *legacy
+    database: smscomm_staging
+    host: baseativa-sms
+  mailmktcomm:
+    <<: *legacy
+    database: mailmktcomm_staging
+  redis:
+    host: redis
+    timeout: 10
+    namespace: mailergrid_2:<%=Rails.env%>
+
+cucumber:
+  <<: *test
