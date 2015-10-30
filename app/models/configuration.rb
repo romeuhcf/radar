@@ -3,13 +3,13 @@
 #
 # Name        SQL Type             Null    Default Primary
 # ----------- -------------------- ------- ------- -------
-# id          int(11)              false           true
-# key         varchar(255)         true            false
-# description varchar(255)         true            false
-# default     varchar(255)         true            false
-# value       varchar(255)         true            false
-# created_at  datetime             false           false
-# updated_at  datetime             false           false
+# id          int(11)              false           true   
+# key         varchar(255)         true            false  
+# description varchar(255)         true            false  
+# default     varchar(255)         true            false  
+# value       varchar(255)         true            false  
+# created_at  datetime             false           false  
+# updated_at  datetime             false           false  
 #
 #------------------------------------------------------------------------------
 class Configuration < ActiveRecord::Base
