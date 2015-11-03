@@ -1,0 +1,2 @@
+class Divisions::CreateService
+end

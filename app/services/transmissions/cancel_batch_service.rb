@@ -1,0 +1,2 @@
+class Transmissions::CancelBatchService
+end

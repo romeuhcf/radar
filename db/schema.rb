@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151030070047) do
+ActiveRecord::Schema.define(version: 20151031212527) do
 
   create_table "bills", force: :cascade do |t|
     t.integer  "customer_id",          limit: 4
@@ -61,6 +61,16 @@ ActiveRecord::Schema.define(version: 20151030070047) do
 
   add_index "destinations", ["kind", "last_used_at", "contacted_times"], name: "index_destinations_on_kind_and_last_used_at_and_contacted_times", using: :btree
 
+  create_table "divisions", force: :cascade do |t|
+    t.integer  "owner_id",   limit: 4
+    t.string   "owner_type", limit: 255
+    t.string   "name",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "divisions", ["owner_type", "owner_id"], name: "index_divisions_on_owner_type_and_owner_id", using: :btree
+
   create_table "message_carrier_infos", force: :cascade do |t|
     t.integer  "carrier_id",     limit: 4
     t.string   "carrier_hash",   limit: 255
@@ -85,42 +95,42 @@ ActiveRecord::Schema.define(version: 20151030070047) do
   add_index "message_contents", ["message_id"], name: "index_message_contents_on_message_id", using: :btree
 
   create_table "messages", force: :cascade do |t|
-    t.integer  "customer_id",             limit: 4
-    t.string   "customer_type",           limit: 255
+    t.integer  "transmission_request_id", limit: 4
     t.string   "media",                   limit: 255
     t.string   "transmission_state",      limit: 255
     t.date     "reference_date"
     t.integer  "weight",                  limit: 4,   default: 1
-    t.boolean  "billable"
     t.boolean  "paid",                                default: false
     t.datetime "scheduled_to"
     t.datetime "sent_at"
+    t.boolean  "billable"
     t.integer  "bill_id",                 limit: 4
-    t.integer  "transmission_request_id", limit: 4
     t.datetime "created_at",                                          null: false
     t.datetime "updated_at",                                          null: false
     t.integer  "destination_id",          limit: 4
   end
 
-  add_index "messages", ["customer_type", "customer_id", "paid", "media", "transmission_state", "reference_date"], name: "idx_messages_for_user_report", using: :btree
-  add_index "messages", ["customer_type", "customer_id"], name: "index_messages_on_customer_type_and_customer_id", using: :btree
+  add_index "messages", ["bill_id"], name: "index_messages_on_bill_id", using: :btree
   add_index "messages", ["destination_id"], name: "index_messages_on_destination_id", using: :btree
-  add_index "messages", ["media", "paid", "transmission_state", "reference_date"], name: "idx_messages_for_admin_report", using: :btree
+  add_index "messages", ["media", "paid", "transmission_state", "reference_date"], name: "idx_mesages_report", using: :btree
+  add_index "messages", ["transmission_request_id"], name: "index_messages_on_transmission_request_id", using: :btree
 
   create_table "transmission_requests", force: :cascade do |t|
-    t.integer  "user_id",                          limit: 4
-    t.string   "requested_via",                    limit: 255
-    t.string   "status",                           limit: 255
+    t.integer  "owner_id",       limit: 4
+    t.string   "owner_type",     limit: 255
+    t.integer  "user_id",        limit: 4
+    t.string   "identification", limit: 255
+    t.string   "requested_via",  limit: 255
+    t.string   "status",         limit: 255
     t.date     "reference_date"
-    t.integer  "messages_count",                   limit: 4
-    t.integer  "estimated_request_bytes_total",    limit: 4
-    t.integer  "estimated_request_bytes_progress", limit: 4
-    t.integer  "transmissions_done",               limit: 4
-    t.float    "success_rate",                     limit: 24
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
+    t.integer  "messages_count", limit: 4
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.integer  "division_id",    limit: 4
   end
 
+  add_index "transmission_requests", ["division_id"], name: "index_transmission_requests_on_division_id", using: :btree
+  add_index "transmission_requests", ["owner_type", "owner_id"], name: "index_transmission_requests_on_owner_type_and_owner_id", using: :btree
   add_index "transmission_requests", ["requested_via", "status", "reference_date"], name: "idx_requests_for_admin_report", using: :btree
   add_index "transmission_requests", ["user_id", "requested_via", "status", "reference_date"], name: "idx_requests_for_user_report", using: :btree
   add_index "transmission_requests", ["user_id"], name: "index_transmission_requests_on_user_id", using: :btree
@@ -156,5 +166,6 @@ ActiveRecord::Schema.define(version: 20151030070047) do
   add_foreign_key "message_carrier_infos", "messages"
   add_foreign_key "message_contents", "messages"
   add_foreign_key "messages", "destinations"
+  add_foreign_key "transmission_requests", "divisions"
   add_foreign_key "transmission_requests", "users"
 end

@@ -1,5 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe Message, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe '#suspended?' do
+    it{ expect(subject).to respond_to(:suspended?) }
+    before do
+      subject.build_transmission_request(status: 'paused')
+    end
+
+    context 'when request is paused' do
+      it {expect(subject).to be_suspended }
+    end
+  end
 end

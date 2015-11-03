@@ -1,24 +1,44 @@
 #------------------------------------------------------------------------------
 # TransmissionRequest
 #
-# Name                             SQL Type             Null    Default Primary
-# -------------------------------- -------------------- ------- ------- -------
-# id                               int(11)              false           true
-# user_id                          int(11)              true            false
-# requested_via                    varchar(255)         true            false
-# status                           varchar(255)         true            false
-# reference_date                   date                 true            false
-# messages_count                   int(11)              true            false
-# estimated_request_bytes_total    int(11)              true            false
-# estimated_request_bytes_progress int(11)              true            false
-# transmissions_done               int(11)              true            false
-# success_rate                     float                true            false
-# created_at                       datetime             false           false
-# updated_at                       datetime             false           false
+# Name           SQL Type             Null    Default Primary
+# -------------- -------------------- ------- ------- -------
+# id             int(11)              false           true   
+# owner_id       int(11)              true            false  
+# owner_type     varchar(255)         true            false  
+# user_id        int(11)              true            false  
+# identification varchar(255)         true            false  
+# requested_via  varchar(255)         true            false  
+# status         varchar(255)         true            false  
+# reference_date date                 true            false  
+# messages_count int(11)              true            false  
+# created_at     datetime             false           false  
+# updated_at     datetime             false           false  
+# division_id    int(11)              true            false  
 #
 #------------------------------------------------------------------------------
 class TransmissionRequest < ActiveRecord::Base
   belongs_to :user
+  belongs_to :owner, polymorphic: true
   has_many :messages
+
+  include AASM
+
+  aasm column: 'status' do
+    state :paused
+    state :processing, initial: true
+    state :cancelled
+    state :failed
+    state :finished
+
+    event :resume do
+      transitions from: :paused, to: :processing
+    end
+  end
+
+  def pending_messages
+    messages.pending
+  end
+
 end
 

@@ -1,0 +1,2 @@
+class MoMessages::ListService
+end

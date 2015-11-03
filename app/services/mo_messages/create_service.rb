@@ -1,0 +1,2 @@
+class MoMessages::CreateService
+end

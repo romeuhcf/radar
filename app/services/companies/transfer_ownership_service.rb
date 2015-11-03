@@ -1,0 +1,2 @@
+class Companies::TransferOwnershipService
+end

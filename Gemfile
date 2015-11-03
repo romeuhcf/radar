@@ -38,6 +38,7 @@ group :development, :test do
   gem 'faker'
   gem 'quiet_assets'
   gem 'annotate_models'
+  gem 'faker'
 end
 # monitoring
 gem 'newrelic_rpm'
@@ -46,13 +47,15 @@ gem 'newrelic_rpm'
 gem 'pdfkit'
 gem 'wkhtmltopdf-binary-edge', '~> 0.12.2.1'
 
-
-
 # authz
 gem 'devise'
 gem "devise-async"
+
 # admin 
 gem 'rails_admin'
+
+gem 'aasm'
+gem 'phony'
 
 group :development do
   gem 'web-console', '~> 2.0'

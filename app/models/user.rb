@@ -38,7 +38,6 @@ class User < ActiveRecord::Base
     :lockable,
     :async
 
-
   protected
   def confirmation_required?
     false
