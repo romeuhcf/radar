@@ -7,6 +7,7 @@ module DestinationGenerator
     def total
       @list.size
     end
+
     def generate(&block)
       @list.each do |address|
         destination = find_or_create(address)
@@ -26,7 +27,7 @@ module ContentGenerator
       @value = value
     end
 
-    def generate(destination)
+    def generate(_destination)
       @value
     end
   end
@@ -38,10 +39,6 @@ module ScheduleGenerator
       Time.zone.now
     end
 
-    def total=(total)
-      @total = total
-    end
+    attr_writer :total
   end
 end
-
-

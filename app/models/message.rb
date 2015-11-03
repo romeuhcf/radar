@@ -3,20 +3,20 @@
 #
 # Name                    SQL Type             Null    Default Primary
 # ----------------------- -------------------- ------- ------- -------
-# id                      int(11)              false           true   
-# transmission_request_id int(11)              true            false  
-# media                   varchar(255)         true            false  
-# transmission_state      varchar(255)         true            false  
-# reference_date          date                 true            false  
-# weight                  int(11)              true    1       false  
-# paid                    tinyint(1)           true    0       false  
-# scheduled_to            datetime             true            false  
-# sent_at                 datetime             true            false  
-# billable                tinyint(1)           true            false  
-# bill_id                 int(11)              true            false  
-# created_at              datetime             false           false  
-# updated_at              datetime             false           false  
-# destination_id          int(11)              true            false  
+# id                      int(11)              false           true
+# transmission_request_id int(11)              true            false
+# media                   varchar(255)         true            false
+# transmission_state      varchar(255)         true            false
+# reference_date          date                 true            false
+# weight                  int(11)              true    1       false
+# paid                    tinyint(1)           true    0       false
+# scheduled_to            datetime             true            false
+# sent_at                 datetime             true            false
+# billable                tinyint(1)           true            false
+# bill_id                 int(11)              true            false
+# created_at              datetime             false           false
+# updated_at              datetime             false           false
+# destination_id          int(11)              true            false
 #
 #------------------------------------------------------------------------------
 class Message < ActiveRecord::Base
@@ -29,7 +29,7 @@ class Message < ActiveRecord::Base
 
   include AASM
 
-  aasm column: 'transmission_state' do
+  aasm column: "transmission_state" do
     state :processing, initial: true
     state :cancelled
     state :failed
@@ -40,4 +40,3 @@ class Message < ActiveRecord::Base
     !transmission_request.processing? # may be moved to redis / memcache message board if this is heavy
   end
 end
-
