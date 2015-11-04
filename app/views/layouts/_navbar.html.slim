@@ -29,18 +29,19 @@
               </ul>
             </div>
           - else              
-           = form_tag session_path(:user), class: 'navbar-form navbar-right' do
-             <div class="form-group">
-               = text_field_tag 'user[email]', nil, placeholder: "Email", class: "form-control"
-             </div>
-
-             <div class="form-group">
-               = password_field_tag 'user[password]', nil,  placeholder: "Password",  class: "form-control"
-             </div>
-
-             <button type="submit" class="btn btn-success">
-               = t 'Sign in'
-             </button>
+           - unless current_page?(new_user_session_path)
+             = form_tag session_path(:user), class: 'navbar-form navbar-right' do
+               <div class="form-group">
+                 = text_field_tag 'user[email]', nil, placeholder: "Email", class: "form-control"
+               </div>
+           
+               <div class="form-group">
+                 = password_field_tag 'user[password]', nil,  placeholder: "Password",  class: "form-control"
+               </div>
+           
+               <button type="submit" class="btn btn-success">
+                 = t 'Sign in'
+               </button>
         </div><!--/.navbar-collapse -->
       </div>
     </nav>

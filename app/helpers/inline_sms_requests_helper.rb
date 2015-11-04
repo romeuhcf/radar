@@ -1,0 +1,2 @@
+module InlineSmsRequestsHelper
+end

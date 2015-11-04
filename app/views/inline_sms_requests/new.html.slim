@@ -1,0 +1,7 @@
+= simple_form_for(@inline_sms_request, html: { class: 'form-horizontal' }) do |f|
+  = f.error_notification
+  .form-inputs
+    = f.input :phone_numbers, placeholder: 'Phone numbers', as: :text, label: 'Telefones'
+    = f.input :message, placeholder: 'Message', as: :text, label: 'Mensagem'
+  .form-actions
+    = f.button :submit, 'Enviar'
