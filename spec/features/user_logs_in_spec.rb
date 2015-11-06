@@ -2,14 +2,23 @@ require 'rails_helper'
 
 feature 'User logs in' do
 
-  let!(:valid_user) {
-    User.create!(email: 'valid@example.com', password: 'password', password_confirmation: 'password').confirm
+  let!(:unconfirmed_user) {
+    User.create!(email: 'unconfirmed@example.com', password: 'password', password_confirmation: 'password')
   }
 
-  scenario 'with valid email and password' do
-    sign_in_with 'valid@example.com', 'password'
+  let!(:confirmed_user) {
+    User.create!(email: 'confirmed@example.com', password: 'password', password_confirmation: 'password').confirm
+  }
 
+
+  scenario 'with confirmed account' do
+    sign_in_with 'confirmed@example.com', 'password'
     expect(page).to have_content('Sessão iniciada com sucesso')
+  end
+
+  scenario 'with unconfirmed account' do
+    sign_in_with 'unconfirmed@example.com', 'password'
+    expect(page).to_not have_content('Sessão iniciada com sucesso')
   end
 
   scenario 'with invalid email' do

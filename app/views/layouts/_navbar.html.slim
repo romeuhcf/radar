@@ -29,7 +29,7 @@
               </ul>
             </div>
           - else              
-           - unless current_page?(new_user_session_path)
+            - unless params[:controller] =~ /devise/i
              = form_tag session_path(:user), class: 'navbar-form navbar-right' do
                <div class="form-group">
                  = text_field_tag 'user[email]', nil, placeholder: "Email", class: "form-control"
