@@ -1,4 +1,7 @@
 class InlineSmsRequestsController < ApplicationController
+
+  before_action :authenticate_user!
+
   def new
     @inline_sms_request = InlineSmsRequest.new
   end

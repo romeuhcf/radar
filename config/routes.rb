@@ -1,13 +1,16 @@
 Rails.application.routes.draw do
-  resources :route_providers
-  resources :inline_sms_requests
+  get 'dashboard/index'
+
   devise_for :users
 
   require 'sidekiq/web'
   require 'sidekiq/cron/web'
+
   authenticate :user do
     mount Sidekiq::Web => '/sidekiq'
     mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+    resources :route_providers
+    resources :inline_sms_requests
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
