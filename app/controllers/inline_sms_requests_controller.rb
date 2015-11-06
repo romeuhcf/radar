@@ -12,7 +12,7 @@ class InlineSmsRequestsController < ApplicationController
 
     @transmission_request = @inline_sms_request.save
     if @transmission_request
-      redirect_to root_path, notice: "Mensagens enviadas com sucesso: #{@transmission_request.messages.count}."
+      redirect_to authenticated_root_path, notice: "Mensagens enviadas com sucesso: #{@transmission_request.messages.count}."
     else
       render :new
     end

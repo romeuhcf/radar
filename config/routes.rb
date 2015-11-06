@@ -13,13 +13,17 @@ Rails.application.routes.draw do
     resources :inline_sms_requests
   end
 
+  authenticated :user do
+    root to: 'dashboard#index', as: 'authenticated_root'
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
   get "/pages/*id" => 'pages#show', as: :page, format: false
-  root to: 'pages#show', id: 'home'
+  root to: 'pages#show', id: 'home', as: 'visitor_root'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
