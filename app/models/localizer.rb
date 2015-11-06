@@ -9,3 +9,17 @@ class Localizer < ActiveRecord::Base
     loc && loc.item
   end
 end
+
+#------------------------------------------------------------------------------
+# Localizer
+#
+# Name       SQL Type             Null    Default Primary
+# ---------- -------------------- ------- ------- -------
+# id         int(11)              false           true   
+# item_id    int(11)              true            false  
+# item_type  varchar(255)         true            false  
+# uid        varchar(255)         true            false  
+# created_at datetime             false           false  
+# updated_at datetime             false           false  
+#
+#------------------------------------------------------------------------------

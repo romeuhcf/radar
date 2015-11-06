@@ -1,0 +1,4 @@
+[ ] TODO translation missing: pt-BR.devise.failure.user.unauthenticated
+[ ] TODO translation missing: pt-BR.devise.registrations.user.signed_up
+[ ] TODO only admins can access sidekiq and admins 
+[ ] TODO only confirmed users can access
