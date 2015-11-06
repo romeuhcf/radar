@@ -26,7 +26,10 @@ gem "sinatra", :require => nil
 gem "rest-client"
 # static pages
 gem "high_voltage"
+
 gem 'figaro'
+gem 'exception_notification'
+gem 'slack-notifier'
 
 group :development, :test do
   # Call "byebug" anywhere in the code to stop execution and get a debugger console
