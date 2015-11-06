@@ -16,6 +16,7 @@ class BetaSmsProvider < BaseProvider
     @callback_url = options['callback_url']
   end
 
+=begin
   def getBalance
     uri = URI.parse(base_url + '/post/status.php' )
     params = {'user'=> @user, 'passwd' => @passwd }
@@ -29,7 +30,7 @@ class BetaSmsProvider < BaseProvider
       raise response.body
     end
 
-  end
+=end
 
   def sendMessage(msisdn, sms_text, options={})
     #valid_options = %w[schedule_time  callback_url sender] # TODO validate
@@ -51,12 +52,12 @@ class BetaSmsProvider < BaseProvider
     begin
       response = Net::HTTP.get_response(uri)
       if response.body =~/^200\s+OK\s+([a-fA-F0-9-]{10,})$/
-        return ProviderTransmissionResult::Success.new $1.strip
+        return ProviderTransmissionResult::Success.new response.body, $1.strip
       else
         return ProviderTransmissionResult::Fail.new response.body
       end
     rescue
-      return ProviderTransmissionResult::Fail.new $!.message, exception: $!
+      return ProviderTransmissionResult::Fail.new $!.message, $!
     end
   end
 

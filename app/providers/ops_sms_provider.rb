@@ -29,13 +29,13 @@ class OpsSmsProvider < BaseProvider
       code, uuid= *response.body.split(';')
 
       if code == '-1'
-        return ProviderTransmissionResult::Success.new uuid
+        return ProviderTransmissionResult::Success.new response.body, uuid
       else
         return ProviderTransmissionResult::Fail.new response.body
       end
 
     rescue
-      return ProviderTransmissionResult::Fail.new $!.message, exception: $!
+      return ProviderTransmissionResult::Fail.new $!.message, $!
     end
   end
 

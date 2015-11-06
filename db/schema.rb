@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151106012352) do
+ActiveRecord::Schema.define(version: 20151106135133) do
 
   create_table "bills", force: :cascade do |t|
     t.integer  "customer_id",          limit: 4
@@ -26,18 +26,6 @@ ActiveRecord::Schema.define(version: 20151106012352) do
   end
 
   add_index "bills", ["customer_type", "customer_id"], name: "index_bills_on_customer_type_and_customer_id", using: :btree
-
-  create_table "carriers", force: :cascade do |t|
-    t.string   "media",                limit: 255
-    t.string   "name",                 limit: 255
-    t.boolean  "active",                             default: false
-    t.string   "implementation_class", limit: 255
-    t.text     "configuration",        limit: 65535
-    t.datetime "created_at",                                         null: false
-    t.datetime "updated_at",                                         null: false
-  end
-
-  add_index "carriers", ["active", "media"], name: "index_carriers_on_active_and_media", using: :btree
 
   create_table "configurations", force: :cascade do |t|
     t.string   "key",         limit: 255
@@ -71,18 +59,16 @@ ActiveRecord::Schema.define(version: 20151106012352) do
 
   add_index "divisions", ["owner_type", "owner_id"], name: "index_divisions_on_owner_type_and_owner_id", using: :btree
 
-  create_table "message_carrier_infos", force: :cascade do |t|
-    t.integer  "carrier_id",     limit: 4
-    t.string   "carrier_hash",   limit: 255
-    t.string   "carrier_status", limit: 255
-    t.integer  "message_id",     limit: 4
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+  create_table "localizers", force: :cascade do |t|
+    t.integer  "item_id",    limit: 4
+    t.string   "item_type",  limit: 255
+    t.string   "uid",        limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
-  add_index "message_carrier_infos", ["carrier_hash"], name: "index_message_carrier_infos_on_carrier_hash", using: :btree
-  add_index "message_carrier_infos", ["carrier_id"], name: "index_message_carrier_infos_on_carrier_id", using: :btree
-  add_index "message_carrier_infos", ["message_id"], name: "index_message_carrier_infos_on_message_id", using: :btree
+  add_index "localizers", ["item_type", "item_id"], name: "index_localizers_on_item_type_and_item_id", using: :btree
+  add_index "localizers", ["item_type", "uid"], name: "index_localizers_on_item_type_and_uid", using: :btree
 
   create_table "message_contents", force: :cascade do |t|
     t.string   "kind",       limit: 255
@@ -120,13 +106,24 @@ ActiveRecord::Schema.define(version: 20151106012352) do
     t.string   "provider_klass", limit: 255
     t.string   "options",        limit: 255
     t.boolean  "enabled"
-    t.boolean  "priority"
     t.string   "service_type",   limit: 255
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
+    t.integer  "priority",       limit: 4
   end
 
   add_index "route_providers", ["enabled", "service_type", "name"], name: "index_route_providers_on_enabled_and_service_type_and_name", using: :btree
+
+  create_table "status_notifications", force: :cascade do |t|
+    t.integer  "route_provider_id", limit: 4
+    t.integer  "message_id",        limit: 4
+    t.string   "provider_status",   limit: 255
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+  end
+
+  add_index "status_notifications", ["message_id"], name: "index_status_notifications_on_message_id", using: :btree
+  add_index "status_notifications", ["route_provider_id"], name: "index_status_notifications_on_route_provider_id", using: :btree
 
   create_table "transmission_requests", force: :cascade do |t|
     t.integer  "owner_id",       limit: 4
@@ -175,10 +172,10 @@ ActiveRecord::Schema.define(version: 20151106012352) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
 
-  add_foreign_key "message_carrier_infos", "carriers"
-  add_foreign_key "message_carrier_infos", "messages"
   add_foreign_key "message_contents", "messages"
   add_foreign_key "messages", "destinations"
+  add_foreign_key "status_notifications", "messages"
+  add_foreign_key "status_notifications", "route_providers"
   add_foreign_key "transmission_requests", "divisions"
   add_foreign_key "transmission_requests", "users"
 end

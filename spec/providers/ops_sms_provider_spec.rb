@@ -8,7 +8,7 @@ describe OpsSmsProvider do
   describe "#sendMessage(msisdn, sms_text, options={})" do
     let!(:result) { subject.sendMessage("5511988339844", "Boa noite") }
     it { expect(result).to be_instance_of ProviderTransmissionResult::Success }
-    it { expect(result.info).to match /^[0-9a-f@]{15,}$/ }
+    it { expect(result.uid).to match /^[0-9a-f@]{15,}$/ }
   end
 
   describe "#getStatus(uuid)" do

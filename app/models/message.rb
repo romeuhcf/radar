@@ -22,8 +22,9 @@
 class Message < ActiveRecord::Base
   belongs_to :transmission_request, counter_cache: true
   belongs_to :destination
-  has_one :message_carrier_info
+  has_one :localizer, as: :item
   has_one :message_content
+  has_many :status_notifications
   validates :scheduled_to, presence: true
 
   scope :pending, -> { where(transmission_state: :processing) }
@@ -40,6 +41,10 @@ class Message < ActiveRecord::Base
     state :sent
   end
 
+  def self.find_by_localizer(hash)
+    ::Localizer.get_item(hash, self.name)
+  end
+
   def suspended?
     !transmission_request.processing? # may be moved to redis / memcache message board if this is heavy
   end
@@ -52,9 +57,10 @@ class Message < ActiveRecord::Base
     message_content.content
   end
 
-  def transmission_result=(result, carrier)
-    self.message_carrier_info << MessageCarrierInfo.new(carrier_id: carrier.id, hash: result.hash, carrier_status: result.raw.to_s.strip)
-    self.status  = result.success? ? 'sent' : 'fail'
+  def set_transmission_result(result, route_provider)
+    self.status_notifications.create!(route_provider_id: route_provider.id, provider_status: result.raw)
+    self.create_localizer(uid: result.uid)
+    self.transmission_state = result.success? ? 'sent' : 'fail'
     self.save!
   end
 
