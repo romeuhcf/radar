@@ -1,0 +1,40 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://www.betasms.com.br/post/index.php?callback=0&callback_url&msisdn=555988339844&passwd=0450811&sms_text=Boa%20noite&user=cma
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+      Host:
+      - www.betasms.com.br
+  response:
+    status:
+      code: 500
+      message: Information Client not found
+    headers:
+      Date:
+      - Fri, 06 Nov 2015 00:56:19 GMT
+      Server:
+      - Apache/2.2.23 (Unix) PHP/5.5.13 mod_perl/2.0.7 Perl/v5.12.5
+      X-Powered-By:
+      - PHP/5.5.13
+      Content-Length:
+      - '40'
+      Connection:
+      - close
+      Content-Type:
+      - text/html
+    body:
+      encoding: UTF-8
+      string: 500 ERROR - Information Client not found
+    http_version: 
+  recorded_at: Fri, 06 Nov 2015 00:56:14 GMT
+recorded_with: VCR 3.0.0

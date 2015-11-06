@@ -1,0 +1,2 @@
+class RouteProvidersController < ApplicationController
+end

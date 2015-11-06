@@ -24,8 +24,12 @@ class Message < ActiveRecord::Base
   belongs_to :destination
   has_one :message_carrier_info
   has_one :message_content
+  validates :scheduled_to, presence: true
 
   scope :pending, -> { where(transmission_state: :processing) }
+  after_create :enqueue_transmission
+
+  before_validation :check_message_duplication
 
   include AASM
 
@@ -38,5 +42,26 @@ class Message < ActiveRecord::Base
 
   def suspended?
     !transmission_request.processing? # may be moved to redis / memcache message board if this is heavy
+  end
+
+  def enqueue_transmission
+    MessageRouterWorker.perform_at(self.scheduled_to + rand(10) , self.id)
+  end
+
+  def body
+    message_content.content
+  end
+
+  def transmission_result=(result, carrier)
+    self.message_carrier_info << MessageCarrierInfo.new(carrier_id: carrier.id, hash: result.hash, carrier_status: result.raw.to_s.strip)
+    self.status  = result.success? ? 'sent' : 'fail'
+    self.save!
+  end
+
+  # TODO check valid number
+  def check_message_duplication
+    # TODO check duplicate message
+    # generate hash with message / number
+    # check or set at cache
   end
 end

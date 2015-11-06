@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151031212527) do
+ActiveRecord::Schema.define(version: 20151106012352) do
 
   create_table "bills", force: :cascade do |t|
     t.integer  "customer_id",          limit: 4
@@ -114,6 +114,19 @@ ActiveRecord::Schema.define(version: 20151031212527) do
   add_index "messages", ["destination_id"], name: "index_messages_on_destination_id", using: :btree
   add_index "messages", ["media", "paid", "transmission_state", "reference_date"], name: "idx_mesages_report", using: :btree
   add_index "messages", ["transmission_request_id"], name: "index_messages_on_transmission_request_id", using: :btree
+
+  create_table "route_providers", force: :cascade do |t|
+    t.string   "name",           limit: 255
+    t.string   "provider_klass", limit: 255
+    t.string   "options",        limit: 255
+    t.boolean  "enabled"
+    t.boolean  "priority"
+    t.string   "service_type",   limit: 255
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "route_providers", ["enabled", "service_type", "name"], name: "index_route_providers_on_enabled_and_service_type_and_name", using: :btree
 
   create_table "transmission_requests", force: :cascade do |t|
     t.integer  "owner_id",       limit: 4

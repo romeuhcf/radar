@@ -23,14 +23,14 @@ gem "sidekiq", "< 4"
 gem "sidekiq-cron"
 gem "sidekiq-limit_fetch"
 gem "sinatra", :require => nil
-
+gem "rest-client"
 # static pages
 gem "high_voltage"
+gem 'figaro'
 
 group :development, :test do
   # Call "byebug" anywhere in the code to stop execution and get a debugger console
   gem "byebug"
-  gem "thin"
   gem "factory_girl_rails"
   gem "rspec-rails"
   gem "capybara"
@@ -39,8 +39,10 @@ group :development, :test do
   gem "quiet_assets"
   gem "annotate_models"
   gem "faker"
-  gem "selenium-webdriver"
-  gem "poltergeist"
+  gem "vcr", require: false
+  gem "webmock", require: false
+  gem "selenium-webdriver", require: false
+  gem "poltergeist", require: false
   gem "guard"
   gem "guard-rspec"
   gem "guard-bundler"
@@ -82,9 +84,10 @@ end
 
 
 group :development do
-  gem "rubocop"
-  gem "rails_best_practices"
-  gem "lol_dba"
-  gem "brakeman"
-  gem "bundler-audit"
+  gem "thin"
+  gem "rubocop", require: false
+  gem "rails_best_practices", require: false
+  gem "lol_dba", require: false
+  gem "brakeman", require: false
+  gem "bundler-audit", require: false
 end

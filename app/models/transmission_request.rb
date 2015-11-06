@@ -25,8 +25,8 @@ class TransmissionRequest < ActiveRecord::Base
   include AASM
 
   aasm column: "status" do
-    state :paused
     state :processing, initial: true
+    state :paused
     state :cancelled
     state :failed
     state :finished

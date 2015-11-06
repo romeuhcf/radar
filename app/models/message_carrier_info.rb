@@ -1,8 +1,3 @@
-class MessageCarrierInfo < ActiveRecord::Base
-  belongs_to :carrier
-  belongs_to :message
-end
-
 #------------------------------------------------------------------------------
 # MessageCarrierInfo
 #
@@ -17,3 +12,7 @@ end
 # updated_at     datetime             false           false
 #
 #------------------------------------------------------------------------------
+class MessageCarrierInfo < ActiveRecord::Base
+  belongs_to :carrier
+  belongs_to :message
+end

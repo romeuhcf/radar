@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :route_providers
   resources :inline_sms_requests
   devise_for :users
 
