@@ -1,12 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe Localizer, type: :model do
-  let(:m1) { create(:message) }
-  let(:m2) { create(:message) }
+
+  let(:batch) { create(:transmission_request , size: 2) }
+  let(:m1){ batch.messages[0] }
+  let(:m2){ batch.messages[1] }
 
   before do
-    m1.create_localizer(uid: 'abcd')
-    m2.create_localizer(uid: 'efgh')
+    Sidekiq::Testing.fake! do
+      m1.create_localizer(uid: 'abcd')
+      m2.create_localizer(uid: 'efgh')
+    end
   end
 
   it "finds related stuff by hash" do

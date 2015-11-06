@@ -33,11 +33,6 @@ class User < ActiveRecord::Base
          :trackable,
          :validatable,
          :confirmable,
-         :lockable#,
-         #:async
-
-  protected
-  def confirmation_required?
-    true
-  end
+         :lockable,
+         :async
 end

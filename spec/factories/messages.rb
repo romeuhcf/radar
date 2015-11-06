@@ -7,6 +7,9 @@ FactoryGirl.define do
     scheduled_to "2015-10-30 03:54:17"
     sent_at "2015-10-30 03:54:17"
     transmission_request nil
+    destination { create(:destination) }
+    message_content  { create(:message_content) }
+
   end
 
 end

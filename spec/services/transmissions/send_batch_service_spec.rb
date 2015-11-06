@@ -9,6 +9,7 @@ describe ::Transmissions::SendBatchService do
   let(:owner)       { user }
   let(:division)    { create(:division, owner: owner)}
 
+  let!(:route_provider){ create(:route_provider) }
   let(:transmission_request) { subject.generate_request("an automated test", content_generator, destination_generator, schedule_generator, user, owner) }
 
   it { expect(transmission_request.messages.size).to eq 2 }

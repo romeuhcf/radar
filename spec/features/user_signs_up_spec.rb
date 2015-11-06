@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 feature 'User signs up'do
-  scenario 'with valid email and password' do
+  scenario 'with valid email and password', :js do
     expect do
 #      expect do
         signs_up_with 'valid@example.com', 'password'
-#      end.to change { Devise.mailer.deliveries.size }.by(1)
+#      end.to change {  ActionMailer::Base.deliveries.size}.by(1)
       expect(current_path).to_not eq dashboard_index_path
     end.to change { User.count }.by(1)
   end

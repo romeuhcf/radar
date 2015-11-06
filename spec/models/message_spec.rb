@@ -12,13 +12,16 @@ RSpec.describe Message, type: :model do
     end
   end
 
-  describe "transmission_result=" do
-    let(:message) { create(:message) }
-    let(:route_provider) { create(:route_provider) }
+  describe "set_transmission_result" do
+    let(:message) { create(:transmission_request).messages.first }
+    let!(:route_provider) { create(:route_provider) }
     let(:provider_hash) { 'balbalblabalblablabla' }
     let(:transmission_result) { ProviderTransmissionResult::Success.new("Yahoo", provider_hash) }
+
     before do
-      message.set_transmission_result(transmission_result, route_provider)
+      Sidekiq::Testing.fake! do
+        message.set_transmission_result(transmission_result, route_provider)
+      end
     end
 
     it "adds notification" do

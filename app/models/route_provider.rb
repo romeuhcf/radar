@@ -12,6 +12,10 @@ class RouteProvider < ActiveRecord::Base
     %w{ SMS_NA SMS_LA }
   end
 
+  def provider
+    provider_klass.constantize.new(options)
+  end
+
   def validate_provider_klass_constant
     provider_klass.constantize
   rescue NameError
@@ -24,14 +28,14 @@ end
 #
 # Name           SQL Type             Null    Default Primary
 # -------------- -------------------- ------- ------- -------
-# id             int(11)              false           true   
-# name           varchar(255)         true            false  
-# provider_klass varchar(255)         true            false  
-# options        varchar(255)         true            false  
-# enabled        tinyint(1)           true            false  
-# service_type   varchar(255)         true            false  
-# created_at     datetime             false           false  
-# updated_at     datetime             false           false  
-# priority       int(11)              true            false  
+# id             int(11)              false           true
+# name           varchar(255)         true            false
+# provider_klass varchar(255)         true            false
+# options        varchar(255)         true            false
+# enabled        tinyint(1)           true            false
+# service_type   varchar(255)         true            false
+# created_at     datetime             false           false
+# updated_at     datetime             false           false
+# priority       int(11)              true            false
 #
 #------------------------------------------------------------------------------

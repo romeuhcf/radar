@@ -7,17 +7,21 @@ class MessageRouterWorker
 
     return if message.cancelled?
     return if message.transmission_request.cancelled?
+
     if message.transmission_request.paused?
       self.class.perform_in(5.minutes, message.id) # TODO get a way to expire
       return
     end
 
     route = choose_sms_route(message)
+
+    fail "No route found for message" unless route
+
     SmsProviderTransmissionWorker.perform_async(message.id, route.name)
   end
 
   def choose_sms_route(message)
-    ProviderRoute.enabled.first
+    RouteProvider.enabled.first
   end
 
 end

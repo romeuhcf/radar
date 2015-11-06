@@ -2,6 +2,7 @@ require 'rails_helper'
 
 feature 'Send inline sms' do
 
+  let!(:route_provider){create(:route_provider) }
   scenario 'valid phone list and valid message' do
     expect(Message.count).to eq 0
     expect(TransmissionRequest.count).to eq 0

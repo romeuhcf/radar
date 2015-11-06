@@ -3,18 +3,18 @@
 #
 # Name           SQL Type             Null    Default Primary
 # -------------- -------------------- ------- ------- -------
-# id             int(11)              false           true   
-# owner_id       int(11)              true            false  
-# owner_type     varchar(255)         true            false  
-# user_id        int(11)              true            false  
-# identification varchar(255)         true            false  
-# requested_via  varchar(255)         true            false  
-# status         varchar(255)         true            false  
-# reference_date date                 true            false  
-# messages_count int(11)              true            false  
-# created_at     datetime             false           false  
-# updated_at     datetime             false           false  
-# division_id    int(11)              true            false  
+# id             int(11)              false           true
+# owner_id       int(11)              true            false
+# owner_type     varchar(255)         true            false
+# user_id        int(11)              true            false
+# identification varchar(255)         true            false
+# requested_via  varchar(255)         true            false
+# status         varchar(255)         true            false
+# reference_date date                 true            false
+# messages_count int(11)              true            false
+# created_at     datetime             false           false
+# updated_at     datetime             false           false
+# division_id    int(11)              true            false
 #
 #------------------------------------------------------------------------------
 class TransmissionRequest < ActiveRecord::Base

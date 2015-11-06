@@ -12,9 +12,9 @@ class SmsProviderTransmissionWorker
       return
     end
 
-    route = ProviderRoute.enabled.find_by(name: route_name)
+    route = RouteProvider.enabled.find_by(name: route_name)
     provider = route.provider
-    result = provider.sendMessage(message.number, message.body)
-    message.transmission_result = result, route_id
+    result = provider.sendMessage(message.destination.address, message.body)
+    message.set_transmission_result(result, route)
   end
 end
