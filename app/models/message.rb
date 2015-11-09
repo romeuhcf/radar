@@ -65,7 +65,7 @@ class Message < ActiveRecord::Base
       self.create_localizer(uid: result.uid)
       self.transmission_state = 'sent'
     else
-      self.transmission_state = 'fail'
+      self.transmission_state = 'failed'
     end
     self.save!
   end
