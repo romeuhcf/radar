@@ -60,8 +60,13 @@ class Message < ActiveRecord::Base
 
   def set_transmission_result(result, route_provider)
     self.status_notifications.create!(route_provider_id: route_provider.id, provider_status: result.raw)
-    self.create_localizer(uid: result.uid)
-    self.transmission_state = result.success? ? 'sent' : 'fail'
+
+    if result.success?
+      self.create_localizer(uid: result.uid)
+      self.transmission_state = 'sent'
+    else
+      self.transmission_state = 'fail'
+    end
     self.save!
   end
 
