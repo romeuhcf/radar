@@ -11,13 +11,24 @@ class BaseProvider
     fail 'abstract method'
   end
 
-  def my_callback?(params)
+  def self.my_callback?(params)
     false
   end
 
-  def parseCallbackStatus(params)
+  def self.interpret_callback(params)
     fail 'abstract method'
   end
+
+  def basic_send(send_url, params, method = :get)
+    get_trace( send_url, {params: params}, 120, method)
+  end
+
+  def get_trace(url, headers = nil, timeout=-1, method = :get)
+    #trace('HTTP', [url,headers.to_json].join(' with ')) do
+    RestClient::Request.execute(:method => method, :url => url, :headers => headers, :timeout => timeout)
+    #end
+  end
+
 end
 
 

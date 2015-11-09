@@ -24,7 +24,7 @@ class OpsSmsProvider < BaseProvider
         dup: 'sim'
       }
 
-      response = basic_send(params)
+      response = basic_send(@send_url, params)
 
       code, uuid= *response.body.split(';')
 
@@ -45,15 +45,5 @@ class OpsSmsProvider < BaseProvider
     else
       num
     end
-  end
-
-  def basic_send(params, method = :get)
-    get_trace( @send_url, {params: params}, 120, method)
-  end
-
-  def get_trace(url, headers = nil, timeout=-1, method = :get)
-    #trace('HTTP', [url,headers.to_json].join(' with ')) do
-    RestClient::Request.execute(:method => method, :url => url, :headers => headers, :timeout => timeout)
-    #end
   end
 end
