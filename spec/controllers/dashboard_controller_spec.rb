@@ -5,15 +5,15 @@ RSpec.describe DashboardController, type: :controller do
   describe "GET #index" do
     context "unauthenticated" do
       before do
-        sign_in nil
+        sign_out :user
         get :index
       end
       it { expect(response.status).to eq 302 }
     end
 
-    context "unauthenticated" do
+    context "authenticated" do
       before do
-        sign_in
+        sign_in create(:confirmed_user)
         get :index
       end
       it { expect(response.status).to eq 200 }

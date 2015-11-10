@@ -30,6 +30,7 @@ gem "high_voltage"
 gem 'figaro'
 gem 'exception_notification'
 gem 'slack-notifier'
+gem 'redis-rails'
 
 group :development, :test do
   # Call "byebug" anywhere in the code to stop execution and get a debugger console

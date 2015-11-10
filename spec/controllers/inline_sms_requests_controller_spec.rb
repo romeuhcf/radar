@@ -5,15 +5,15 @@ RSpec.describe InlineSmsRequestsController, type: :controller do
 
     context "unauthenticated" do
       before do
-        sign_in nil
+        sign_out :user
         get :new
       end
       it { expect(response.status).to eq 302 }
     end
 
-    context "unauthenticated" do
+    context "authenticated" do
       before do
-        sign_in
+        sign_in create(:confirmed_user)
         get :new
       end
       it { expect(response.status).to eq 200 }
