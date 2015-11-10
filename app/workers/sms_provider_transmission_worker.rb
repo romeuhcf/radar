@@ -1,3 +1,4 @@
+require 'yaml'
 class SmsProviderTransmissionWorker
   include Sidekiq::Worker
   sidekiq_options :queue => :default, :retry => true, :backtrace => true # TODO separate queues
@@ -15,6 +16,9 @@ class SmsProviderTransmissionWorker
     route = RouteProvider.enabled.find_by(name: route_name)
     provider = route.provider
     result = provider.sendMessage(message.destination.address, message.body)
-    message.set_transmission_result(result, route)
+
+    TransmissionResultStoreWorker.perform_async(message_id, YAML.dump(result), route.id)
   end
 end
+
+
