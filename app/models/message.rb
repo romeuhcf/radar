@@ -67,9 +67,18 @@ class Message < ActiveRecord::Base
     if result.success?
       self.create_localizer(uid: result.uid)
       self.transmission_state = 'sent'
+      self.billable = true
     else
       self.transmission_state = 'failed'
     end
+
+    self.save!
+  end
+
+  def update_transmission_result(the_status)
+    self.billable = the_status.billable?
+    self.transmission_state = the_status.success? ? 'sent' : 'failed'
+    self.status_notifications.create!(provider_status: the_status.raw)
     self.save!
   end
 

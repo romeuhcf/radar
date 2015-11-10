@@ -1,9 +1,18 @@
 class BaseProvider
-  def   getBalance
+  @@providers = []
+  def self.inherited(subclass)
+    @@providers << subclass
+  end
+
+  def self.providers
+    @@providers
+  end
+
+  def getBalance
     fail 'abstract method'
   end
 
-  def   sendMessage(destinationm, content, options)
+  def sendMessage(destinationm, content, options)
     fail 'abstract method'
   end
 
@@ -28,7 +37,4 @@ class BaseProvider
     RestClient::Request.execute(:method => method, :url => url, :headers => headers, :timeout => timeout)
     #end
   end
-
 end
-
-

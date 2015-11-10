@@ -1,33 +1,44 @@
 module ProviderTransmissionResult
-  class Base
-    attr_reader :extra, :raw
-    def initialize(raw, extra = nil)
+  class Success
+    attr_reader :uid, :raw
+
+    def initialize(raw, uid)
       @raw = raw && raw.to_s.strip
-      @extra = extra
+      @uid = uid && uid.to_s.strip
+    end
+
+    def success?
+      true
     end
 
     def fail?
       !success?
     end
-  end
 
-  class Success < Base
-    def success?
+    def billable?
       true
     end
-
-    def uid
-      @extra && @extra.to_s.strip
-    end
   end
 
-  class Fail < Base
+  class Fail
+    attr_reader :raw, :exception, :billable
+
+    def initialize(raw, exception = nil, billable = false)
+      @billable = billable
+      @raw = raw && raw.to_s.strip
+      @exception = exception
+    end
+
     def success?
       false
     end
 
-    def exception
-      @extra
+    def fail?
+      !success?
+    end
+
+    def billable?
+      !!@billable
     end
   end
 end

@@ -48,12 +48,12 @@ describe ZenviaSmsProvider do
 
     describe "#::interpret_callback" do
       let!(:result) { described_class.interpret_callback(callback) }
-      it { expect(result).to be_instance_of(SmsTransmissionStatus) }
+      it { expect(result).to be_instance_of(ProviderTransmissionResult::Success) }
       it { expect(result.uid).to eq "d67ed253-9513-411f-94ae-8c2d5e02eacf" }
-      it { expect(result.is_final).to be_truthy }
-      it { expect(result.is_billable).to be_truthy }
-      it { expect(result.is_success).to be_truthy }
-      it { expect(result.raw_status).to eq '120' }
+#      it { expect(result.is_final).to be_truthy }
+      it { expect(result).to be_billable }
+#      it { expect(result.is_success).to be_truthy }
+      it { expect(result.raw).to eq '120' }
     end
 
     describe "::my_callback?" do

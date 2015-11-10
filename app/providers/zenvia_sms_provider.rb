@@ -2,8 +2,6 @@ require 'provider_transmission_result'
 require 'base_provider'
 require 'phone_number_utils'
 
-SmsTransmissionStatus = Struct.new(:uid, :is_final, :is_success, :is_billable, :raw_status, :moment)
-
 class ZenviaSmsProvider < BaseProvider
   include PhoneNumberUtils
   attr_accessor :base_url, :password, :user
@@ -60,8 +58,13 @@ class ZenviaSmsProvider < BaseProvider
     raw_status  = params.fetch('status').to_s
     uid         = params.fetch('id')
     is_billable = !is_blocked_status?(raw_status)
-    is_final    = raw_status != '100'
+    #is_final    = raw_status != '100'
     is_success  = is_success_status?(raw_status)
-    SmsTransmissionStatus.new(uid, is_final, is_success, is_billable, raw_status, Time.zone.now)
+
+    if is_success
+      ProviderTransmissionResult::Success.new raw_status, uid
+    else
+      ProviderTransmissionResult::Fail.new raw_status, nil, is_billable
+    end
   end
 end

@@ -29,6 +29,10 @@ RSpec.describe Message, type: :model do
       expect(message.status_notifications.first.route_provider).to eq route_provider
     end
 
+    it "sets its billable property" do
+      expect(message).to be_billable
+    end
+
     it "sets its result" do
       expect(message).to be_sent
     end
@@ -37,5 +41,46 @@ RSpec.describe Message, type: :model do
       expect(message.localizer).to_not be_nil
       expect(message.localizer.uid).to eq provider_hash
     end
+  end
+
+  describe "update_transmission_result" do
+    let(:message) { create(:transmission_request).messages.first }
+    let!(:route_provider) { create(:route_provider) }
+    let(:provider_hash) { 'balbalblabalblablabla' }
+    let(:transmission_result) { ProviderTransmissionResult::Success.new("Yahoo", provider_hash) }
+
+    before do
+      Sidekiq::Testing.fake! do
+        message.set_transmission_result(transmission_result, route_provider)
+        message.update_transmission_result(transmission_update)
+      end
+    end
+
+    describe "success is alway sbillable" do
+      let(:transmission_update) { ProviderTransmissionResult::Success.new("Hurray", provider_hash) }
+      it { expect(message.status_notifications.count).to eq 2 }
+      it { expect(message).to be_billable }
+      it { expect(message).to be_sent }
+      it { expect(message).to_not be_failed }
+    end
+
+    describe "non success and non billable" do
+      let(:transmission_update) { ProviderTransmissionResult::Fail.new("Hurray", provider_hash, _billable = false) }
+      it { expect(message.status_notifications.count).to eq 2 }
+      it { expect(message).to_not be_billable }
+      it { expect(message).to_not be_sent }
+      it { expect(message).to be_failed }
+    end
+
+    describe "non success but billable" do
+      let(:transmission_update) { ProviderTransmissionResult::Fail.new("Hurray", provider_hash, _billable = true) }
+      it { expect(message.status_notifications.count).to eq 2 }
+      it { expect(message).to be_billable }
+      it { expect(message).to_not be_sent }
+      it { expect(message).to be_failed }
+    end
+
+
+
   end
 end
