@@ -2,9 +2,11 @@ require "net/http"
 require "uri"
 require "rexml/document"
 require 'provider_transmission_result'
+require 'phone_number_utils'
 require 'base_provider'
 
 class OpsSmsProvider < BaseProvider
+  include PhoneNumberUtils
   attr_accessor :base_url, :passwd
 
   def initialize(options = {})
@@ -36,14 +38,6 @@ class OpsSmsProvider < BaseProvider
 
     rescue
       return ProviderTransmissionResult::Fail.new $!.message, $!
-    end
-  end
-
-  def remove_country_prefix(num)
-    if num =~ /\A55[0-9]{10,11}\z/
-      num.gsub(/^55/, '')
-    else
-      num
     end
   end
 end

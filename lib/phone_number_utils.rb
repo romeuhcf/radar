@@ -9,4 +9,13 @@ module PhoneNumberUtils
   def with_country_code(number)
     Phonelib.parse(number).e164.gsub(/^[+]/, '')
   end
+
+  def remove_country_prefix(num)
+    if num =~ /\A55[0-9]{10,11}\z/
+      num.gsub(/^55/, '')
+    else
+      num
+    end
+  end
+
 end

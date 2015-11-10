@@ -26,4 +26,16 @@ describe PhoneNumberUtils do
     it { expect(subject.with_country_code('5511960758475')).to eq '5511960758475' }
     it { expect(subject.with_country_code('58475')).to eq '58475' }
   end
+
+  describe "remove_country_prefix" do
+    it{ expect(subject.remove_country_prefix('11960758475')).to eq '11960758475' }
+    it{ expect(subject.remove_country_prefix('5511960758475')).to eq '11960758475' }
+    describe "ddd 55 " do
+    it{ expect(subject.remove_country_prefix('55960758475')).to eq '55960758475' }
+    it{ expect(subject.remove_country_prefix('5555960758475')).to eq '55960758475' }
+    it{ expect(subject.remove_country_prefix('555560758475')).to eq '5560758475' }
+    it{ expect(subject.remove_country_prefix('55960758475')).to eq '55960758475' }
+    it{ expect(subject.remove_country_prefix('5560758475')).to eq '5560758475' }
+    end
+  end
 end
