@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: http://www.zenvia360.com.br/GatewayIntegration/msgSms.do?account=cma.api&callbackOption=2&code=s3FgStwuAR&dispatch=send&from=&id=d67ed253-9513-411f-94ae-8c2d5e02eacf&msg=Teste%20integracao%20zenvia%20spec&to=5511960758475
+    uri: http://www.zenvia360.com.br/GatewayIntegration/msgSms.do?account=cma.api&callbackOption=2&code=s3FgStwuAR&dispatch=send&from=&id=d67ed253-9513-411f-94ae-8c2d5e02ebbb&msg=Teste%20integracao%20zenvia%20spec&to=5511960758475
     body:
       encoding: UTF-8
       string: ''
@@ -23,13 +23,13 @@ http_interactions:
       X-Powered-By:
       - 'Servlet 2.4; JBoss-4.2.3.GA (build: SVNTag=JBoss_4_2_3_GA date=200807181417)/JBossWeb-2.0'
       Set-Cookie:
-      - JSESSIONID=1F60C9217F1A033AACFC826A2CCB0509.node42; Path=/
+      - JSESSIONID=E44802A4CD77422E34F58806DCBEA293.node42; Path=/
       Content-Type:
       - text/plain;charset=ISO-8859-1
       Ntcoent-Length:
       - '18'
       Date:
-      - Mon, 09 Nov 2015 23:19:18 GMT
+      - Tue, 10 Nov 2015 00:37:33 GMT
       Cache-Control:
       - private
       Content-Encoding:
@@ -41,5 +41,5 @@ http_interactions:
       string: !binary |-
         H4sIAAAAAAAAAzMwMFDQVfBNLS5OTE9VCE7NKwEALsw0NhIAAAA=
     http_version: 
-  recorded_at: Mon, 09 Nov 2015 23:19:19 GMT
+  recorded_at: Tue, 10 Nov 2015 00:37:33 GMT
 recorded_with: VCR 3.0.0

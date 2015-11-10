@@ -1,0 +1,45 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://www.zenvia360.com.br/GatewayIntegration/msgSms.do?account=cma.api&callbackOption=2&code=s3FgStwuAR&dispatch=send&from=&id=d67ed253-9513-411f-94ae-8c2d5e02eaaa&msg=Teste%20integracao%20zenvia%20spec&to=5511960758475
+    body:
+      encoding: UTF-8
+      string: ''
+    headers:
+      Accept:
+      - "*/*; q=0.5, application/xml"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      X-Powered-By:
+      - 'Servlet 2.4; JBoss-4.2.3.GA (build: SVNTag=JBoss_4_2_3_GA date=200807181417)/JBossWeb-2.0'
+      Set-Cookie:
+      - JSESSIONID=6175400F123603F2BDFD70E08F99FB29.node42; Path=/
+      Content-Type:
+      - text/plain;charset=ISO-8859-1
+      Ntcoent-Length:
+      - '18'
+      Date:
+      - Tue, 10 Nov 2015 00:25:44 GMT
+      Cache-Control:
+      - private
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '38'
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        H4sIAAAAAAAAAzMwMFDQVfBNLS5OTE9VCE7NKwEALsw0NhIAAAA=
+    http_version: 
+  recorded_at: Tue, 10 Nov 2015 00:25:45 GMT
+recorded_with: VCR 3.0.0

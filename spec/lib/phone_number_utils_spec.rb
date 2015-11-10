@@ -21,4 +21,9 @@ describe PhoneNumberUtils do
     it { expect(subject.valid_mobile_number?('1134448833')).to be_falsey }
   end
 
+  describe "with_country_code" do
+    it { expect(subject.with_country_code('11960758475')).to eq '5511960758475' }
+    it { expect(subject.with_country_code('5511960758475')).to eq '5511960758475' }
+    it { expect(subject.with_country_code('58475')).to eq '58475' }
+  end
 end

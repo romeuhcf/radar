@@ -6,15 +6,30 @@ describe ZenviaSmsProvider do
   subject {ZenviaSmsProvider.new(user: ENV['ZENVIA_USER'], password: ENV['ZENVIA_PWD'] ) }
 
   describe "#sendMessage(msisdn, sms_text, options={})" do
-    let(:uuid) { 'd67ed253-9513-411f-94ae-8c2d5e02eacf'}
+    describe "number with msisdn " do
+      let(:uuid) { 'd67ed253-9513-411f-94ae-8c2d5e02eaaa'}
 
-    let!(:result) do
-      expect(SecureRandom).to receive(:uuid){ uuid }
-      subject.sendMessage("5511960758475", "Teste integracao zenvia spec")
+      let!(:result) do
+        expect(SecureRandom).to receive(:uuid){ uuid }
+        subject.sendMessage("5511960758475", "Teste integracao zenvia spec")
+      end
+
+      it { expect(result).to be_instance_of ProviderTransmissionResult::Success }
+      it { expect(result.uid).to eq uuid }
     end
 
-    it { expect(result).to be_instance_of ProviderTransmissionResult::Success }
-    it { expect(result.uid).to eq uuid }
+    describe "number without msisdn " do
+      let(:uuid) { 'd67ed253-9513-411f-94ae-8c2d5e02ebbb'}
+
+      let!(:result) do
+        expect(SecureRandom).to receive(:uuid){ uuid }
+        subject.sendMessage("11960758475", "Teste integracao zenvia spec")
+      end
+
+      it { expect(result).to be_instance_of ProviderTransmissionResult::Success }
+      it { expect(result.uid).to eq uuid }
+    end
+
   end
 
   describe "#getStatus(uuid)" do
