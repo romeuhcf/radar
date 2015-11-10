@@ -22,9 +22,10 @@
 class Message < ActiveRecord::Base
   belongs_to :transmission_request, counter_cache: true
   belongs_to :destination
-  has_one :localizer, as: :item
-  has_one :message_content
-  has_many :status_notifications
+  has_one :localizer, as: :item, dependent: :destroy
+  has_one :message_content, dependent: :destroy
+  has_many :status_notifications, dependent: :destroy
+
   validates :scheduled_to, presence: true
 
   scope :pending, -> { where(transmission_state: :processing) }
