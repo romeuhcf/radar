@@ -16,6 +16,7 @@ Rails.application.routes.draw do
 
   authenticated :user do
     root to: 'dashboard#index', as: 'authenticated_root'
+    get "/dashboard/charts", as: 'dashboard_charts'
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

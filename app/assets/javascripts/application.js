@@ -11,6 +11,15 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery-ui
 //= require jquery_ujs
 //= require bootstrap-sprockets
+//= require lodash
+//= require gridstack
+//= require chartkick
 //= require_tree .
+
+$(function () {
+  var options = { cell_height: 180, animate: true, float: true };
+  $('.grid-stack').gridstack(options);
+});

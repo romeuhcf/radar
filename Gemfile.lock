@@ -517,6 +517,7 @@ DEPENDENCIES
   high_voltage
   hightop
   jquery-rails
+  jquery-ui-rails
   lol_dba
   mysql2 (= 0.3.20)
   newrelic_rpm

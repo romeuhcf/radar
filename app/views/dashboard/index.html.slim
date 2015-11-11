@@ -1,2 +1,30 @@
-h1 Dashboard#index
-p Find me in app/views/dashboard/index.html.slim
+- content_for :style
+  css:
+    .grid-stack {
+      background-color: #fff;
+    }
+    .grid-stack-item {
+      }
+    .grid-stack-item-content {
+
+      border: 1px solid black;
+      color: #2c3e50;
+      text-align: center;
+      padding-left: 20px;
+      padding-right: 20px;
+      background-color: #eee;
+    }
+
+.grid-stack
+  .grid-stack-item data-gs-x="0" data-gs-y="0" data-gs-width="4" data-gs-height="2"
+    .grid-stack-item-content
+      | Hello
+      #timeline
+
+  .grid-stack-item data-gs-x="4" data-gs-y="0" data-gs-width="8" data-gs-height="2"
+    .grid-stack-item-content
+      h4 "SMS - Taxa de sucesso"
+      #sms_success_rate
+
+- content_for :footer_js
+  = line_chart dashboard_charts_path(chart: 'sms_success_rate') , id: 'sms_success_rate', library: { title: "Sms success rate", backgroundColor: '#9af' , hAxis: { color: '#f00'}}
