@@ -1,38 +1,155 @@
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-      <div class="container">
-        <h1>SMS no Radar!</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Saiba mais &raquo;</a></p>
-      </div>
-    </div>
-
-    <div class="container">
-      <!-- Example row of columns -->
-      <div class="row">
-        <div class="col-md-4">
-          <h2>Rapidez</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">Veja detalhes &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-          <h2>Simplicidade</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#" role="button">Veja detalhes &raquo;</a></p>
-        </div>
-        <div class="col-md-4">
-          <h2>Controle</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p><a class="btn btn-default" href="#" role="button">Veja detalhes &raquo;</a></p>
-        </div>
-      </div>
-
-      <hr>
-
-      <footer>
-        <p>&copy; Radar015 - #{Date.today.year}</p>
-      </footer>
-    </div> <!-- /container -->
-
-
-
+.flatty-container
+  #headerwrap
+    .row
+      .col-lg-6
+        h1
+          | Quer ter controle total
+          br
+          |  sobre seus envios?
+        = form_for(:user, url: registration_path(:user), class: 'form-inline') do |f|
+          | ¬ 
+          .form-group
+            = f.email_field :email, placeholder: "Informe seu email...", class: 'form-control'
+          = f.submit "Convide-me!", class: 'btn btn-warning'
+      .col-lg-6
+        |  <img class="img-responsive" src="
+        =image_path "home/ipad-hand.png"
+        | " alt=""> 
+.flatty-container
+  .row.mt.centered
+    .col-lg-6.col-lg-offset-3
+      h1
+        | Monitoração, contingência, roteamento, relatórios em
+        br
+        | tempo real e tudo mais o que você precisa e merece.
+      h3
+        | Além de formas simplificadas de integração com os maiores provedores de email e sms de forma descomplicada e produtiva para você poder focar nos seus resultados.
+  .row.mt.centered
+    .col-lg-4
+      |  <img src="
+      =image_path "home/ser03.png"
+      | " width="180" alt=""> 
+      h4
+        | Já tem alguma integração?
+      p
+        | Nós provemos integrações idênticas aos dos principais players para facilitar a sua vida. Assim você não precisa se preocupar com gastar mais com desenvolvimento. Basta você direcionar o fluxo para nossos servidores e pronto!
+    .col-lg-4
+      |  <img src="
+      =image_path "home/ser02.png"
+      | " width="180" alt=""> 
+      h4
+        | Quer fazer sua primeira integração?
+      p
+        | Contamos com técnicos especialistas nas diversas linguagens, documentação simplificada, API de fácil compreensão além de ambiente de testes para poder homologar suas ferramentas. Além disso, podemos fazer a intermediação com as contas que já possui.
+    .col-lg-4
+      |  <img src="
+      =image_path "home/ser01.png"
+      | " width="180" alt=""> 
+      h4
+        | Não precisa de integração?
+      p
+        | A nossa plataforma web possui as principais funcionalidades para que possa falar com seu cliente de forma simples, ágil e robusta. Aqui você pode gerenciar seus grupos e contatos, além de realizar envios customizados, a qualquer hora.
+- if false
+  .flatty-container
+    hr
+    .row.centered
+      .col-lg-6.col-lg-offset-3
+        form.form-inline[role="form"]
+          .form-group
+            input#email.form-control[type="email" name="email" placeholder="Informe seu email..."]
+          button.btn.btn-warning[type="submit"]
+            | Convide-me!
+      .col-lg-3
+    hr
+  .flatty-container
+    .row.mt.centered
+      .col-lg-6.col-lg-offset-3
+        h1
+          | Flatty is for Everyone.
+        h3
+          | It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+    |  <! -- CAROUSEL --> 
+    .row.mt.centered
+      .col-lg-6.col-lg-offset-3
+        #carousel-example-generic.carousel.slide[data-ride="carousel"]
+          ol.carousel-indicators
+            li.active[data-target="#carousel-example-generic" data-slide-to="0"]
+            li[data-target="#carousel-example-generic" data-slide-to="1"]
+            li[data-target="#carousel-example-generic" data-slide-to="2"]
+          .carousel-inner
+            .item.active
+              |  <img src="
+              =image_path "home/p01.png"
+              | " alt=""> 
+            .item
+              |  <img src="
+              =image_path "home/p02.png"
+              | " alt=""> 
+            .item
+              |  <img src="
+              =image_path "home/p03.png"
+              | " alt=""> 
+  | <! --/container --> 
+  .flatty-container
+    hr
+    .row.centered
+      .col-lg-6.col-lg-offset-3
+        = form_for(:user, :url => session_path(:user), class: 'form-inline') do |f|
+          .form-group
+            = f.email_field :email, placeholder: "Informe seu email...", class: 'form-control'
+          = f.submit "Convide-me!", class: 'btn btn-arning'
+      .col-lg-3
+    hr
+  .flatty-container
+    .row.mt.centered
+      .col-lg-6.col-lg-offset-3
+        h1
+          | Our Awesome Team.
+          br
+          | Design Lovers.
+        h3
+          | It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+    .row.mt.centered
+      .col-lg-4
+        |  <img class="img-circle" src="
+        =image_path "home/pic1.jpg"
+        | " width="140" alt=""> 
+        h4
+          | Michael Robson
+        p
+          | Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever.
+        p
+          i.glyphicon.glyphicon-send
+          i.glyphicon.glyphicon-phone
+          i.glyphicon.glyphicon-globe
+      .col-lg-4
+        |  <img class="img-circle" src="
+        =image_path "home/pic2.jpg"
+        | " width="140" alt=""> 
+        h4
+          | Pete Ford
+        p
+          | Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever.
+        p
+          i.glyphicon.glyphicon-send
+          i.glyphicon.glyphicon-phone
+          i.glyphicon.glyphicon-globe
+      .col-lg-4
+        |  <img class="img-circle" src="
+        =image_path "home/pic3.jpg"
+        | " width="140" alt=""> 
+        h4
+          | Angelica Finning
+        p
+          | Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever.
+        p
+          i.glyphicon.glyphicon-send
+          i.glyphicon.glyphicon-phone
+          i.glyphicon.glyphicon-globe
+.flatty-container
+  hr
+  p.centered
+    | © 
+    | Sendorama
+    |  - 
+    = Time.now.year
