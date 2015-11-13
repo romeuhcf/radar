@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'transmission_requests/index'
+
+  get 'transmission_requests/show'
+
   get 'dashboard/index'
 
   devise_for :users
@@ -12,6 +16,8 @@ Rails.application.routes.draw do
     mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
     resources :route_providers
     resources :inline_sms_requests
+
+    resources :transmission_requests, only: [:index, :show]
   end
 
   authenticated :user do

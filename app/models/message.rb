@@ -29,7 +29,7 @@ class Message < ActiveRecord::Base
   validates :scheduled_to, presence: true
 
   scope :pending, -> { where(transmission_state: :processing) }
-  after_create :enqueue_transmission
+  # after_create :enqueue_transmission
 
   #validates :transmission_request, presence: true
   before_validation :check_message_duplication
