@@ -15,7 +15,14 @@
 class Destination < ActiveRecord::Base
   has_many :messages
   has_many :chat_rooms
+
+  # TODO before_validate --- make msisdn
+  #
   def last_outgoing_message
     messages.order('created_at DESC').first
+  end
+
+  def self.canonicalize_address(address)
+    address # TODO make sure it is in msisdn format
   end
 end

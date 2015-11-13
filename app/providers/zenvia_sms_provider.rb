@@ -78,8 +78,11 @@ class ZenviaSmsProvider < BaseProvider
   end
 
   def self.interpret_answer_callback(params)
-    # TODO
-    fail 'not implemented'
+    msisdn    = params.fetch('msisdn')
+    content   = params.fetch('message')
+    sent_time = params['received_at'] && DateTime.strptime(params['received_at'], '%d/%m/%Y %H:%M:%S')
+
+    ChatRoomService.new.receive_message_from(content, msisdn, sent_time)
   end
 
   def lista_respostas
@@ -94,7 +97,6 @@ class ZenviaSmsProvider < BaseProvider
     else
       []
     end
-
   end
 end
 
