@@ -1,5 +1,10 @@
 class ChatRoomService
 
+  def receive_mobile_originated_message(mobile_originated_message)
+    mo = mobile_originated_message
+    receive_message_from(mo.address, mo.content, mo.sent_time)
+  end
+
   def receive_message_from(address, content, sent_time)
     destination = Destination.find_by(address: Destination.canonicalize_address(address))
     fail "Unknown sender of MO message" unless destination
