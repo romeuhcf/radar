@@ -39,11 +39,13 @@ class ZenviaSmsProvider < BaseProvider
     return ProviderTransmissionResult::Fail.new $!.message, $!
   end
 
-
   def self.my_callback?(params)
-    return true if  params['provider'] == 'zenvia'
+    return true if params['provider'] == 'zenvia'
+    return true if params.keys.include?('zenvia_id')
+    return true if params.keys.sort == %w{id status to msg }.sort
+    return true if params.keys.sort == %w{id status to msg mobileOperatorName}.sort
 
-    params.keys.sort == %w{id status to msg }.sort or params.keys.sort == %w{id status to msg mobileOperatorName}.sort
+    return false
   end
 
   def self.is_blocked_status?(status)
@@ -55,6 +57,14 @@ class ZenviaSmsProvider < BaseProvider
   end
 
   def self.interpret_callback(params)
+    if params.keys.include?('zenvia_id') and params.keys.include?('message')
+      interpret_answer_callback(params)
+    else
+      interpret_transmission_status_callback(params)
+    end
+  end
+
+  def interpret_transmission_status_callback(params)
     raw_status  = params.fetch('status').to_s
     uid         = params.fetch('id')
     is_billable = !is_blocked_status?(raw_status)
@@ -66,5 +76,10 @@ class ZenviaSmsProvider < BaseProvider
     else
       ProviderTransmissionResult::Fail.new raw_status, nil, is_billable
     end
+  end
+
+  def interpret_answer_callback(params)
+    # TODO
+    fail 'not implemented'
   end
 end
