@@ -64,7 +64,7 @@ class ZenviaSmsProvider < BaseProvider
     end
   end
 
-  def interpret_transmission_status_callback(params)
+  def self.interpret_transmission_status_callback(params)
     raw_status  = params.fetch('status').to_s
     uid         = params.fetch('id')
     is_billable = !is_blocked_status?(raw_status)
@@ -78,7 +78,7 @@ class ZenviaSmsProvider < BaseProvider
     end
   end
 
-  def interpret_answer_callback(params)
+  def self.interpret_answer_callback(params)
     # TODO
     fail 'not implemented'
   end
