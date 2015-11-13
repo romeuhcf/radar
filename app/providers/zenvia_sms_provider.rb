@@ -34,7 +34,6 @@ class ZenviaSmsProvider < BaseProvider
     else
       return ProviderTransmissionResult::Fail.new response.body
     end
-
   rescue
     return ProviderTransmissionResult::Fail.new $!.message, $!
   end
@@ -67,4 +66,21 @@ class ZenviaSmsProvider < BaseProvider
       ProviderTransmissionResult::Fail.new raw_status, nil, is_billable
     end
   end
+
+
+
+  def lista_respostas
+    response = basic_send(send_url, {account: ACCOUNT , code: CODE, dispatch: 'listReceived'}, :get)
+    lines = response.lines.each.map(&:chomp!)
+    if lines.shift == '300 - Received messages found'
+      # 44174262;19/01/2015 21:06:05;5511960758475;Muita demaod.....
+      lines.map do |i|
+        id, data, msisdn, message = i.split(';')
+        {zenvia_id: id, received_at: DateTime.strptime(data, '%d/%m/%Y %H:%M:%S').strftime("%Y-%m-%d %H:%M:%S"), msisdn: msisdn, message: message}
+      end
+    else
+      []
+    end
+  end
 end
+

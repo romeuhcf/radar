@@ -5,3 +5,4 @@
 [ ] TODO translation missing: pt-BR.errors.messages.not_saved
 [ ] TODO translation missing: pt-BR.devise.confirmations.user.send_instructions 
 [ ] TODO translation missing: pt-BR.errors.messages.not_saved
+[ ] TODO translation missing: pt-BR.devise.failure.user.unconfirmed

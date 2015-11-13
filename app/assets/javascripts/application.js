@@ -12,5 +12,41 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require bootbox
 //= require bootstrap-sprockets
 //= require_tree .
+//
+//
+function answer_message(chat_id, message){
+  var token = $( 'meta[name="csrf-token"]' ).attr( 'content' );
+  $.ajaxSetup( {
+    beforeSend: function ( xhr ) {
+      xhr.setRequestHeader( 'X-CSRF-Token', token );
+    }
+  });
+
+  $.post("/chat_rooms/"+chat_id,{message: message} , function(data){
+  })  .done(function() {
+    alert( "Mensagem enviada com sucesso" );
+    // TODO.. recarregar listagem
+  })
+  .fail(function() {
+    alert( "Falha ao enviar resposta" );
+  });
+//  .always(function() {
+//    alert( "finished" );
+//  });
+}
+
+function chat_answer_box(chat_id){
+  bootbox.prompt({
+    title: "Enviar mensagem de resposta [" + chat_id + "]",
+    size: 'large',
+    className: 'bla',
+    callback: function(result){
+      if (!result){return ;}
+      answer_message(chat_id, result);
+    }
+  })
+
+}
