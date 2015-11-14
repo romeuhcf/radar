@@ -28,7 +28,7 @@ class Message < ActiveRecord::Base
   has_one :message_content, dependent: :destroy
   has_many :status_notifications, dependent: :destroy
 
-  # validates :scheduled_to, presence: true
+  validates :owner, presence: true
 
   scope :pending, -> { where(transmission_state: :processing) }
 

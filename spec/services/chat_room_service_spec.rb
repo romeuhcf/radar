@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 def send_message_to(destination, owner)
-  create(:message, destination: destination, owner: owner )
+  create(:message, :sent,  destination: destination, owner: owner )
 end
 
 

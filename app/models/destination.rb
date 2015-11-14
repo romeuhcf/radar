@@ -18,8 +18,8 @@ class Destination < ActiveRecord::Base
 
   # TODO before_validate --- make msisdn
   #
-  def last_outgoing_message
-    messages.order('created_at DESC').first
+  def last_outgoing_sent_message
+    messages.where(transmission_state: 'sent').order('sent_at DESC').first
   end
 
   def self.canonicalize_address(address)

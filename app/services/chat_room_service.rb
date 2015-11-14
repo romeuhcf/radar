@@ -9,7 +9,7 @@ class ChatRoomService
     destination = Destination.find_by(address: Destination.canonicalize_address(address))
     fail "Unknown sender of MO message" unless destination
 
-    in_reply_to = destination.last_outgoing_message
+    in_reply_to = destination.last_outgoing_sent_message
     fail "Received message have no precedent transmission" unless  in_reply_to
     fail "Null in reply to message owner " unless in_reply_to.owner
 

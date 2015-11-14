@@ -13,7 +13,7 @@ def given_i_have_pending_chats(owner, n = 5)
 end
 
 def send_a_sms(destination, content, owner)
-  create(:message, destination: destination, content: content, owner: owner)
+  create(:message, :sent, destination: destination, content: content, owner: owner)
 end
 
 def receive_an_answer(destination, content)
