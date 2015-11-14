@@ -64,5 +64,28 @@ feature 'Display ansered messages as a chat', :js do
     wait(5)
     expect(all('.chat-room').size).to eq n_pending - 1
   end
+
+  scenario 'archiving' do
+    n_pending = 3
+    given_i_have_pending_chats(user, n_pending - 1 )
+    send_a_sms(destination , "jose, vc deve", user)
+    receive_an_answer(destination, "nao sou jose")
+
+    sign_in user
+    visit(authenticated_root_path)
+
+    expect(page).to_not  have_content("No Pending Messages")
+
+    expect(all('.chat-room').size).to eq n_pending
+    click_on 'Arquivar', match: :first
+    wait(3)
+    expect(all('.chat-room').size).to eq n_pending - 1
+
+
+    # unarchiving
+    receive_an_answer(destination, "nao sou jose")
+    wait(5)
+    expect(all('.chat-room').size).to eq n_pending - 1
+  end
 end
 

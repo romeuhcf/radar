@@ -42,4 +42,13 @@ RSpec.describe ChatRoomsController, type: :controller do
       end
     end
   end
+
+
+  describe "POST answer" do
+    before { sign_in user }
+    let(:chat_room) { create(:chat_room, owner: user) }
+    it do
+      expect { post(:archive, id: chat_room.id) }.to change{ChatRoom.where(archived: true).count}.by(1)
+    end
+  end
 end

@@ -11,7 +11,7 @@ class ChatRoom < ActiveRecord::Base
     Message.where(owner: self.owner, destination: self.destination)
   end
 
-  def recent_messages(n = 2)
-    messages.order('created_at desc').limit(2)
+  def recent_messages(n = 4)
+    messages.order('id desc').limit(n)
   end
 end

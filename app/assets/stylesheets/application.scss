@@ -96,6 +96,8 @@ ul.chat-rooms{
           a.chat-answer {
             @extend .btn-primary;
           }
+          a.chat-archive{
+          }
         }
       }
     }

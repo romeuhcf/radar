@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     resources :inline_sms_requests
     resources :chat_rooms, only: [:index, :show] do
       post :answer, on: :member
+      post :archive, on: :member
       resources :messages, only: [:index, :show]
     end
   end

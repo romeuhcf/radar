@@ -28,6 +28,11 @@ class ChatRoomService
     Transmissions::SendBatchService.new.send_a_message(transmission_request.id, message, chat.destination, chat.owner)
   end
 
+  def archive(chat_room)
+    chat_room.archived = true
+    chat_room.save!
+  end
+
   protected
 
   def create_or_update_chat_room(incoming_message)

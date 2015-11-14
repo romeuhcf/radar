@@ -12,6 +12,13 @@ class ChatRoomsController < ApplicationController
     render status: :created, nothing: true
   end
 
+  def archive
+    chat_room = safe_scope.find(params[:id])
+    ChatRoomService.new.archive(chat_room)
+    render status: :created, nothing: true
+  end
+
+
   protected
   def safe_scope
     ChatRoom.all.of_owner(current_user) # TODO current_owner
