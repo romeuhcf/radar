@@ -1,5 +1,5 @@
-- if @chat_rooms.empty?
-  = t 'chat-room.no_pending_messages'
+- if @chat_rooms.empty? 
+  .alert.alert-info  = t 'chat-room.no_pending_messages'
 -else 
   ul.chat-rooms
     - @chat_rooms.each do |chat_room| 
@@ -7,7 +7,7 @@
       li [class="chat-room chat-room-#{chat_room.id}"]
         span [class="chat direction direction-#{chat_direction(chat_room)}"]
         span.message-count = chat_room.messages.count
-        span.address = chat_room.destination.address 
+        span.address = phone_number(chat_room.destination.address)
         span.when = l(msgs.last.created_at, format: '(%d/%m %H:%M)')
         ul.messages 
           - msgs.each do |msg|

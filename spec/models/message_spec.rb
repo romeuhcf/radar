@@ -35,6 +35,7 @@ RSpec.describe Message, type: :model do
 
     it "sets its result" do
       expect(message).to be_sent
+      expect(message.sent_at).to_not be_nil
     end
 
     it "adds the localizer" do

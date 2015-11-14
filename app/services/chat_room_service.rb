@@ -6,7 +6,7 @@ class ChatRoomService
   end
 
   def receive_message_from(address, content, sent_time)
-    destination = Destination.find_by(address: Destination.canonicalize_address(address))
+    destination = Destination.find_by_address(address)
     fail "Unknown sender of MO message" unless destination
 
     in_reply_to = destination.last_outgoing_sent_message
