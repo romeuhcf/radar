@@ -1,5 +1,5 @@
-module ProviderTransmissionResult
-  class Success
+class ProviderTransmissionResult
+  class Success < ProviderTransmissionResult
     attr_reader :uid, :raw
 
     def initialize(raw, uid)
@@ -20,7 +20,8 @@ module ProviderTransmissionResult
     end
   end
 
-  class Fail
+  class Fail < ProviderTransmissionResult
+
     attr_reader :raw, :exception, :billable
 
     def initialize(raw, exception = nil, billable = false)

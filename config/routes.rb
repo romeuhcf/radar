@@ -12,6 +12,10 @@ Rails.application.routes.draw do
     mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
     resources :route_providers
     resources :inline_sms_requests
+    resources :chat_rooms, only: [:index, :show] do
+      post :answer, on: :member
+      resources :messages, only: [:index, :show]
+    end
   end
 
   authenticated :user do
