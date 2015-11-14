@@ -6,7 +6,11 @@ class SmsCallbackService
     if request.is_a? ProviderTransmissionResult
       # TODO: make this a service
       the_message = Localizer.get_item(request.uid)
-      the_message.update_transmission_result(request)
+      if the_message
+        the_message.update_transmission_result(request)
+      else
+        Rails.logger.warn "Message callback to message not sent by me #{params.to_json}"
+      end
     elsif request.is_a? MobileOriginatedMessage
       ChatRoomService.new.receive_mobile_originated_message(request)
     else
