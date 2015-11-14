@@ -15,6 +15,6 @@ describe ::Transmissions::SendBatchService do
   it { expect(transmission_request.messages.size).to eq 2 }
   it { expect(transmission_request.owner).to eq owner }
   it { expect(transmission_request.user).to eq user }
-  it { expect(transmission_request.messages.first.destination.address).to eq "11960758475" }
+  it { expect(transmission_request.messages.first.destination.address).to eq "+5511960758475" }
   it { expect(transmission_request.messages.first.message_content.content).to eq "Ave Maria..." }
 end
