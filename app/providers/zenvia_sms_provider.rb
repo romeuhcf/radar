@@ -78,25 +78,32 @@ class ZenviaSmsProvider < BaseProvider
   end
 
   def self.interpret_answer_callback(params)
+    # XXX this is legacy, should me removed after dettaching from legacy and be replaced by lista_respostas
     msisdn    = params.fetch('msisdn')
     content   = params.fetch('message')
-    sent_time = params['received_at'] && DateTime.strptime(params['received_at'], '%d/%m/%Y %H:%M:%S')
+    sent_time = params['received_at'] && parse_date(params['received_at'])
 
-    ChatRoomService.new.receive_message_from(content, msisdn, sent_time)
+    MobileOriginatedMessage.new(msisdn, content, sent_time)
   end
 
+  def self.parse_date(date)
+    DateTime.strptime([date, Time.zone.now.strftime("%z") ].join(' '), "%Y-%m-%d %H:%M:%S %z")
+  end
+=begin
   def lista_respostas
-    response = basic_send(send_url, {account: ACCOUNT , code: CODE, dispatch: 'listReceived'}, :get)
+    response = basic_send(@send_url, {account: @user , code: @password, dispatch: 'listReceived'}, :get)
     lines = response.lines.each.map(&:chomp!)
     if lines.shift == '300 - Received messages found'
       # 44174262;19/01/2015 21:06:05;5511960758475;Muita demaod.....
       lines.map do |i|
-        id, data, msisdn, message = i.split(';')
-        {zenvia_id: id, received_at: DateTime.strptime(data, '%d/%m/%Y %H:%M:%S').strftime("%Y-%m-%d %H:%M:%S"), msisdn: msisdn, message: message}
+        id, date, msisdn, message = i.split(';')
+        set_time =  parse_date(date)
+        ChatRoomService.new.receive_message_from(content, msisdn, sent_time)
+        # TODO call ChatRoomService
       end
     else
       []
     end
-  end
+=end
 end
 
