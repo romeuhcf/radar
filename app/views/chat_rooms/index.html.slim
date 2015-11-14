@@ -4,8 +4,8 @@
   ul.chat-rooms
     - @chat_rooms.each do |chat_room| 
       - msgs = chat_room.recent_messages.joins(:message_content)
-      li.chat-room
-        span class="chat direction direction-#{chat_direction(chat_room)}"
+      li [class="chat-room chat-room-#{chat_room.id}"]
+        span [class="chat direction direction-#{chat_direction(chat_room)}"]
         span.message-count = chat_room.messages.count
         span.address = chat_room.destination.address 
         span.when = l(msgs.last.created_at, format: '(%d/%m %H:%M)')
@@ -29,5 +29,7 @@ javascript:
       var chat_id = $(this).parent().data('chat-id');
       chat_answer_box(chat_id);
     });
+
+    setTimeout(function(){ chat_reload(); }, 5000);
   });
             

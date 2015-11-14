@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature 'admin route provuders' do
   scenario 'listing' do
-    valid_user_sign_in
+    sign_in create(:confirmed_user)
     visit rails_admin.new_path(model_name: 'route_provider')
   end
 end

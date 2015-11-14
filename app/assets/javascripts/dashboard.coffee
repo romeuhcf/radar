@@ -3,4 +3,4 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/ 
 
 $ ->
-  $("#chat-rooms").load("/chat_rooms.html")
+  chat_reload()
