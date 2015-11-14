@@ -18,6 +18,11 @@ Rails.application.routes.draw do
     resources :inline_sms_requests
 
     resources :transmission_requests, only: [:index, :show]
+    resources :chat_rooms, only: [:index, :show] do
+      post :answer, on: :member
+      post :archive, on: :member
+      resources :messages, only: [:index, :show]
+    end
   end
 
   authenticated :user do

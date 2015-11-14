@@ -34,7 +34,6 @@ class ZenviaSmsProvider < BaseProvider
     else
       return ProviderTransmissionResult::Fail.new response.body
     end
-
   rescue
     return ProviderTransmissionResult::Fail.new $!.message, $!
   end
@@ -79,7 +78,32 @@ class ZenviaSmsProvider < BaseProvider
   end
 
   def self.interpret_answer_callback(params)
-    # TODO
-    fail 'not implemented'
+    # XXX this is legacy, should me removed after dettaching from legacy and be replaced by lista_respostas
+    msisdn    = params.fetch('msisdn')
+    content   = params.fetch('message')
+    sent_time = params['received_at'] && parse_date(params['received_at'])
+
+    MobileOriginatedMessage.new(msisdn, content, sent_time)
   end
+
+  def self.parse_date(date)
+    DateTime.strptime([date, Time.zone.now.strftime("%z") ].join(' '), "%Y-%m-%d %H:%M:%S %z")
+  end
+=begin
+  def lista_respostas
+    response = basic_send(@send_url, {account: @user , code: @password, dispatch: 'listReceived'}, :get)
+    lines = response.lines.each.map(&:chomp!)
+    if lines.shift == '300 - Received messages found'
+      # 44174262;19/01/2015 21:06:05;5511960758475;Muita demaod.....
+      lines.map do |i|
+        id, date, msisdn, message = i.split(';')
+        set_time =  parse_date(date)
+        ChatRoomService.new.receive_message_from(content, msisdn, sent_time)
+        # TODO call ChatRoomService
+      end
+    else
+      []
+    end
+=end
 end
+

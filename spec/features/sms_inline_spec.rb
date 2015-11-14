@@ -1,12 +1,13 @@
 require 'rails_helper'
 
 feature 'Send inline sms' do
-
+  let(:user){create(:confirmed_user)}
   let!(:route_provider){create(:route_provider) }
+
   scenario 'valid phone list and valid message' do
     expect(Message.count).to eq 0
     expect(TransmissionRequest.count).to eq 0
-    valid_user_sign_in
+    sign_in user
     visit(new_inline_sms_request_path)
     fill_in 'Telefones', with: "11960758475, 11960758475\n , 11966665555 11987653333"
     fill_in 'Mensagem', with: 'Hello world'
@@ -19,7 +20,7 @@ feature 'Send inline sms' do
 
   scenario 'invalid phone list and valid message' do
     expect(Message.count).to eq 0
-    valid_user_sign_in
+    sign_in user
     visit(new_inline_sms_request_path)
     fill_in 'Telefones', with: "5 4 3 2 1"
     fill_in 'Mensagem', with: 'Hello world'
@@ -32,7 +33,7 @@ feature 'Send inline sms' do
 
   scenario 'valid phone list and invalid message' do
     expect(Message.count).to eq 0
-    valid_user_sign_in
+    sign_in user
     visit(new_inline_sms_request_path)
     fill_in 'Telefones', with: "11960758475, 11960758475\n , 11966665555 11987653333"
     fill_in 'Mensagem', with: 'H'

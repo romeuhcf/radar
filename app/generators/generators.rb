@@ -16,7 +16,7 @@ module DestinationGenerator
     end
 
     def find_or_create(address)
-      Destination.find_by(address: address) || Destination.create!(address: address)
+      Destination.find_by_address(address) || Destination.create!(address: address)
     end
   end
 end

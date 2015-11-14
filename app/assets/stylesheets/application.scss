@@ -1,10 +1,11 @@
+@import "http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css";
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "flatty";
+@import "font-awesome-sprockets";
+@import "font-awesome";
 
 body{ margin-top: 70px;}
-.form-control{padding: 6px 12px;}
-
 
 .float-none {
   float: none;
@@ -14,5 +15,91 @@ body{ margin-top: 70px;}
   padding: 15px;
   h4 {
     margin: 0px;
+  }
+}
+
+div.panel-body.chat{
+  padding: 0;
+}
+
+ul.chat-rooms{
+  @extend .list-group;
+  margin-bottom: 0px;
+
+  li.chat-room {
+    @extend .list-group-item;
+    &:nth-child(even) {background: #fff}
+    &:nth-child(odd) {background: #fbfeff}
+    &:hover {
+      background-color: $brand-info;
+    }
+    span.chat.direction {
+      @extend .glyphicon;
+      float: right;
+      &.direction-in {
+        @extend .glyphicon-log-in;
+      }
+    }
+    span.address {
+      font-weight: bold;
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+
+    span.message-count {
+      &:before {
+        content: '[';
+      }
+      &:after {
+        content: ']';
+      }
+      margin-right: 5px;
+    }
+
+    ul.messages{
+      @extend .list-group;
+      margin-bottom: 0px;
+
+      li.message { 
+        @extend .list-group-item;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        
+        &:nth-child(even) { background: #ffffff }
+        &:nth-child(odd)  { background: #fbfeff }
+
+        span.content {
+          font-weight: bold;
+          font-size: 80%;
+          margin-left: 7px;
+        }
+
+        span.message-direction{
+          @extend .fa;
+          width: 15px;
+          text-align: right;
+          &.message-direction-in {
+            @extend .fa-mobile;
+          }
+          &.message-direction-out {
+            @extend .fa-group;
+          }
+        }
+        span.chat-controls {
+          a {
+            @extend .btn;
+            @extend .btn-sm;
+            @extend .btn-default;
+            float: right;
+          }
+          a.chat-answer {
+            @extend .btn-primary;
+          }
+          a.chat-archive{
+          }
+        }
+      }
+    }
   }
 }

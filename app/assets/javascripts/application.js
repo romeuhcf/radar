@@ -12,5 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require bootbox
 //= require bootstrap-sprockets
-//= require_tree .
+//= require dashboard
+//= require chat_room

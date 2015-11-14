@@ -2,13 +2,15 @@ source "https://rubygems.org"
 
 gem "mysql2", "0.3.20"
 gem "rails", "4.2.4"
+gem 'jbuilder'
 
 # assets 
 gem "sass-rails", "~> 5.0"
 gem "uglifier", ">= 1.3.0"
 gem "coffee-rails", "~> 4.1.0"
 gem "jquery-rails"
-gem "bootstrap-sass"
+gem 'bootstrap-sass', '~> 3.3.5'
+gem 'font-awesome-sass', '~> 4.4.0'
 gem "slim-rails"
 gem "simple_form"
 
@@ -54,6 +56,7 @@ group :development, :test do
   gem "guard-rspec"
   gem "guard-bundler"
   gem "guard-rails"
+  gem "guard-annotate"
 end
 # monitoring
 gem "newrelic_rpm"

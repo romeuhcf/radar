@@ -1,0 +1,37 @@
+- if @chat_rooms.empty? 
+  .alert.alert-info  = t 'chat-room.no_pending_messages'
+-else 
+  ul.chat-rooms
+    - @chat_rooms.each do |chat_room| 
+      - msgs = chat_room.recent_messages.joins(:message_content).reverse
+      li [class="chat-room chat-room-#{chat_room.id}" data-chat-id="#{chat_room.id}"]
+        span [class="chat direction direction-#{chat_direction(chat_room)}"]
+        span.address = phone_number(chat_room.destination.address)
+        span.message-count = t('chat.messages_total', count: chat_room.messages.count)
+        ul.messages 
+          - msgs.each do |msg|
+            li.message
+              span [ class="message-direction message-direction-#{message_direction(msg)}"]
+              span.when = l(msg.sent_at , format: '%d/%m %H:%M:%S')
+              span.content = msg.message_content.content 
+        h4.chat-controls 
+          a.btn.btn-primary.chat-answer [  href="#" ] 
+            | Responder
+          a.btn.btn-default.chat-archive [ href="#" ] 
+            | Arquivar
+
+javascript:
+  $(function(){
+    $('a.chat-answer').click(function(){
+      var chat_id = $(this).parent().parent().data('chat-id');
+      chat_answer_box(chat_id);
+    });
+
+    $('a.chat-archive').click(function(){
+      var chat_id = $(this).parent().parent().data('chat-id');
+      chat_archive(chat_id);
+    });
+
+    setTimeout(function(){ chat_reload(); }, 5000);
+  });
+            

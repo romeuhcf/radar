@@ -1,2 +1,10 @@
-h1 Dashboard#index
-p Find me in app/views/dashboard/index.html.slim
+h3
+  | Centro de controle
+.row
+  .col-md-6
+    .panel.panel-default
+      .panel-heading =  "Inbox"
+      .panel-body.chat 
+        #chat-rooms 
+          span.label.label-info
+            = "carregando conversas..."

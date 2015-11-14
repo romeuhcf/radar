@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151106135133) do
+ActiveRecord::Schema.define(version: 20151111215020) do
 
   create_table "bills", force: :cascade do |t|
     t.integer  "customer_id",          limit: 4
@@ -26,6 +26,24 @@ ActiveRecord::Schema.define(version: 20151106135133) do
   end
 
   add_index "bills", ["customer_type", "customer_id"], name: "index_bills_on_customer_type_and_customer_id", using: :btree
+
+  create_table "chat_rooms", force: :cascade do |t|
+    t.integer  "owner_id",             limit: 4,                   null: false
+    t.string   "owner_type",           limit: 255,                 null: false
+    t.integer  "destination_id",       limit: 4
+    t.integer  "archived_by_id",       limit: 4
+    t.integer  "last_contacted_by_id", limit: 4
+    t.boolean  "answered",                         default: false
+    t.boolean  "archived",                         default: false
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
+  end
+
+  add_index "chat_rooms", ["archived_by_id"], name: "index_chat_rooms_on_archived_by_id", using: :btree
+  add_index "chat_rooms", ["destination_id"], name: "index_chat_rooms_on_destination_id", using: :btree
+  add_index "chat_rooms", ["last_contacted_by_id"], name: "index_chat_rooms_on_last_contacted_by_id", using: :btree
+  add_index "chat_rooms", ["owner_id", "owner_type", "answered", "archived", "last_contacted_by_id"], name: "idx_chat_rooms_active", using: :btree
+  add_index "chat_rooms", ["owner_type", "owner_id"], name: "index_chat_rooms_on_owner_type_and_owner_id", using: :btree
 
   create_table "configurations", force: :cascade do |t|
     t.string   "key",         limit: 255
@@ -94,11 +112,15 @@ ActiveRecord::Schema.define(version: 20151106135133) do
     t.datetime "created_at",                                          null: false
     t.datetime "updated_at",                                          null: false
     t.integer  "destination_id",          limit: 4
+    t.boolean  "outgoing",                            default: true
+    t.integer  "owner_id",                limit: 4
+    t.string   "owner_type",              limit: 255
   end
 
   add_index "messages", ["bill_id"], name: "index_messages_on_bill_id", using: :btree
   add_index "messages", ["destination_id"], name: "index_messages_on_destination_id", using: :btree
   add_index "messages", ["media", "paid", "transmission_state", "reference_date"], name: "idx_mesages_report", using: :btree
+  add_index "messages", ["owner_type", "owner_id"], name: "index_messages_on_owner_type_and_owner_id", using: :btree
   add_index "messages", ["transmission_request_id"], name: "index_messages_on_transmission_request_id", using: :btree
 
   create_table "route_providers", force: :cascade do |t|
@@ -172,6 +194,8 @@ ActiveRecord::Schema.define(version: 20151106135133) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
 
+  add_foreign_key "chat_rooms", "destinations"
+  add_foreign_key "chat_rooms", "users", column: "last_contacted_by_id"
   add_foreign_key "message_contents", "messages"
   add_foreign_key "messages", "destinations"
   add_foreign_key "status_notifications", "messages"
