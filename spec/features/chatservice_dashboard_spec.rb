@@ -67,9 +67,9 @@ feature 'Display ansered messages as a chat', :js do
 
   scenario 'archiving' do
     n_pending = 3
-    given_i_have_pending_chats(user, n_pending - 1 )
     send_a_sms(destination , "jose, vc deve", user)
     receive_an_answer(destination, "nao sou jose")
+    given_i_have_pending_chats(user, n_pending - 1 )
 
     sign_in user
     visit(authenticated_root_path)
@@ -83,9 +83,9 @@ feature 'Display ansered messages as a chat', :js do
 
 
     # unarchiving
-    receive_an_answer(destination, "nao sou jose")
+    receive_an_answer(destination, "vao me remover?")
     wait(5)
-    expect(all('.chat-room').size).to eq n_pending - 1
+    expect(all('.chat-room').size).to eq n_pending
   end
 end
 
