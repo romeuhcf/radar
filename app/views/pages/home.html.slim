@@ -1,4 +1,4 @@
-.flatty-container
+.flatty-container[style="margin-left: auto; margin-right: auto; width: 800px;"]
   #headerwrap
     .row
       .col-lg-6
@@ -7,7 +7,6 @@
           br
           |  sobre seus envios?
         = form_for(:user, url: registration_path(:user), class: 'form-inline') do |f|
-          | ¬ 
           .form-group
             = f.email_field :email, placeholder: "Informe seu email...", class: 'form-control'
           = f.submit "Convide-me!", class: 'btn btn-warning'
