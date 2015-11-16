@@ -1,7 +1,10 @@
 class TransmissionRequestsController < ApplicationController
+  after_action :verify_authorized, except: [:index, :show]
+  after_action :verify_policy_scoped
+
   before_action :authenticate_user!
   def index
-    @transmission_requests = scope.all # TODO paginate
+    @transmission_requests = safe_scope
 
     # Make users initally sorted by name ascending
     smart_listing_create :transmission_requests,
@@ -11,12 +14,12 @@ class TransmissionRequestsController < ApplicationController
   end
 
   def show
-    @transmission_request = scope.find(params[:id])
+    @transmission_request = safe_scope.find(params[:id])
+    authorize @transmission_request
   end
 
   protected
-  def scope
-    # TODO authiruzation scope
-    TransmissionRequest.all
+  def safe_scope
+    policy_scope(TransmissionRequest)
   end
 end

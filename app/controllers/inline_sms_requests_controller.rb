@@ -1,4 +1,5 @@
 class InlineSmsRequestsController < ApplicationController
+  after_action :verify_authorized, only: [:create]
 
   before_action :authenticate_user!
 
@@ -8,6 +9,7 @@ class InlineSmsRequestsController < ApplicationController
 
   def create
     @inline_sms_request = InlineSmsRequest.new(inline_params)
+    authorize @inline_sms_request
     @inline_sms_request.user = current_user
 
     @transmission_request = @inline_sms_request.save

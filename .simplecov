@@ -3,5 +3,6 @@ SimpleCov.start 'rails' do
   add_group "Workers", "app/workers"
   add_group "Generators", "app/generators"
   add_group "Providers", "app/providers"
+  add_group "Policies", "app/policies"
 end
 

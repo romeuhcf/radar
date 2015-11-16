@@ -18,8 +18,9 @@ RSpec.describe TransmissionRequestsController, type: :controller do
   end
 
   describe "authenticated" do
+    let!(:user) { create(:confirmed_user) }
     before do
-      sign_in create(:confirmed_user)
+      sign_in user
     end
     describe "GET #index" do
       it "returns http success" do
@@ -29,7 +30,7 @@ RSpec.describe TransmissionRequestsController, type: :controller do
     end
 
     describe "GET #show" do
-      let!(:transmission_request) { create(:transmission_request)}
+      let!(:transmission_request) { create(:transmission_request, owner: user)}
       it "returns http success" do
         get :show, id: transmission_request.id
         expect(response).to have_http_status(200)

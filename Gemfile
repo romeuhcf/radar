@@ -68,6 +68,8 @@ gem "wkhtmltopdf-binary-edge", "~> 0.12.2.1"
 # authz
 gem "devise"
 gem "devise-async"
+gem "pundit"
+gem "rolify"
 
 # admin 
 gem "rails_admin"

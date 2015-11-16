@@ -4,8 +4,8 @@ feature 'Transmission request listing', :js do
   let(:user){create(:confirmed_user)}
 
   scenario 'multipage' do
-    create_list(:transmission_request, 10, status: 'cancelled', size: 1)
-    create_list(:transmission_request, 10, status: 'processing', size:1)
+    create_list(:transmission_request, 10, status: 'cancelled', size: 0, owner: user)
+    create_list(:transmission_request, 10, status: 'processing', size: 0, owner: user)
 
     sign_in user
     visit(transmission_requests_path)
