@@ -10,12 +10,9 @@ feature 'Transmission request listing', :js do
     sign_in user
     visit(transmission_requests_path)
 
-    expect(page).to have_content("processing")
-    expect(page).to_not  have_content("cancelled")
-
+    expect(page).to have_content("Próximo")
     click_on('Próximo »')
-    expect(page).to_not have_content("processing")
-    expect(page).to have_content("cancelled")
+    expect(page).to have_content("Anterior")
   end
 end
 
