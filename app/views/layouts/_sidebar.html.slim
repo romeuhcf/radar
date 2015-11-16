@@ -1,0 +1,20 @@
+ul.nav.nav-sidebar
+  li.active
+    a[href="#{authenticated_root_path}"]
+      | Dashboard 
+      span.sr-only
+        | (current)
+  li
+    a[href="#{transmission_requests_path}"]
+      | Relatórios
+  li
+    a[href="#{new_inline_sms_request_path}"]
+      | Envio Avulso
+  li
+    a[href="#"]
+      | Envio Lote
+ul.nav.nav-sidebar
+  li
+    a[href=""]
+      | Configurações
+

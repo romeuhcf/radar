@@ -1,7 +1,7 @@
 class ChatRoomsController < ApplicationController
   before_action :authenticate_user!
   def index
-    @chat_rooms = safe_scope.joins(:destination).where(archived: false).where(answered: false)
+    @chat_rooms = safe_scope.includes(:destination, :owner).where(archived: false).where(answered: false)
     render layout: false
   end
 

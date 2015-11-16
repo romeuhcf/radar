@@ -3,7 +3,7 @@
 -else 
   ul.chat-rooms
     - @chat_rooms.each do |chat_room| 
-      - msgs = chat_room.recent_messages.joins(:message_content).reverse
+      - msgs = chat_room.recent_messages.includes(:message_content).reverse
       li [class="chat-room chat-room-#{chat_room.id}" data-chat-id="#{chat_room.id}"]
         span [class="chat direction direction-#{chat_direction(chat_room)}"]
         span.address = phone_number(chat_room.destination.address)

@@ -1,7 +1,15 @@
-= simple_form_for(@inline_sms_request, html: { class: 'form-horizontal' }) do |f|
-  = f.error_notification
-  .form-inputs
-    = f.input :phone_numbers, placeholder: 'Phone numbers', as: :text, label: 'Telefones'
-    = f.input :message, placeholder: 'Message', as: :text, label: 'Mensagem'
-  .form-actions
-    = f.button :submit, 'Enviar'
+h2
+  | Envio SMS Avulso
+hr
+.row
+  .col-md-6
+    = simple_form_for(@inline_sms_request, html: { class: 'form-horizontal' }) do |f|
+      fieldset
+        legend.text-center 
+          | Formulário de envio
+        = f.error_notification
+        .form-inputs
+          = f.input :phone_numbers, placeholder: '11990000000, 5511990000000', as: :text, label: 'Telefones'
+          = f.input :message, placeholder: 'Mensagem', as: :text, label: 'Mensagem'
+        .form-actions
+          = f.button :submit, 'Enviar'

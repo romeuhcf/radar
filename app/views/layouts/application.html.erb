@@ -14,11 +14,17 @@
 <%= stylesheet_link_tag    'application', media: 'all' %>
 <%= csrf_meta_tags %>
 </head>
-<body class="flatty-home">
+<body>
 <%= render 'layouts/navbar' %>
-<div class="container">
-  <%= render 'layouts/messages' %>
-  <%= yield %>
+<div class="container-fluid">
+
+  <% if current_user %>
+    <%= render 'layouts/inner_layout' %>
+  <% else %>
+    <%= yield %>
+  <% end %>
+
+
 </div>
 <%= javascript_include_tag 'application'%>
 </body>

@@ -15,4 +15,5 @@
 //= require bootbox
 //= require bootstrap-sprockets
 //= require dashboard
+//= require smart_listing
 //= require chat_room

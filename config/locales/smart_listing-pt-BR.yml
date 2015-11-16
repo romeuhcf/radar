@@ -1,0 +1,6 @@
+pt-BR:
+  views:
+    pagination:
+      per_page: "Registros por página:"
+      total: "Total:"
+

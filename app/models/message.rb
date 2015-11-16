@@ -31,8 +31,6 @@ class Message < ActiveRecord::Base
   validates :owner, presence: true
 
   scope :pending, -> { where(transmission_state: :processing) }
-
-  #validates :transmission_request, presence: true
   before_validation :check_message_duplication
 
   include AASM

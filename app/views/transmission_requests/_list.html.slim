@@ -1,0 +1,25 @@
+- unless smart_listing.empty?
+  table.table.table-striped
+    thead
+      th.col-md-3= smart_listing.sortable "Criação", "created_at"
+      th.col-md-4= smart_listing.sortable "Identificação", "identification"
+      th.col-md-2= smart_listing.sortable "Qtde. de Mensagens", "messages_count"
+      th.col-md-2= smart_listing.sortable "Status", "statuts"
+    tbody
+      - smart_listing.collection.each do |o|
+        tr [data-transmission-request-id="#{o.id}"]
+          td 
+            span [title="#{l o.created_at}"]
+              - if o.created_at < 1.day.ago
+                = l o.created_at, format: :short
+              - else
+                = distance_of_time_in_words_to_now o.created_at
+          td = o.identification
+          td.number = number_with_delimiter o.messages_count
+          td
+            .label.label-info = o.status
+      
+  = smart_listing.paginate
+  = smart_listing.pagination_per_page_links
+- else
+  p.warning No records!
