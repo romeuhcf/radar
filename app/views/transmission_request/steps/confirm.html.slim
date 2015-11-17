@@ -1,0 +1,4 @@
+= render partial: 'tabs'
+
+= simple_form_for @transmission_request, method: :put, url: wizard_path  do |f| 
+  = f.submit class: 'btn btn-success', value: "Confirmar!"

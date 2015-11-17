@@ -1,0 +1,6 @@
+<% pp @transmission_request.to_json %>
+<% if @transmission_request.new_record? %>
+  alert("Falha ao importar arquivo de lote: <%= j @transmission_request.errors.full_messages.join(', ')%>")
+<% else %>
+  $("#batch-file").html("<%= j render( partial: 'batch_file.html.slim', format: [:html]) %>")
+<% end %>

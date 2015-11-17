@@ -1,0 +1,4 @@
+=  f.simple_fields_for :options, OpenStruct.new(@transmission_request.options) do |ff|
+  = ff.input :field_separator
+  = ff.input :headers, as: :boolean
+  = ff.input :mensagem

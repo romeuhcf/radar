@@ -2,8 +2,6 @@ class TransmissionRequestsController < ApplicationController
   after_action :verify_authorized, except: [:index, :show]
   after_action :verify_policy_scoped
   before_action :authenticate_user!
-  #include Wicked::Wizard
-  #steps :batch_file, :parsing, :preview, :schedule, :confirmation
 
   def index
     @transmission_requests = safe_scope
@@ -28,8 +26,11 @@ class TransmissionRequestsController < ApplicationController
   end
 
   def create
-    @transmission_request = safe_scope.new
+    @transmission_request = safe_scope.new(owner: current_owner, user: current_user, requested_via: 'web')
+
     authorize @transmission_request
+    @transmission_request.save!(validate: false)
+    redirect_to transmission_request_step_path(@transmission_request, 'upload')
   end
 
   def update

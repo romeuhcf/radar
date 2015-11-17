@@ -19,7 +19,9 @@ Rails.application.routes.draw do
   authenticate :user do
     resources :route_providers
     resources :inline_sms_requests
-    resources :transmission_requests
+    resources :transmission_requests do
+      resources :steps, only: [:show, :update], controller: 'transmission_request/steps'
+    end
     resources :chat_rooms, only: [:index, :show] do
       post :answer, on: :member
       post :archive, on: :member

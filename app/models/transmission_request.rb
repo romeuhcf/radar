@@ -22,9 +22,10 @@ class TransmissionRequest < ActiveRecord::Base
   belongs_to :owner, polymorphic: true
   has_many :messages
   mount_uploader :batch_file, BatchFileUploader
-
+  serialize :options, Hash
   include AASM
 
+  attr_accessor :options
   aasm column: "status" do
     state :draft, initial: true
     state :processing

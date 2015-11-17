@@ -1,0 +1,4 @@
+- if @transmission_request.batch_file.current_path
+  div.well
+    span = link_to File.basename(@transmission_request.batch_file.current_path), @transmission_request.batch_file.url 
+    span.label.label-info = number_to_human_size File.size(@transmission_request.batch_file.current_path)
