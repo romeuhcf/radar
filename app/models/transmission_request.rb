@@ -21,11 +21,13 @@ class TransmissionRequest < ActiveRecord::Base
   belongs_to :user
   belongs_to :owner, polymorphic: true
   has_many :messages
+  mount_uploader :batch_file, BatchFileUploader
 
   include AASM
 
   aasm column: "status" do
-    state :processing, initial: true
+    state :draft, initial: true
+    state :processing
     state :paused
     state :cancelled
     state :failed

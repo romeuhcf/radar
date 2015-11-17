@@ -4,6 +4,7 @@
       th.col-md-3= smart_listing.sortable "Criação", "created_at"
       th.col-md-4= smart_listing.sortable "Identificação", "identification"
       th.col-md-2= smart_listing.sortable "Qtde. de Mensagens", "messages_count"
+      th.col-md-2= "Arquivo"
       th.col-md-2= smart_listing.sortable "Status", "statuts"
     tbody
       - smart_listing.collection.each do |o|
@@ -15,7 +16,12 @@
               - else
                 = distance_of_time_in_words_to_now o.created_at
           td = o.identification
-          td.number = number_with_delimiter o.messages_count
+          td.number = number_with_delimiter o.messages_count 
+          td 
+            - if o.batch_file.current_path 
+              = link_to File.basename(o.batch_file.current_path), o.batch_file.url
+            - else
+              '-'
           td
             .label.label-info = o.status
       

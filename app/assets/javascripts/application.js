@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require bootbox
 //= require bootstrap-sprockets
-//= require dashboard
 //= require smart_listing
-//= require chat_room
+//= require jquery-fileupload/basic
+//= require jquery-fileupload/vendor/tmpl
+//= require_tree .

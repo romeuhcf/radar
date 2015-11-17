@@ -1,0 +1,21 @@
+= form_for @transmission_request, :html => {:multipart => true} do |f|
+  p
+    = f.file_field :batch_file, multiple: false
+    #batch_file
+  p
+    = f.submit 
+
+
+div.progress
+  div.progress-bar [role="progressbar" aria-valuenow=50 aria-valuemin=0 aria-valuemax=100]
+    span.sr-only
+      | 70% Complete
+
+
+
+script#template-upload [type="text/x-tmpl"]
+  .upload
+    | {%= o.name %}
+    div.progress
+      div.progress-bar [style="width: 0%"]
+

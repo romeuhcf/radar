@@ -35,6 +35,9 @@ gem 'slack-notifier'
 gem 'redis-rails'
 gem 'kaminari'
 gem 'smart_listing'
+gem 'carrierwave'
+gem 'jquery-fileupload-rails'
+gem 'wicked' # wizard
 
 group :development, :test do
   # Call "byebug" anywhere in the code to stop execution and get a debugger console
