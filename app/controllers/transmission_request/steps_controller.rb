@@ -7,7 +7,7 @@ class TransmissionRequest::StepsController < ApplicationController
     @transmission_request = safe_scope.find(params[:transmission_request_id])
 
     if step == :parse
-      @parse_type = File.extname(@transmission_request.batch_file.current_path).gsub(/^\./, '') + '_parse'
+      @parse_type = @transmission_request.batch_file_type + '_parse'
     end
     render_wizard
   end

@@ -1,0 +1,11 @@
+table.csv-preview
+  thead
+    tr 
+      - @preview_data[:headers].each do |header|
+        th = header
+  tbody
+    - @preview_data[:rows].each do |row|
+      tr
+        - @preview_data[:headers].each do |header|
+          td =  row[header]
+

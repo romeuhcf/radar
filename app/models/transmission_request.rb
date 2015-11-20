@@ -38,6 +38,10 @@ class TransmissionRequest < ActiveRecord::Base
     end
   end
 
+  def batch_file_type
+    File.extname(batch_file.current_path).gsub(/^\./, '').downcase
+  end
+
   def pending_messages
     messages.pending
   end

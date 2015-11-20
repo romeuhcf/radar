@@ -1,0 +1,8 @@
+#parse-preview{
+  @extend .row;
+  padding-right: 20px;
+  .content{
+    @extend .col-md-12;
+    overflow: auto;
+  }
+}

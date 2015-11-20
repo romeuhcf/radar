@@ -1,3 +1,6 @@
+h2
+  | Configurações do arquivo csv
+
 =  f.simple_fields_for :options, OpenStruct.new(@transmission_request.options) do |ff|
   = ff.input :file_type, collection: ['csv']
   = ff.input :field_separator, collection: [';', ',', '|', '#', '\t']

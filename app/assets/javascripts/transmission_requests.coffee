@@ -16,4 +16,4 @@ jQuery ->
       link = $('a.next-step')
       link.removeClass('btn-default')
       link.addClass('btn-primary')
-      link.attr('href', link.data('href'))
+      link.attr('href', link.data('href')) 

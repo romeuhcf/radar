@@ -10,14 +10,23 @@ class TransmissionRequestPolicy < ApplicationPolicy
   end
 
   def new?
-    true
+    related?
   end
 
   def create?
-    true
+    related?
   end
 
   def update?
-    true
+    related?
+  end
+
+  def parse_preview?
+    related?
+  end
+
+  protected
+  def related?
+    user.has_role?(:admin) or record.owner == user
   end
 end

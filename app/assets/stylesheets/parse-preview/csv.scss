@@ -1,0 +1,7 @@
+table.csv-preview{
+  @extend .table;
+  @extend .table-condensed;
+  @extend .table-striped;
+  @extend .table-hover;
+  @extend .table-bordered;
+}

@@ -3,4 +3,31 @@
 
 = simple_form_for @transmission_request, method: :put, url: wizard_path  do |f| 
   = render partial: @parse_type, locals: {f: f}
-  = f.submit class: 'btn btn-primary', value: "Próximo passo"
+  = f.submit class: 'btn btn-primary', value: "Próximo passo" 
+
+h4
+  | Preview de dados
+
+#parse-preview 
+  .content
+
+- content_for :footer_js
+  javascript: 
+    function reload_parse_preview(){
+      var form =  $('form.edit_transmission_request');
+      var data = $(form).serialize();
+      $('#parse-preview .content').load(
+        '#{parse_preview_transmission_request_path(@transmission_request)}', 
+        data,  
+        function (responseText, textStatus, req) {
+          if (textStatus == "error") {
+            $(this).html('<div class="alert alert-warning">Impossível interpretar arquivo com essas configurações!</span>');
+          }
+        }
+      );
+    }
+    $(function(){
+      reload_parse_preview();
+      $('form.edit_transmission_request input').change(reload_parse_preview);
+      $('form.edit_transmission_request select').change(reload_parse_preview);
+    });
