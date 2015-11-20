@@ -1,0 +1,7 @@
+= render partial: 'tabs'
+
+= simple_form_for @transmission_request, method: :put, url: wizard_path  do |f| 
+  =  f.simple_fields_for :options, OpenStruct.new(@transmission_request.options) do |ff|
+    = ff.input :message_defined_at_column , as: :boolean
+    = ff.input :column_of_message , collection: (1..(@transmission_request.csv_column_count)).to_a
+  = f.submit class: 'btn btn-primary', value: "Próximo passo"

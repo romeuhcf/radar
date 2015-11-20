@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151116230301) do
+ActiveRecord::Schema.define(version: 20151119212538) do
 
   create_table "bills", force: :cascade do |t|
     t.integer  "customer_id",          limit: 4
@@ -167,10 +167,11 @@ ActiveRecord::Schema.define(version: 20151116230301) do
     t.string   "status",         limit: 255
     t.date     "reference_date"
     t.integer  "messages_count", limit: 4
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.integer  "division_id",    limit: 4
     t.string   "batch_file",     limit: 255
+    t.text     "options",        limit: 65535
   end
 
   add_index "transmission_requests", ["division_id"], name: "index_transmission_requests_on_division_id", using: :btree

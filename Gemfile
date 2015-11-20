@@ -25,20 +25,27 @@ gem "sidekiq", "< 4"
 gem "sidekiq-cron"
 gem "sidekiq-limit_fetch"
 gem "sinatra", :require => nil
-gem "rest-client"
+
 # static pages
 gem "high_voltage"
 
+# utils
+gem "rest-client"
 gem 'figaro'
 gem 'exception_notification'
 gem 'slack-notifier'
+gem 'charlock_holmes'
 gem 'redis-rails'
+
+# ui 
+gem 'jquery-fileupload-rails'
+gem 'carrierwave'
+gem 'momentjs-rails'
+gem 'datetimepicker-rails', github: 'zpaulovics/datetimepicker-rails', branch: 'master', submodules: true
 gem 'kaminari'
 gem 'smart_listing'
-gem 'carrierwave'
-gem 'jquery-fileupload-rails'
 gem 'wicked' # wizard
-gem 'charlock_holmes'
+
 
 group :development, :test do
   # Call "byebug" anywhere in the code to stop execution and get a debugger console

@@ -1,5 +1,0 @@
-<% if @transmission_request.new_record? %>
-  alert("Falha ao importar arquivo de lote: <%= j @transmission_request.errors.full_messages.join(', ')%>")
-<% else %>
-  $("#batch_file").html("<%= j link_to File.basename( @transmission_request.batch_file.current_path) , @transmission_request.batch_file.url %>")
-<% end %>

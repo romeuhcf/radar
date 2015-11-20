@@ -1,4 +1,13 @@
 = render partial: 'tabs'
 
 = simple_form_for @transmission_request, method: :put, url: wizard_path  do |f| 
-  = f.submit class: 'btn btn-primary', value: "Próxima"
+  =  f.simple_fields_for :options, OpenStruct.new(@transmission_request.options) do |ff|
+    = ff.input :timing_table , collection: ["Business hours", "Extended business hours", "Any time"]
+    // = ff.input :dont_send_at_holidays, as: :boolean, # TODO
+
+    .row.datetimerange
+      - @transmission_request.options['schedule_start_time'] ||= Time.now.to_s['']
+      = ff.input :schedule_start_time, as: :datetime_picker, wrapper: :ranged_datetime
+      = ff.input :schedule_finish_time, as: :datetime_picker, wrapper: :ranged_datetime 
+
+  = f.submit class: 'btn btn-primary', value: "Próximo passo"

@@ -17,4 +17,8 @@
 //= require smart_listing
 //= require jquery-fileupload/basic
 //= require jquery-fileupload/vendor/tmpl
+//= require moment
+//= require bootstrap-datetimepicker
+//= require pickers
+//= require moment/pt-br
 //= require_tree .

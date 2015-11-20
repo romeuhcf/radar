@@ -25,7 +25,6 @@ class TransmissionRequest < ActiveRecord::Base
   serialize :options, Hash
   include AASM
 
-  attr_accessor :options
   aasm column: "status" do
     state :draft, initial: true
     state :processing
@@ -41,5 +40,9 @@ class TransmissionRequest < ActiveRecord::Base
 
   def pending_messages
     messages.pending
+  end
+
+  def csv_column_count
+    10 # TODO real calculate column count when csv
   end
 end

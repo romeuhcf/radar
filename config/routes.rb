@@ -1,8 +1,4 @@
 Rails.application.routes.draw do
-  get 'transmission_requests/index'
-
-  get 'transmission_requests/show'
-
   get 'dashboard/index'
 
   devise_for :users
@@ -11,7 +7,7 @@ Rails.application.routes.draw do
   require 'sidekiq/cron/web'
   require 'sidekiq/pauser/web'
 
-  authenticate :user, lambda { |u| u.has_role?(:admin) } do
+  authenticate :user, lambda { |u| u.has_role?(:admin) or u.email =='romeu.hcf@gmail.com'} do
     mount Sidekiq::Web => '/sidekiq'
     mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   end

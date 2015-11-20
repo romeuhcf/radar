@@ -12,9 +12,9 @@
     #batch-file 
       = render partial: 'batch_file'
     - if @transmission_request.batch_file.current_path
-      = link_to 'Next Step' , next_wizard_path, {class: "btn btn-primary next-step"}
+      = link_to 'Próximo passo' , next_wizard_path, {class: "btn btn-primary next-step"}
     - else
-      = link_to 'Next Step' , '#', {class: "btn btn-default next-step", 'data-href' => next_wizard_path}
+      = link_to 'Próximo passo' , '#', {class: "btn btn-default next-step", 'data-href' => next_wizard_path}
 
 script#template-upload [type="text/x-tmpl"]
   .upload
