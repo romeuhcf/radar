@@ -1,4 +1,11 @@
 = render partial: 'tabs'
 
 = simple_form_for @transmission_request, method: :put, url: wizard_path  do |f| 
+  table.table.table-condensed.table-bordered
+    tr 
+      th 
+        | Mensagem de exemplo:
+      td
+        | "#{TransmissionRequestCompositionService.new.sample_message(@transmission_request)}"
+
   = f.submit class: 'btn btn-success', value: "Confirmar!"

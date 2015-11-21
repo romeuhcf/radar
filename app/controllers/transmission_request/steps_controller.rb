@@ -32,10 +32,34 @@ class TransmissionRequestCompositionService
     send( 'guess_attributes_for_type_' + transmission_request.batch_file_type, transmission_request )
   end
 
+  def available_fields(transmission_request)
+    if transmission_request.batch_file_type == 'csv'
+      ParsePreviewService.new.preview_csv(transmission_request, transmission_request.options)[:headers]
+    else
+      fail 'not implemented'
+    end
+  end
+
   def guess_attributes_for_type_csv(transmission_request)
     require 'csv_col_sep_sniffer'
     col_sep =  CsvColSepSniffer.find(transmission_request.batch_file.current_path)
     {:options => {file_type: 'csv', field_separator: col_sep }}
+  end
+
+  def sample_message(transmission_request)
+    if transmission_request.batch_file_type == 'csv'
+      if transmission_request.options['message_defined_at_column'] != '0' # TODO make it boolean
+        col = transmission_request.options['column_of_message']
+        if transmission_request.options['headers_at_first_line'] == '0' # TODO save headers_at_first_line as integer
+          col = col.to_i # TODO prepend cols with index to avoid zero indexed access
+        end
+        ParsePreviewService.new.preview_csv(transmission_request, transmission_request.options)[:rows].first[col]
+      else
+        transmission_request.options['custom_message']
+      end
+    else
+      fail 'not implemented'
+    end
   end
 end
 
@@ -82,7 +106,7 @@ class TransmissionRequest::StepsController < ApplicationController
                            when :parse
                              {:options => [:file_type] + parameters_for_file_type}
                            when :message
-                             {:options => [:message_defined_at_column, :column_of_message]}
+                             {:options => [:message_defined_at_column, :column_of_message, :custom_message]}
                            when :schedule
                              {:options => [:schedule_finish_time, :schedule_start_time, :timing_table]}
                            when :confirm

@@ -24,6 +24,9 @@ feature "Preview CSV", :js do
     expect(all('table.csv-preview tbody tr').size).to eq 3
     check("Headers at first line")
 
+    expect(page).to have_content('Mensagem de teste 1')
+    expect(page).to have_content('Mensagem de teste 2')
+    expect(page).to have_content('11960758475')
     expect(all('table.csv-preview thead th').size).to eq 2
     expect(all('table.csv-preview tbody tr').size).to eq 2
     expect(all('table.csv-preview thead th').map{|th| th.text}).to eq %w[numero mensagem]
@@ -32,6 +35,9 @@ feature "Preview CSV", :js do
   scenario 'csv without header' do
     start_creating_transmission_request_with_csv('simple_sms.csv')
     uncheck("Headers at first line")
+    expect(page).to have_content('Mensagem de teste 1')
+    expect(page).to have_content('Mensagem de teste 2')
+    expect(page).to have_content('11960758475')
     expect(all('table.csv-preview thead th').size).to eq 2
     expect(all('table.csv-preview tbody tr').size).to eq 2
     expect(all('table.csv-preview thead th').map{|th| th.text}).to eq %w[1 2]
@@ -72,10 +78,90 @@ feature "Send CSV" , :js do
     click_on("Próximo passo");
 
     # Confirm step
-    #   expect(page).to have_content('2 mensagens')
+    expect(page).to have_content('"Mensagem de teste 1"')
 
 
     click_on("Confirmar");
     expect(page).to have_content('Requisição criada com sucesso')
   end
+
+
+  scenario 'simple with headers with message on field' do
+    sign_in user
+    click_on('Relatórios')
+    click_on('Enviar lote')
+
+    attach_file('Batch file', File.absolute_path(fixture_file('simple_sms.csv')))
+    click_on("Próximo passo");
+
+    # Parse step
+    #select('csv', from: "File type")
+    expect(page.has_select?("File type", selected: 'csv')).to be_truthy
+    expect(page.has_select?("Field separator", selected: ';')).to be_truthy
+    uncheck("Headers at first line")
+    click_on("Próximo passo");
+
+    # Message step
+    check("Message defined at column")
+    select("numero", from: "Column of message")
+
+    # Message step
+    click_on("Próximo passo");
+
+    # Schedule step
+    ini = "2020/10/10 12:13"
+    fin = "2020/10/11 12:13"
+    page.execute_script("$('#transmission_request_options_schedule_start_time').val('#{ini}')")
+    page.execute_script("$('#transmission_request_options_schedule_finish_time').val('#{fin}')")
+    select("Business hours", from: 'Timing table')
+    click_on("Próximo passo");
+
+    # Confirm step
+    expect(page).to have_content('"Mensagem de teste 1"')
+
+
+    click_on("Confirmar");
+    expect(page).to have_content('Requisição criada com sucesso')
+  end
+
+
+
+
+  scenario 'simple without headers with message defined by user' do
+    sign_in user
+    click_on('Relatórios')
+    click_on('Enviar lote')
+
+    attach_file('Batch file', File.absolute_path(fixture_file('simple_sms.csv')))
+    click_on("Próximo passo");
+
+    # Parse step
+    expect(page.has_select?("File type", selected: 'csv')).to be_truthy
+    expect(page.has_select?("Field separator", selected: ';')).to be_truthy
+    uncheck("Headers at first line")
+    click_on("Próximo passo");
+
+    # Message step
+    uncheck("Message defined at column")
+    fill_in('Custom message', with: "Caro cliente do banco Nacional, informamos que nossas funções foram encerradas há tempos.")
+
+    # Message step
+    click_on("Próximo passo");
+
+    # Schedule step
+    ini = "2020/10/10 12:13"
+    fin = "2020/10/11 12:13"
+    page.execute_script("$('#transmission_request_options_schedule_start_time').val('#{ini}')")
+    page.execute_script("$('#transmission_request_options_schedule_finish_time').val('#{fin}')")
+    select("Business hours", from: 'Timing table')
+    click_on("Próximo passo");
+
+    # Confirm step
+    expect(page).to have_content('Caro cliente do banco Nacional')
+
+
+    click_on("Confirmar");
+    expect(page).to have_content('Requisição criada com sucesso')
+  end
+
 end
