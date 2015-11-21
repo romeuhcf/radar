@@ -50,8 +50,9 @@ feature "Send CSV" , :js do
     click_on("Próximo passo");
 
     # Parse step
-    select('csv', from: "File type")
-    select(';', from: "Field separator")
+    #select('csv', from: "File type")
+    expect(page.has_select?("File type", selected: 'csv')).to be_truthy
+    expect(page.has_select?("Field separator", selected: ';')).to be_truthy
     uncheck("Headers at first line")
     click_on("Próximo passo");
 

@@ -1,7 +1,48 @@
+class TransmissionRequestCompositionService
+  def self.steps
+    [ :upload, :parse, :message, :schedule, :confirm ]
+  end
+
+  def update(transmission_request, step, safe_params)
+    case step
+    when :confirm
+      confirm(transmission_request)
+    else
+      update_attributes(transmission_request, safe_params)
+        if step == :upload  # calculate csv options
+          guessed_attributes = guess_attributes(transmission_request)
+          update_attributes(transmission_request, guessed_attributes)
+        end
+    end
+  end
+
+  def confirm(transmission_request)
+    transmission_request.status = 'processing'
+    transmission_request.save! # TODO start the whole thing
+  end
+
+  def update_attributes(transmission_request, new_attributes)
+    preexisting_options = transmission_request.options
+    new_attributes[:options]||={}
+    new_attributes[:options].reverse_merge!( preexisting_options )
+    transmission_request.update(new_attributes)
+  end
+
+  def guess_attributes(transmission_request)
+    send( 'guess_attributes_for_type_' + transmission_request.batch_file_type, transmission_request )
+  end
+
+  def guess_attributes_for_type_csv(transmission_request)
+    require 'csv_col_sep_sniffer'
+    col_sep =  CsvColSepSniffer.find(transmission_request.batch_file.current_path)
+    {:options => {file_type: 'csv', field_separator: col_sep }}
+  end
+end
+
 class TransmissionRequest::StepsController < ApplicationController
   before_action :authenticate_user!
   include Wicked::Wizard
-  steps :upload, :parse, :message, :schedule, :confirm
+  steps( *TransmissionRequestCompositionService.steps)
 
   def show
     @transmission_request = safe_scope.find(params[:transmission_request_id])
@@ -14,23 +55,19 @@ class TransmissionRequest::StepsController < ApplicationController
 
   def update
     @transmission_request = safe_scope.find(params[:transmission_request_id])
-    if step.to_s == 'confirm'
-      @transmission_request.status = 'processing'
-      @transmission_request.save! # TODO start the whole thing
+    permitted_attributes = transmission_request_params(step)
+
+    TransmissionRequestCompositionService.new.update(@transmission_request, step, permitted_attributes)
+
+    case step.to_s
+    when 'confirm'
       redirect_to transmission_requests_path, notice: 'Requisição criada com sucesso'
     else
-      new_attributes = transmission_request_params(step)
-      new_attributes[:options]||={}
-      new_attributes[:options].reverse_merge!(@transmission_request.options || {})
-      @transmission_request.update(new_attributes)
-
       respond_to do |format|
         format.html {   render_wizard @transmission_request }
         format.js { render partial: 'batch_file'}
       end
     end
-
-
   end
 
   protected
@@ -48,6 +85,8 @@ class TransmissionRequest::StepsController < ApplicationController
                              {:options => [:message_defined_at_column, :column_of_message]}
                            when :schedule
                              {:options => [:schedule_finish_time, :schedule_start_time, :timing_table]}
+                           when :confirm
+                             return {}
                            end
     params.require(:transmission_request).permit(permitted_attributes)
   end
@@ -56,7 +95,7 @@ class TransmissionRequest::StepsController < ApplicationController
     type = params[:transmission_request][:options][:file_type]
     case type
     when 'csv'
-      [:field_separator, :headers_at_first_line, :message_defined_at_column, :column_of_message]
+      [:field_separator, :headers_at_first_line, :message_defined_at_column]
     else
       fail 'File type not allowed'
     end
