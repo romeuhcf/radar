@@ -17,8 +17,14 @@
       = link_to 'Próximo passo' , '#', {class: "btn btn-default next-step", 'data-href' => next_wizard_path}
 
 script#template-upload [type="text/x-tmpl"]
-  .upload
-    | {%= o.name %}
-    div.progress
-      div.progress-bar [style="width: 0%"]
+  .upload.row
+    .col-md-3 
+      | {%= o.name %}
+    .col-md-7
+      div.progress
+        div.progress-bar [style="width: 0%"]
+    .col-md-2
+      a#upload-cancel.btn.btn-danger.btn-xs [href='#']
+        .glyphicon.glyphicon-remove
+        | Cancelar
 

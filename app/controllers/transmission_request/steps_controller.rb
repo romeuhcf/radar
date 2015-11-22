@@ -120,7 +120,7 @@ class TransmissionRequest::StepsController < ApplicationController
                            when :parse
                              {:options => [:file_type] + parameters_for_file_type}
                            when :message
-                             {:options => [:message_defined_at_column, :column_of_message, :custom_message]}
+                             {:options => [:message_defined_at_column, :column_of_message, :custom_message, :column_of_number]}
                            when :schedule
                              {:options => [:schedule_finish_time, :schedule_start_time, :timing_table]}
                            when :confirm

@@ -8,7 +8,11 @@ jQuery ->
       data.context = $(tmpl("template-upload", data.files[0])) 
       $('#batch-file').html(data.context)
       $('#transmission_request_batch_file').hide()
-      data.submit()
+      jqXHR = data.submit()
+      $('#upload-cancel').on 'click', (e) ->
+        $(this).html('Cancelando...')
+        jqXHR.abort()
+        return
     progress: (e,data) ->
       if data.context
         progress = parseInt(data.loaded / data.total * 100, 10) 
@@ -17,5 +21,17 @@ jQuery ->
       link = $('a.next-step')
       link.removeClass('btn-default')
       link.addClass('btn-primary')
-      $('#transmission_request_batch_file').show()
       link.attr('href', link.data('href')) 
+
+      $('#transmission_request_batch_file').show()
+    fail: (e,data) ->
+      $('#transmission_request_batch_file').show()
+      $('#batch-file').html('')
+      
+      link = $('a.next-step')
+      link.addClass('btn-default')
+      link.removeClass('btn-primary')
+      link.attr('href', '#') 
+
+      if (data.errorThrown != 'abort')
+        alert("Erro importando arquivo: " + data.errorThrown)
