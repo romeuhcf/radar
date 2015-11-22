@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'generators'
 describe ::Transmissions::SendBatchService do
   let(:destination_generator) { DestinationGenerator::List.new(%w{11960758475  11961110000}) }
   let(:content_generator)     { ContentGenerator::Static.new("Ave Maria..." ) }
@@ -10,7 +9,7 @@ describe ::Transmissions::SendBatchService do
   let(:division)    { create(:division, owner: owner)}
 
   let!(:route_provider){ create(:route_provider) }
-  let(:transmission_request) { subject.generate_request("an automated test", content_generator, destination_generator, schedule_generator, user, owner) }
+  let(:transmission_request) { subject.generate_request("an automated test", user, owner, content_generator, destination_generator, schedule_generator) }
 
   it { expect(transmission_request.messages.size).to eq 2 }
   it { expect(transmission_request.owner).to eq owner }

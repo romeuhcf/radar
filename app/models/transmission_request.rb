@@ -24,6 +24,7 @@ class TransmissionRequest < ActiveRecord::Base
   has_many :messages
   mount_uploader :batch_file, BatchFileUploader
   serialize :options, Hash
+  validates :owner, presence: true
   include AASM
 
   aasm column: "status" do

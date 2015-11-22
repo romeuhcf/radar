@@ -9,6 +9,7 @@ class MessageRouterWorker
     return if message.transmission_request.cancelled?
 
     if message.transmission_request.paused?
+      # TODO put on a queue specific for paused items
       self.class.perform_in(5.minutes, message.id) # TODO get a way to expire
       return
     end

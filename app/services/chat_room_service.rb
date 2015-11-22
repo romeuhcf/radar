@@ -25,7 +25,7 @@ class ChatRoomService
       me.last_contacted_by = user
     end.save!
 
-    Transmissions::SendBatchService.new.send_a_message(transmission_request.id, message, chat.destination, chat.owner)
+    Transmissions::SendBatchService.new.enqueue_a_message(transmission_request.id, message, chat.destination, chat.owner)
   end
 
   def archive(chat_room)

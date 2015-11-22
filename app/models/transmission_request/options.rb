@@ -6,7 +6,6 @@ class TransmissionRequest < ActiveRecord::Base
 
     attr_accessor :file_type
     attr_accessor :timing_table, :custom_message
-    attr_accessor :field_separator
     attr_reader :schedule_start_time, :schedule_finish_time  # date
 
     def schedule_start_time

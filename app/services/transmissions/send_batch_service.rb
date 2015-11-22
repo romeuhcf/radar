@@ -1,21 +1,22 @@
 class Transmissions::SendBatchService
-  def generate_request(identification, content_generator, destination_generator, schedule_generator, user, owner)
-    total = destination_generator.total
+  def generate_request(identification, user, owner, content_generator, destination_generator, schedule_generator)
     TransmissionRequest.create!(user: user, owner: owner, identification: identification).tap do |transmission_request|
-      schedule_generator.total = total
-
-      destination_generator.generate do |destination|
-        scheduled_to = schedule_generator.generate
-        content      = content_generator.generate(destination)
-
-        send_a_message(transmission_request.id, content, destination, owner, scheduled_to)
-        # transmission_request.progress_process!
-      end
-      # transmission_request.complete_process!
+      process_request(transmission_request, content_generator, destination_generator, schedule_generator)
     end
   end
 
-  def send_a_message(transmission_request_id, content, destination, owner, scheduled_to = Time.zone.now)
+  def process_request(transmission_request, content_generator, destination_generator, schedule_generator)
+    total = destination_generator.total
+    schedule_generator.total = total
+
+    destination_generator.generate do |destination_data|
+      scheduled_to = schedule_generator.generate
+      content      = content_generator.generate(destination_data)
+      enqueue_a_message(transmission_request.id, content, destination_data.destination, transmission_request.owner, scheduled_to)
+    end
+  end
+
+  def enqueue_a_message(transmission_request_id, content, destination, owner, scheduled_to = Time.zone.now)
     attributes = {
       message_content: MessageContent.new(content: content),
       scheduled_to: scheduled_to,

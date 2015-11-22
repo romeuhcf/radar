@@ -10,16 +10,22 @@ class TransmissionRequestCompositionService
       confirm(transmission_request)
     else
       update_attributes(transmission_request, safe_params)
-        if step == :upload  # calculate csv options
-          guessed_attributes = guess_attributes(transmission_request)
-          update_attributes(transmission_request, guessed_attributes)
-        end
+      if step == :upload  # calculate csv options
+        guessed_attributes = guess_attributes(transmission_request)
+        update_attributes(transmission_request, guessed_attributes)
+      end
     end
   end
 
   def confirm(transmission_request)
-    transmission_request.status = 'processing'
-    transmission_request.save! # TODO start the whole thing
+    transmission_request.status = 'scheduled'
+    transmission_request.save!
+    process_start_time = if transmission_request.options.schedule_start_time - DateTime.now > 6.minutes
+                           transmission_request.options.schedule_start_time - 5.minutes
+                         else
+                           transmission_request.options.schedule_start_time + 5.seconds
+                         end
+    TransmissionRequestProcessWorker.perform_at(process_start_time , transmission_request.id)
   end
 
   def update_attributes(transmission_request, new_attributes)

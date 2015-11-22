@@ -3,6 +3,7 @@ class TransmissionRequest
   class CsvOptions < Options
     attr_reader :message_defined_at_column, :headers_at_first_line # boolean
     attr_reader :column_of_message, :column_of_number # string
+    attr_accessor :field_separator
 
     def message_defined_at_column=(v)
       @message_defined_at_column = (v == '0' or !v) ? false : true

@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :transmission_request do
-    user nil
-    owner nil
+    user { create(:user)}
+    owner { create(:user)}
     identification Faker::Lorem.sentence
     requested_via "MyString"
     reference_date "2015-10-30"

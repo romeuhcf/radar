@@ -77,6 +77,7 @@ feature "Send CSV" , :js do
   let(:user){create(:confirmed_user)}
 
   scenario 'simple without headers with message on field' do
+    Sidekiq::Testing.fake!
     sign_in user
     click_on('Relatórios')
     click_on('Enviar lote')
@@ -118,6 +119,7 @@ feature "Send CSV" , :js do
 
 
   scenario 'simple with headers with message on field' do
+    Sidekiq::Testing.fake!
     sign_in user
     click_on('Relatórios')
     click_on('Enviar lote')
@@ -161,6 +163,7 @@ feature "Send CSV" , :js do
 
 
   scenario 'simple without headers with message defined by user' do
+    Sidekiq::Testing.fake!
     sign_in user
     click_on('Relatórios')
     click_on('Enviar lote')

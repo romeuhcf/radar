@@ -1,6 +1,7 @@
 class TransmissionRequest::StepsController < ApplicationController
   after_action :verify_authorized
   before_action :authenticate_user!
+
   include Wicked::Wizard
   steps( *TransmissionRequestCompositionService.steps)
 
@@ -26,7 +27,7 @@ class TransmissionRequest::StepsController < ApplicationController
       redirect_to transmission_requests_path, notice: 'Requisição criada com sucesso'
     else
       respond_to do |format|
-        format.html {   render_wizard @transmission_request }
+        format.html { render_wizard @transmission_request }
         format.js { render partial: 'batch_file'}
       end
     end
