@@ -53,6 +53,7 @@ feature "CSV Estimations", :js do
     # Message step
     check("Message defined at column")
     select("2", from: "Column of message")
+    select("1", from: "Column of number")
     click_on("Confirm")
     expect(page).to have_content('500 mensagens')
   end
@@ -62,6 +63,7 @@ feature "CSV Estimations", :js do
     # Message step
     check("Message defined at column")
     select("2", from: "Column of message")
+    select("1", from: "Column of number")
     click_on("Confirm")
     expect(page).to have_content('750 mensagens')
   end
@@ -88,6 +90,7 @@ feature "Send CSV" , :js do
     # Message step
     check("Message defined at column")
     select("2", from: "Column of message")
+    select("1", from: "Column of number")
 
     # Message step
     click_on("Próximo passo");
@@ -128,6 +131,7 @@ feature "Send CSV" , :js do
     # Message step
     check("Message defined at column")
     select("mensagem", from: "Column of message")
+    select("numero", from: "Column of number")
 
     # Message step
     click_on("Próximo passo");
@@ -169,6 +173,7 @@ feature "Send CSV" , :js do
     # Message step
     uncheck("Message defined at column")
     fill_in('Custom message', with: "Caro cliente do banco Nacional, informamos que nossas funções foram encerradas há tempos.")
+    select("1", from: "Column of number")
 
     # Message step
     click_on("Próximo passo");

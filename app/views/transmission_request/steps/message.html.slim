@@ -5,6 +5,7 @@
     = ff.input :message_defined_at_column , as: :boolean
     = ff.input :column_of_message , collection: TransmissionRequestCompositionService.new.available_fields(@transmission_request), required: false
     = ff.input :custom_message, as: 'text', required: false
+    = ff.input :column_of_number , collection: TransmissionRequestCompositionService.new.available_fields(@transmission_request), required: true
   = f.submit class: 'btn btn-primary', value: "Próximo passo" 
 
 - content_for :footer_js
