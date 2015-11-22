@@ -2,6 +2,6 @@ h4
   | Configurações do arquivo csv
 
 =  f.simple_fields_for :options, @transmission_request.options do |ff|
-  = ff.input :file_type, collection: ['csv']
-  = ff.input :field_separator, collection: [';', ',', '|', '#', '\t']
+  = ff.input :file_type, collection: ['csv'], required: true
+  = ff.input :field_separator, collection: [';', ',', '|', '#', '\t'], required: true
   = ff.input :headers_at_first_line, as: :boolean

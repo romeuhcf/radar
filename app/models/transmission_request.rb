@@ -28,6 +28,7 @@ class TransmissionRequest < ActiveRecord::Base
 
   aasm column: "status" do
     state :draft, initial: true
+    state :scheduled
     state :processing
     state :paused
     state :cancelled
@@ -54,9 +55,5 @@ class TransmissionRequest < ActiveRecord::Base
 
   def pending_messages
     messages.pending
-  end
-
-  def csv_column_count
-    10 # TODO real calculate column count when csv
   end
 end

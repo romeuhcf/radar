@@ -17,7 +17,7 @@ div.row
               th 
                 | Estimativa de quantidade:
               td
-                = t 'chat.messages_total', count: "#{TransmissionRequestCompositionService.new.estimate_number_of_messages(@transmission_request)}"
+                = t 'chat.messages_total', count: TransmissionRequestCompositionService.new.estimate_number_of_messages(@transmission_request)
 
           div [style="text-align:right"    ]
             = f.submit class: 'btn btn-success', value: "Confirmar!"
