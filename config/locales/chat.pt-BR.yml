@@ -2,6 +2,6 @@
 pt-BR:
   chat:
     messages_total: 
-      zero: "Sem mensagens"
+      zero: "Nenhuma mensagem"
       one: "%{count} mensagem"
       other: "%{count} mensagens"

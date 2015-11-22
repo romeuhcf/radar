@@ -9,4 +9,8 @@ class File
       lines
     end
   end
+
+  def self.wc_l(fname)
+    %x{ wc -l #{Shellwords.escape(fname)} }.strip.to_i
+  end
 end

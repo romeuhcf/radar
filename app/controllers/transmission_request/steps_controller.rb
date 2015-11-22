@@ -1,3 +1,4 @@
+require 'extensions/file'
 class TransmissionRequestCompositionService
   def self.steps
     [ :upload, :parse, :message, :schedule, :confirm ]
@@ -44,6 +45,19 @@ class TransmissionRequestCompositionService
     require 'csv_col_sep_sniffer'
     col_sep =  CsvColSepSniffer.find(transmission_request.batch_file.current_path)
     {:options => {file_type: 'csv', field_separator: col_sep }}
+  end
+
+  def estimate_number_of_messages(transmission_request)
+    if transmission_request.batch_file_type == 'csv'
+      nolines = File.wc_l(transmission_request.batch_file.current_path)
+      if transmission_request.options['headers_at_first_line'] == '0' # TODO save headers_at_first_line as integer
+        nolines
+      else
+        nolines - 1
+      end
+    else
+      fail 'not implemented'
+    end
   end
 
   def sample_message(transmission_request)

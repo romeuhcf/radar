@@ -44,6 +44,29 @@ feature "Preview CSV", :js do
   end
 end
 
+feature "CSV Estimations", :js do
+  let(:user){create(:confirmed_user)}
+
+  scenario 'csv with header' do
+    start_creating_transmission_request_with_csv('large_sms_with_header.csv')
+    click_on("Próximo passo");
+    # Message step
+    check("Message defined at column")
+    select("2", from: "Column of message")
+    click_on("Confirm")
+    expect(page).to have_content('500 mensagens')
+  end
+  scenario 'csv without header' do
+    start_creating_transmission_request_with_csv('large_sms.csv')
+    click_on("Próximo passo");
+    # Message step
+    check("Message defined at column")
+    select("2", from: "Column of message")
+    click_on("Confirm")
+    expect(page).to have_content('750 mensagens')
+  end
+end
+
 feature "Send CSV" , :js do
   let(:user){create(:confirmed_user)}
 
@@ -79,6 +102,7 @@ feature "Send CSV" , :js do
 
     # Confirm step
     expect(page).to have_content('"Mensagem de teste 1"')
+    expect(page).to have_content('3 mensagens')
 
 
     click_on("Confirmar");
@@ -91,19 +115,19 @@ feature "Send CSV" , :js do
     click_on('Relatórios')
     click_on('Enviar lote')
 
-    attach_file('Batch file', File.absolute_path(fixture_file('simple_sms.csv')))
+    attach_file('Batch file', File.absolute_path(fixture_file('simple_sms_with_header.csv')))
     click_on("Próximo passo");
 
     # Parse step
     #select('csv', from: "File type")
     expect(page.has_select?("File type", selected: 'csv')).to be_truthy
     expect(page.has_select?("Field separator", selected: ';')).to be_truthy
-    uncheck("Headers at first line")
+    check("Headers at first line")
     click_on("Próximo passo");
 
     # Message step
     check("Message defined at column")
-    select("numero", from: "Column of message")
+    select("mensagem", from: "Column of message")
 
     # Message step
     click_on("Próximo passo");
@@ -118,6 +142,7 @@ feature "Send CSV" , :js do
 
     # Confirm step
     expect(page).to have_content('"Mensagem de teste 1"')
+    expect(page).to have_content('3 mensagens')
 
 
     click_on("Confirmar");
