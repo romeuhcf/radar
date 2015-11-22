@@ -23,9 +23,7 @@ class TransmissionRequestCompositionService
   end
 
   def update_attributes(transmission_request, new_attributes)
-    preexisting_options = transmission_request.options
-    new_attributes[:options]||={}
-    new_attributes[:options].reverse_merge!( preexisting_options )
+    new_attributes[:options] = transmission_request.options.merge(new_attributes[:options] || {} ).serializable_hash
     transmission_request.update(new_attributes)
   end
 
@@ -43,17 +41,17 @@ class TransmissionRequestCompositionService
 
   def guess_attributes_for_type_csv(transmission_request)
     require 'csv_col_sep_sniffer'
-    col_sep =  CsvColSepSniffer.find(transmission_request.batch_file.current_path)
+    col_sep = CsvColSepSniffer.find(transmission_request.batch_file.current_path)
     {:options => {file_type: 'csv', field_separator: col_sep }}
   end
 
   def estimate_number_of_messages(transmission_request)
     if transmission_request.batch_file_type == 'csv'
       nolines = File.wc_l(transmission_request.batch_file.current_path)
-      if transmission_request.options['headers_at_first_line'] == '0' # TODO save headers_at_first_line as integer
-        nolines
-      else
+      if transmission_request.options.headers_at_first_line?
         nolines - 1
+      else
+        nolines
       end
     else
       fail 'not implemented'
@@ -62,14 +60,13 @@ class TransmissionRequestCompositionService
 
   def sample_message(transmission_request)
     if transmission_request.batch_file_type == 'csv'
-      if transmission_request.options['message_defined_at_column'] != '0' # TODO make it boolean
-        col = transmission_request.options['column_of_message']
-        if transmission_request.options['headers_at_first_line'] == '0' # TODO save headers_at_first_line as integer
-          col = col.to_i # TODO prepend cols with index to avoid zero indexed access
-        end
-        ParsePreviewService.new.preview_csv(transmission_request, transmission_request.options)[:rows].first[col]
+      if transmission_request.options.message_defined_at_column?
+        col = transmission_request.options.column_of_message
+        preview_data = ParsePreviewService.new.preview_csv(transmission_request, transmission_request.options)
+        first_row = preview_data.fetch(:rows).first
+        first_row.fetch(col)
       else
-        transmission_request.options['custom_message']
+        transmission_request.options.custom_message
       end
     else
       fail 'not implemented'

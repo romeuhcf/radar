@@ -1,7 +1,7 @@
 $(document).on('ready page:change', function() {
   $('.datetimepicker').datetimepicker({
         showTodayButton: true,
-        pickSeconds: false
+        pickSeconds: false,
   });
 
   $('.datetimerange').each(function(){

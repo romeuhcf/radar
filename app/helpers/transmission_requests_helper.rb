@@ -1,13 +1,11 @@
 module TransmissionRequestsHelper
   def class_for_csv_column(header, options)
     classes = []
-    if options['message_defined_at_column'] == '1' # TODO real boolean
-      if options['column_of_message'] == header.to_s
+    if options.message_defined_at_column? and options.column_of_message == header
         classes << 'message-column'
-      end
     end
 
-    if options['column_of_number'] == header.to_s
+    if options.column_of_number == header
         classes << 'number-column'
     end
 

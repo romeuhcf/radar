@@ -18,6 +18,7 @@
 #
 #------------------------------------------------------------------------------
 class TransmissionRequest < ActiveRecord::Base
+
   belongs_to :user
   belongs_to :owner, polymorphic: true
   has_many :messages
@@ -38,8 +39,17 @@ class TransmissionRequest < ActiveRecord::Base
     end
   end
 
+  def options
+    case batch_file_type
+    when 'csv'
+      CsvOptions.new(read_attribute(:options))
+    when nil
+      Options.new
+    end
+  end
+
   def batch_file_type
-    File.extname(batch_file.current_path).gsub(/^\./, '').downcase
+    batch_file.current_path && File.extname(batch_file.current_path).gsub(/^\./, '').downcase
   end
 
   def pending_messages

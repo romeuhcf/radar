@@ -40,7 +40,7 @@ feature "Preview CSV", :js do
     expect(page).to have_content('11960758475')
     expect(all('table.csv-preview thead th').size).to eq 2
     expect(all('table.csv-preview tbody tr').size).to eq 2
-    expect(all('table.csv-preview thead th').map{|th| th.text}).to eq %w[1 2]
+    expect(all('table.csv-preview thead th').map{|th| th.text}).to eq %w[A B]
   end
 end
 
@@ -52,8 +52,8 @@ feature "CSV Estimations", :js do
     click_on("Próximo passo");
     # Message step
     check("Message defined at column")
-    select("2", from: "Column of message")
-    select("1", from: "Column of number")
+    select("B", from: "Column of message")
+    select("A", from: "Column of number")
 
     click_on("Próximo passo");
     click_on("Confirm");
@@ -65,8 +65,8 @@ feature "CSV Estimations", :js do
     click_on("Próximo passo");
     # Message step
     check("Message defined at column")
-    select("2", from: "Column of message")
-    select("1", from: "Column of number")
+    select("B", from: "Column of message")
+    select("A", from: "Column of number")
     click_on("Próximo passo");
     click_on("Confirm")
     expect(page).to have_content('750 mensagens')
@@ -93,8 +93,8 @@ feature "Send CSV" , :js do
 
     # Message step
     check("Message defined at column")
-    select("2", from: "Column of message")
-    select("1", from: "Column of number")
+    select("B", from: "Column of message")
+    select("A", from: "Column of number")
 
     # Message step
     click_on("Próximo passo");
@@ -177,7 +177,7 @@ feature "Send CSV" , :js do
     # Message step
     uncheck("Message defined at column")
     fill_in('Custom message', with: "Caro cliente do banco Nacional, informamos que nossas funções foram encerradas há tempos.")
-    select("1", from: "Column of number")
+    select("A", from: "Column of number")
 
     # Message step
     click_on("Próximo passo");
