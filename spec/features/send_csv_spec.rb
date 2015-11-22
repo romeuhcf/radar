@@ -194,4 +194,12 @@ feature "Send CSV" , :js do
     expect(page).to have_content('Requisição criada com sucesso')
   end
 
+  scenario "reject unknown type" , :js do
+    sign_in user
+    click_on('Relatórios')
+    click_on('Enviar lote')
+
+    attach_file('Batch file', File.absolute_path(__FILE__))
+    expect(page.driver.browser.switch_to.alert.text).to have_content("Tipo de arquivo inválido")
+  end
 end
