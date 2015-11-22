@@ -7,6 +7,7 @@ jQuery ->
     add: (e, data) ->
       data.context = $(tmpl("template-upload", data.files[0])) 
       $('#batch-file').html(data.context)
+      $('#transmission_request_batch_file').hide()
       data.submit()
     progress: (e,data) ->
       if data.context
@@ -16,4 +17,5 @@ jQuery ->
       link = $('a.next-step')
       link.removeClass('btn-default')
       link.addClass('btn-primary')
+      $('#transmission_request_batch_file').show()
       link.attr('href', link.data('href')) 
