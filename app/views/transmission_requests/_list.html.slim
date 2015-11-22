@@ -5,7 +5,7 @@
       th.col-md-4= smart_listing.sortable "Identificação", "identification"
       th.col-md-2= smart_listing.sortable "Qtde. de Mensagens", "messages_count"
       th.col-md-2= "Arquivo"
-      th.col-md-2= smart_listing.sortable "Status", "statuts"
+      th.col-md-2= smart_listing.sortable "Status", "status"
     tbody
       - smart_listing.collection.each do |o|
         tr [data-transmission-request-id="#{o.id}"]

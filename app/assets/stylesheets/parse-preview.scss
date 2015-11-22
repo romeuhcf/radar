@@ -1,3 +1,15 @@
+$color_of_number: rgba(81, 203, 238, 1);
+$color_of_message: rgba(203, 81, 238, 1);
+$color_of_overlap: rgba(203, 81, 81, 1);
+
+#transmission_request_options_column_of_message{
+  box-shadow: 0 0 5px $color_of_number;
+  margin-bottom: 5px;
+}
+#transmission_request_options_column_of_number{
+  box-shadow: 0 0 5px $color_of_message;
+  margin-bottom: 5px;
+}
 #parse-preview{
   @extend .row;
   padding-right: 20px;
@@ -5,4 +17,16 @@
     @extend .col-md-12;
     overflow: auto;
   }
+
+  .number-column {
+    box-shadow: 0 0 5px $color_of_number;
+  }
+
+  .message-column {
+    box-shadow: 0 0 5px $color_of_message;
+  }
+
+  .error-column{
+    box-shadow: 0 0 5px $color_of_overlap;
+  }  
 }

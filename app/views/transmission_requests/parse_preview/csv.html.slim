@@ -2,10 +2,10 @@ table.csv-preview
   thead
     tr 
       - @preview_data[:headers].each do |header|
-        th = header
+        th [class="#{class_for_csv_column(header, @request_options)}"] = header
   tbody
     - @preview_data[:rows].each do |row|
       tr
         - @preview_data[:headers].each do |header|
-          td =  row[header]
+          td [class="#{class_for_csv_column(header, @request_options)}"] =  row[header]
 

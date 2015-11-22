@@ -54,7 +54,10 @@ feature "CSV Estimations", :js do
     check("Message defined at column")
     select("2", from: "Column of message")
     select("1", from: "Column of number")
-    click_on("Confirm")
+
+    click_on("Próximo passo");
+    click_on("Confirm");
+
     expect(page).to have_content('500 mensagens')
   end
   scenario 'csv without header' do
@@ -64,6 +67,7 @@ feature "CSV Estimations", :js do
     check("Message defined at column")
     select("2", from: "Column of message")
     select("1", from: "Column of number")
+    click_on("Próximo passo");
     click_on("Confirm")
     expect(page).to have_content('750 mensagens')
   end

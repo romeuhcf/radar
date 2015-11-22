@@ -12,6 +12,12 @@ div.row
             = ff.input :column_of_message , collection: TransmissionRequestCompositionService.new.available_fields(@transmission_request), required: false
             = ff.input :custom_message, as: 'text', required: false
             = ff.input :column_of_number , collection: TransmissionRequestCompositionService.new.available_fields(@transmission_request), required: true
+
+
+          h4
+            | Preview de dados
+          #parse-preview 
+            .content 
           div [style="text-align:right" ]
             = f.submit class: 'btn btn-primary', value: "Próximo passo" 
 
@@ -28,6 +34,24 @@ div.row
           $('#transmission_request_options_custom_message').parents('.form-group').show();
         }
     };
+    function reload_parse_preview(){
+      var form =  $('form.edit_transmission_request');
+      var data = $(form).serialize();
+      $('#parse-preview .content').load(
+        '#{parse_preview_transmission_request_path(@transmission_request)}', 
+        data,  
+        function (responseText, textStatus, req) {
+          if (textStatus == "error") {
+            $(this).html('<div class="alert alert-warning">Impossível interpretar arquivo com essas configurações!</span>');
+          }
+        }
+      );
+    }
+    $(function(){
+      reload_parse_preview();
+      $('form.edit_transmission_request input').change(reload_parse_preview);
+      $('form.edit_transmission_request select').change(reload_parse_preview);
+    });
 
     $(function(){
       $('#transmission_request_options_message_defined_at_column').change(function(){
