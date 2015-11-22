@@ -1,20 +1,25 @@
-= render partial: 'tabs'
+div.row
+  div.col-md-8.col-md-offset-2
 
-= form_for @transmission_request, method: :put, url: wizard_path , :html => {:multipart => true} do |f| 
+    = render partial: 'tabs'
+    p
+    .panel.panel-primary
+      .panel-heading
+        | Upload de arquivo
+      .panel-body
+        = simple_form_for @transmission_request, {method: :put, url: wizard_path , :html => {:multipart => true, class: 'form-horizontal edit_transmission_request' }}.merge(simple_form_horizontal_setup) do |f| 
+          = f.error_notification
+          = f.input :batch_file 
+          .row
+            #batch-file.col-sm-9.col-sm-offset-3
+              = render partial: 'batch_file'
+          div [style="text-align:right"    ]
+            - if @transmission_request.batch_file.current_path
+              = link_to 'Próximo passo' , next_wizard_path, {class: "btn btn-primary next-step"}
+            - else
+              = link_to 'Próximo passo' , '#', {class: "btn btn-default next-step", 'data-href' => next_wizard_path}
+       
 
-  fieldset
-    legend
-      | Upload de arquivo
-
-    div
-      = f.label :batch_file 
-      = f.file_field :batch_file
-    #batch-file 
-      = render partial: 'batch_file'
-    - if @transmission_request.batch_file.current_path
-      = link_to 'Próximo passo' , next_wizard_path, {class: "btn btn-primary next-step"}
-    - else
-      = link_to 'Próximo passo' , '#', {class: "btn btn-default next-step", 'data-href' => next_wizard_path}
 
 script#template-upload [type="text/x-tmpl"]
   .upload.row

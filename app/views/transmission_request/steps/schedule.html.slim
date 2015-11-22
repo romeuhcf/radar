@@ -1,13 +1,21 @@
-= render partial: 'tabs'
+div.row
+  div.col-md-8.col-md-offset-2
+    = render partial: 'tabs'
+    p
+    .panel.panel-primary
+      .panel-heading
+        | Upload de arquivo
+      .panel-body
 
-= simple_form_for @transmission_request, method: :put, url: wizard_path  do |f| 
-  =  f.simple_fields_for :options, OpenStruct.new(@transmission_request.options) do |ff|
-    = ff.input :timing_table , collection: ["Business hours", "Extended business hours", "Any time"]
-    // = ff.input :dont_send_at_holidays, as: :boolean, # TODO
+        = simple_form_for @transmission_request, {method: :put, url: wizard_path}.merge(simple_form_horizontal_setup)  do |f| 
+          =  f.simple_fields_for :options, OpenStruct.new(@transmission_request.options) do |ff|
+            = ff.input :timing_table , collection: ["Business hours", "Extended business hours", "Any time"]
+            // = ff.input :dont_send_at_holidays, as: :boolean, # TODO
 
-    .row.datetimerange
-      - @transmission_request.options['schedule_start_time'] ||= Time.now.to_s['']
-      = ff.input :schedule_start_time, as: :datetime_picker, wrapper: :ranged_datetime
-      = ff.input :schedule_finish_time, as: :datetime_picker, wrapper: :ranged_datetime 
+            .datetimerange
+              - @transmission_request.options['schedule_start_time'] ||= Time.now.to_s['']
+              = ff.input :schedule_start_time, as: :datetime_picker, wrapper: :ranged_datetime
+              = ff.input :schedule_finish_time, as: :datetime_picker, wrapper: :ranged_datetime 
 
-  = f.submit class: 'btn btn-primary', value: "Próximo passo"
+          div [style="text-align:right"    ]
+            = f.submit class: 'btn btn-primary', value: "Próximo passo"

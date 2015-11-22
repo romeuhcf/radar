@@ -1,12 +1,19 @@
-= render partial: 'tabs'
-
-= simple_form_for @transmission_request, method: :put, url: wizard_path  do |f| 
-  =  f.simple_fields_for :options, OpenStruct.new(@transmission_request.options) do |ff|
-    = ff.input :message_defined_at_column , as: :boolean
-    = ff.input :column_of_message , collection: TransmissionRequestCompositionService.new.available_fields(@transmission_request), required: false
-    = ff.input :custom_message, as: 'text', required: false
-    = ff.input :column_of_number , collection: TransmissionRequestCompositionService.new.available_fields(@transmission_request), required: true
-  = f.submit class: 'btn btn-primary', value: "Próximo passo" 
+div.row
+  div.col-md-8.col-md-offset-2
+    = render partial: 'tabs'
+    p
+    .panel.panel-primary
+      .panel-heading
+        | Definições de conteúdo
+      .panel-body
+        = simple_form_for @transmission_request, {method: :put, url: wizard_path}.merge(simple_form_horizontal_setup)  do |f| 
+          =  f.simple_fields_for :options, OpenStruct.new(@transmission_request.options) do |ff|
+            = ff.input :message_defined_at_column , as: :boolean
+            = ff.input :column_of_message , collection: TransmissionRequestCompositionService.new.available_fields(@transmission_request), required: false
+            = ff.input :custom_message, as: 'text', required: false
+            = ff.input :column_of_number , collection: TransmissionRequestCompositionService.new.available_fields(@transmission_request), required: true
+          div [style="text-align:right" ]
+            = f.submit class: 'btn btn-primary', value: "Próximo passo" 
 
 - content_for :footer_js
   javascript: 
@@ -14,11 +21,11 @@
       message_defined_at_column_checkbox = $('#transmission_request_options_message_defined_at_column');
       message_defined_at_column = message_defined_at_column_checkbox.prop('checked')
         if (message_defined_at_column){
-          $('#transmission_request_options_column_of_message').parent().show();
-          $('#transmission_request_options_custom_message').parent().hide();
+          $('#transmission_request_options_column_of_message').parents('.form-group').show();
+          $('#transmission_request_options_custom_message').parents('.form-group').hide();
         }else{
-          $('#transmission_request_options_column_of_message').parent().hide();
-          $('#transmission_request_options_custom_message').parent().show();
+          $('#transmission_request_options_column_of_message').parents('.form-group').hide();
+          $('#transmission_request_options_custom_message').parents('.form-group').show();
         }
     };
 
