@@ -11,10 +11,13 @@ class TransmissionRequestProcessWorker
       self.class.perform_in(5.minutes, transmission_request_id) # TODO get a way to expire
       return
     end
-    generator_service     = BatchFileGeneratorsService.new
-    content_generator     = generator_service.content_generator(transmission_request)
-    destination_generator = generator_service.destination_generator(transmission_request)
-    schedule_generator    = generator_service.schedule_generator(transmission_request)
+
+
+
+    generator_service     = BatchFileGeneratorsService.new(transmission_request)
+    content_generator     = generator_service.content_generator
+    destination_generator = generator_service.destination_generator
+    schedule_generator    = generator_service.schedule_generator
 
     Transmissions::SendBatchService.new.process_request(transmission_request, content_generator, destination_generator, schedule_generator)
   end

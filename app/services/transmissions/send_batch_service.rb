@@ -8,12 +8,17 @@ class Transmissions::SendBatchService
   def process_request(transmission_request, content_generator, destination_generator, schedule_generator)
     total = destination_generator.total
     schedule_generator.total = total
+    transmission_request.status = 'processing'
+    transmission_request.save!
 
     destination_generator.generate do |destination_data|
       scheduled_to = schedule_generator.generate
       content      = content_generator.generate(destination_data)
       enqueue_a_message(transmission_request.id, content, destination_data.destination, transmission_request.owner, scheduled_to)
     end
+
+    transmission_request.status = 'finished'
+    transmission_request.save!
   end
 
   def enqueue_a_message(transmission_request_id, content, destination, owner, scheduled_to = Time.zone.now)

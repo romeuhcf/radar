@@ -47,7 +47,7 @@ class TransmissionRequest < ActiveRecord::Base
     def to_datetime(time)
       case time
       when String
-        DateTime.parse(time) # TODO parse format
+        Time.parse(time).in_time_zone
       else
         time
       end

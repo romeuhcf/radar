@@ -41,4 +41,8 @@ class Destination < ActiveRecord::Base
     return true if PhoneNumberUtils.valid_mobile_number?(address)
     errors.add(:address, 'must be valid mobile number')
   end
+
+  def self.find_or_create(address)
+    find_by_address(address) || create!(address: address)
+  end
 end

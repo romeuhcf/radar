@@ -5,7 +5,11 @@ module ContentGenerator
     end
 
     def generate(destination_data)
-       "bla" # TODO
+      destination_data.data.fetch(message_column)
+    end
+
+    def message_column
+      @options.column_of_message
     end
   end
 end
