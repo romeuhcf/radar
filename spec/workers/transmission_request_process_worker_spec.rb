@@ -13,8 +13,8 @@ describe TransmissionRequestProcessWorker do
         file_type: 'csv',
         timing_table: 'business_hours',
         field_separator: ';',
-        schedule_start_time: '2010-01-01 10:00:00',
-        schedule_finish_time: '2010-01-01 11:00:00',
+        schedule_start_time: '2010-01-01T10:00:00-0200',
+        schedule_finish_time: '2010-01-01T11:00:00-0200',
       }
     end
 
