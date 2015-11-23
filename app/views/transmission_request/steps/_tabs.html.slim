@@ -1,4 +1,4 @@
 ul.nav.nav-tabs
   - controller.steps.each_with_index do |step, index|
     li [role="presentation" class="#{current_step?(step) ? 'active' : ''}"]
-      = link_to [index+1, t("step.#{step}")].join(' - ').html_safe, wizard_path(step)
+      = link_to [index+1, t("transmission_request.step.#{step}")].join(' - ').html_safe, wizard_path(step)

@@ -9,7 +9,7 @@ div.row
 
         = simple_form_for @transmission_request, {method: :put, url: wizard_path}.merge(simple_form_horizontal_setup)  do |f| 
           =  f.simple_fields_for :options, @transmission_request.options do |ff|
-            = ff.input :timing_table , collection: ["Business hours", "Extended business hours", "Any time"], required: true
+            = ff.input :timing_table , collection: ["business_hours", "extended_business_hours", "anytime"].map{|i| [ t(i, scope: :timing_tables),i]}, required: true
             // = ff.input :dont_send_at_holidays, as: :boolean, # TODO
             .datetimerange
               = ff.input :schedule_start_time, as: :datetime_picker, wrapper: :ranged_datetime, required: true

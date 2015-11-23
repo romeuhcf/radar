@@ -23,7 +23,7 @@
             - else
               '-'
           td
-            .label.label-info = o.status
+            .label.label-info = t o.status, scope: 'transmission_request.status'
       
   = smart_listing.paginate
   = smart_listing.pagination_per_page_links

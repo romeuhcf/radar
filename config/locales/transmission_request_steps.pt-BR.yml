@@ -1,0 +1,9 @@
+pt-BR:
+  transmission_request:
+    step:
+      upload: "Arquivo"
+      parse: "Formato"
+      message: Mensagem
+      schedule: Horário
+      confirm: Finalizar
+

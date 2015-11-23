@@ -5,7 +5,7 @@ lock '3.4.0'
 set :application, 'radar'
 set :repo_url, "git@bitbucket.org:romeuhcf/radar.git"
 set :deploy_to, "/home/deploy/vhosts/mailergrid2.#{fetch(:stage)}"
-set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
+set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system public/uploads}
 set :passenger_restart_with_touch, true
 set :bundle_binstubs, -> { shared_path.join('bin') }            # default: nil
 # Default branch is :master
@@ -37,9 +37,19 @@ set :bundle_binstubs, -> { shared_path.join('bin') }            # default: nil
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
+task :create_uploads_links do
+  puts "doing"
+  on roles(:web) do
+  puts "doing one"
+    execute "mkdir -p /mnt/storage/var/mailergrid/#{fetch(:stage)}/2/uploads"
+    execute "mkdir -p #{shared_path}/public"
+    execute "rmdir  #{shared_path}/public/uploads || true"
+    execute "test -L #{shared_path}/public/uploads || ln -sf  /mnt/storage/var/mailergrid/#{fetch(:stage)}/2/uploads #{shared_path}/public/uploads"
+  end
+end
 
 namespace :deploy do
-
+  before :restart, :create_uploads_links
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
       # Here we can do anything such as:

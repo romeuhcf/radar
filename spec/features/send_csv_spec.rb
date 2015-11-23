@@ -6,12 +6,12 @@ def start_creating_transmission_request_with_csv(basename)
   click_on('Relatórios')
   click_on('Enviar lote')
 
-  attach_file('Batch file', File.absolute_path(fixture_file(basename)))
+  attach_file('Arquivo', File.absolute_path(fixture_file(basename)))
   click_on("Próximo passo");
 
   # Parse step
-  select('csv', from: "File type")
-  select(';', from: "Field separator")
+  select('csv', from: "Tipo de arquivo")
+  select(';', from: "Separador de campos")
 end
 
 feature "Preview CSV", :js do
@@ -19,10 +19,10 @@ feature "Preview CSV", :js do
 
   scenario 'csv with header' do
     start_creating_transmission_request_with_csv('simple_sms_with_header.csv')
-    uncheck("Headers at first line")
+    uncheck("Títulos das colunas na primeira linha")
 
     expect(all('table.csv-preview tbody tr').size).to eq 3
-    check("Headers at first line")
+    check("Títulos das colunas na primeira linha")
 
     expect(page).to have_content('Mensagem de teste 1')
     expect(page).to have_content('Mensagem de teste 2')
@@ -34,7 +34,7 @@ feature "Preview CSV", :js do
 
   scenario 'csv without header' do
     start_creating_transmission_request_with_csv('simple_sms.csv')
-    uncheck("Headers at first line")
+    uncheck("Títulos das colunas na primeira linha")
     expect(page).to have_content('Mensagem de teste 1')
     expect(page).to have_content('Mensagem de teste 2')
     expect(page).to have_content('11960758475')
@@ -51,12 +51,13 @@ feature "CSV Estimations", :js do
     start_creating_transmission_request_with_csv('large_sms_with_header.csv')
     click_on("Próximo passo");
     # Message step
-    check("Message defined at column")
-    select("B", from: "Column of message")
-    select("A", from: "Column of number")
+    check("Usar mensagem de uma coluna?")
+    select("B", from: "Coluna das mensagens")
+    select("A", from: "Coluna dos telefones")
 
     click_on("Próximo passo");
-    click_on("Confirm");
+    select("Horário Comercial (08:00 às 19:00)", from: 'Respeitar tabela de horários')
+    click_on("Próximo passo");
 
     expect(page).to have_content('500 mensagens')
   end
@@ -64,11 +65,12 @@ feature "CSV Estimations", :js do
     start_creating_transmission_request_with_csv('large_sms.csv')
     click_on("Próximo passo");
     # Message step
-    check("Message defined at column")
-    select("B", from: "Column of message")
-    select("A", from: "Column of number")
+    check("Usar mensagem de uma coluna?")
+    select("B", from: "Coluna das mensagens")
+    select("A", from: "Coluna dos telefones")
     click_on("Próximo passo");
-    click_on("Confirm")
+    select("Horário Comercial (08:00 às 19:00)", from: 'Respeitar tabela de horários')
+    click_on("Próximo passo");
     expect(page).to have_content('750 mensagens')
   end
 end
@@ -82,20 +84,20 @@ feature "Send CSV" , :js do
     click_on('Relatórios')
     click_on('Enviar lote')
 
-    attach_file('Batch file', File.absolute_path(fixture_file('simple_sms.csv')))
+    attach_file('Arquivo', File.absolute_path(fixture_file('simple_sms.csv')))
     click_on("Próximo passo");
 
     # Parse step
-    #select('csv', from: "File type")
-    expect(page.has_select?("File type", selected: 'csv')).to be_truthy
-    expect(page.has_select?("Field separator", selected: ';')).to be_truthy
-    uncheck("Headers at first line")
+    #select('csv', from: "Tipo de arquivo")
+    expect(page.has_select?("Tipo de arquivo", selected: 'csv')).to be_truthy
+    expect(page.has_select?("Separador de campos", selected: ';')).to be_truthy
+    uncheck("Títulos das colunas na primeira linha")
     click_on("Próximo passo");
 
     # Message step
-    check("Message defined at column")
-    select("B", from: "Column of message")
-    select("A", from: "Column of number")
+    check("Usar mensagem de uma coluna?")
+    select("B", from: "Coluna das mensagens")
+    select("A", from: "Coluna dos telefones")
 
     # Message step
     click_on("Próximo passo");
@@ -105,10 +107,10 @@ feature "Send CSV" , :js do
     fin = "2020/10/11 12:13"
     page.execute_script("$('#transmission_request_options_schedule_start_time').val('#{ini}')")
     page.execute_script("$('#transmission_request_options_schedule_finish_time').val('#{fin}')")
-    select("Business hours", from: 'Timing table')
+    select("Horário Comercial (08:00 às 19:00)", from: 'Respeitar tabela de horários')
     click_on("Próximo passo");
 
-    # Confirm step
+    # Confirmar step
     expect(page).to have_content('"Mensagem de teste 1"')
     expect(page).to have_content('3 mensagens')
 
@@ -124,20 +126,20 @@ feature "Send CSV" , :js do
     click_on('Relatórios')
     click_on('Enviar lote')
 
-    attach_file('Batch file', File.absolute_path(fixture_file('simple_sms_with_header.csv')))
+    attach_file('Arquivo', File.absolute_path(fixture_file('simple_sms_with_header.csv')))
     click_on("Próximo passo");
 
     # Parse step
-    #select('csv', from: "File type")
-    expect(page.has_select?("File type", selected: 'csv')).to be_truthy
-    expect(page.has_select?("Field separator", selected: ';')).to be_truthy
-    check("Headers at first line")
+    #select('csv', from: "Tipo de arquivo")
+    expect(page.has_select?("Tipo de arquivo", selected: 'csv')).to be_truthy
+    expect(page.has_select?("Separador de campos", selected: ';')).to be_truthy
+    check("Títulos das colunas na primeira linha")
     click_on("Próximo passo");
 
     # Message step
-    check("Message defined at column")
-    select("mensagem", from: "Column of message")
-    select("numero", from: "Column of number")
+    check("Usar mensagem de uma coluna?")
+    select("mensagem", from: "Coluna das mensagens")
+    select("numero", from: "Coluna dos telefones")
 
     # Message step
     click_on("Próximo passo");
@@ -147,10 +149,10 @@ feature "Send CSV" , :js do
     fin = "2020/10/11 12:13"
     page.execute_script("$('#transmission_request_options_schedule_start_time').val('#{ini}')")
     page.execute_script("$('#transmission_request_options_schedule_finish_time').val('#{fin}')")
-    select("Business hours", from: 'Timing table')
+    select("Horário Comercial (08:00 às 19:00)", from: 'Respeitar tabela de horários')
     click_on("Próximo passo");
 
-    # Confirm step
+    # Confirmar step
     expect(page).to have_content('"Mensagem de teste 1"')
     expect(page).to have_content('3 mensagens')
 
@@ -168,19 +170,19 @@ feature "Send CSV" , :js do
     click_on('Relatórios')
     click_on('Enviar lote')
 
-    attach_file('Batch file', File.absolute_path(fixture_file('simple_sms.csv')))
+    attach_file('Arquivo', File.absolute_path(fixture_file('simple_sms.csv')))
     click_on("Próximo passo");
 
     # Parse step
-    expect(page.has_select?("File type", selected: 'csv')).to be_truthy
-    expect(page.has_select?("Field separator", selected: ';')).to be_truthy
-    uncheck("Headers at first line")
+    expect(page.has_select?("Tipo de arquivo", selected: 'csv')).to be_truthy
+    expect(page.has_select?("Separador de campos", selected: ';')).to be_truthy
+    uncheck("Títulos das colunas na primeira linha")
     click_on("Próximo passo");
 
     # Message step
-    uncheck("Message defined at column")
-    fill_in('Custom message', with: "Caro cliente do banco Nacional, informamos que nossas funções foram encerradas há tempos.")
-    select("A", from: "Column of number")
+    uncheck("Usar mensagem de uma coluna?")
+    fill_in('Mensagem customizada', with: "Caro cliente do banco Nacional, informamos que nossas funções foram encerradas há tempos.")
+    select("A", from: "Coluna dos telefones")
 
     # Message step
     click_on("Próximo passo");
@@ -190,10 +192,10 @@ feature "Send CSV" , :js do
     fin = "2020/10/11 12:13"
     page.execute_script("$('#transmission_request_options_schedule_start_time').val('#{ini}')")
     page.execute_script("$('#transmission_request_options_schedule_finish_time').val('#{fin}')")
-    select("Business hours", from: 'Timing table')
+    select("Horário Comercial (08:00 às 19:00)", from: 'Respeitar tabela de horários')
     click_on("Próximo passo");
 
-    # Confirm step
+    # Confirmar step
     expect(page).to have_content('Caro cliente do banco Nacional')
 
 
@@ -206,7 +208,7 @@ feature "Send CSV" , :js do
     click_on('Relatórios')
     click_on('Enviar lote')
 
-    attach_file('Batch file', File.absolute_path(__FILE__))
+    attach_file('Arquivo', File.absolute_path(__FILE__))
     expect(page.driver.browser.switch_to.alert.text).to have_content("Tipo de arquivo inválido")
   end
 end
