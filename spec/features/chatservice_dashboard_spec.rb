@@ -17,7 +17,7 @@ def send_a_sms(destination, content, owner)
 end
 
 def receive_an_answer(destination, content)
-  ChatRoomService.new.receive_message_from(destination.address, content, Time.now)
+  ChatRoomService.new.receive_message_from(destination.address, content, Time.current)
 end
 
 feature 'Display ansered messages as a chat', :js do

@@ -9,11 +9,11 @@ class TransmissionRequest < ActiveRecord::Base
     attr_reader :schedule_start_time, :schedule_finish_time  # date
 
     def schedule_start_time
-      @schedule_start_time ||= Time.now
+      @schedule_start_time ||= Time.current
     end
 
     def schedule_finish_time
-      @schedule_finish_time ||= Time.now + 30.minutes
+      @schedule_finish_time ||= Time.current + 30.minutes
     end
 
     def schedule_start_time=(time)

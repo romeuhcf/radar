@@ -20,7 +20,7 @@ class TransmissionRequestCompositionService
   def confirm(transmission_request)
     transmission_request.status = 'scheduled'
     transmission_request.save!
-    process_start_time = if transmission_request.options.schedule_start_time - DateTime.now > 6.minutes
+    process_start_time = if transmission_request.options.schedule_start_time - Time.current > 6.minutes
                            transmission_request.options.schedule_start_time - 5.minutes
                          else
                            transmission_request.options.schedule_start_time + 5.seconds
