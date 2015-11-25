@@ -4,7 +4,7 @@ class TransmissionRequestsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @transmission_requests = safe_scope
+    @transmission_requests = safe_scope.includes(:owner)
 
     # Make users initally sorted by name ascending
     smart_listing_create :transmission_requests,
@@ -16,8 +16,33 @@ class TransmissionRequestsController < ApplicationController
   def show
     @transmission_request = safe_scope.find(params[:id])
     authorize @transmission_request
+  end
 
-    render_wizard
+  def cancel
+    @transmission_request = safe_scope.find(params[:id])
+    authorize @transmission_request
+
+    if policy(@transmission_request).destroy?
+      @transmission_request.destroy
+      real_destroy!
+    else
+      @transmission_request.cancel!
+      redirect_to transmission_requests_path, notice: t("transmission_request.notify.cancel.success")
+    end
+  end
+
+  def resume
+    @transmission_request = safe_scope.find(params[:id])
+    authorize @transmission_request
+    @transmission_request.resume!
+    redirect_to @transmission_request, notice: t("transmission_request.notify.resume.success")
+  end
+
+  def pause
+    @transmission_request = safe_scope.find(params[:id])
+    authorize @transmission_request
+    @transmission_request.pause!
+    redirect_to @transmission_request, notice: t("transmission_request.notify.pause.success")
   end
 
   def new
@@ -55,12 +80,17 @@ class TransmissionRequestsController < ApplicationController
   def destroy
     @transmission_request = safe_scope.find(params[:id])
     authorize @transmission_request
-    @transmission_request.destroy
-    redirect_to transmission_requests_path, notice: t("transmission_request.destroy.success")
+    real_destroy
   end
 
   protected
-  def safe_scope
+
+  def real_destroy!
+    @transmission_request.destroy
+    redirect_to transmission_requests_path, notice: t("transmission_request.notify.destroy.success")
+  end
+
+    def safe_scope
     policy_scope(TransmissionRequest)
   end
 

@@ -39,6 +39,12 @@ class TransmissionRequest < ActiveRecord::Base
     event :resume do
       transitions from: :paused, to: :processing
     end
+    event :cancel do
+      transitions from: :processing, to: :cancelled
+    end
+    event :pause do
+      transitions from: :processing, to: :paused
+    end
   end
 
   def options

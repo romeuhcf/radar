@@ -5,7 +5,11 @@ class TransmissionRequestCompositionServicePolicy < ApplicationPolicy
   end
 
   def update?
-    related?
+    related? && ['new', 'draft', 'scheduled'].include?(record.transmission_request.status)
+  end
+
+  def cancel?
+    true
   end
 
   protected
