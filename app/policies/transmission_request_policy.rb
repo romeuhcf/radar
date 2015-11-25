@@ -18,11 +18,18 @@ class TransmissionRequestPolicy < ApplicationPolicy
   end
 
   def update?
+    record.status == 'draft' and
     related?
   end
 
   def parse_preview?
     related?
+  end
+
+  def step?(step)
+    record.status == 'draft' and
+      related? and
+      record.composer.can_step_to?(step)
   end
 
   protected

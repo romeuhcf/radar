@@ -18,6 +18,6 @@ div.row
                 | Estimativa de quantidade:
               td
                 = t 'chat.messages_total', count: @transmission_request.composer.estimate_number_of_messages
-
+          hr
           div [style="text-align:right"    ]
             = f.submit class: 'btn btn-success', value: "Confirmar!"

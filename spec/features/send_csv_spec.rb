@@ -56,7 +56,7 @@ feature "CSV Estimations", :js do
     select("A", from: "Coluna dos telefones")
 
     click_on("Próximo passo");
-    select("Horário Comercial (08:00 às 19:00)", from: 'Respeitar tabela de horários')
+    select("Horário Comercial (08:00 às 19:00)", from: 'Horários válidos')
     click_on("Próximo passo");
 
     expect(page).to have_content('500 mensagens')
@@ -69,7 +69,7 @@ feature "CSV Estimations", :js do
     select("B", from: "Coluna das mensagens")
     select("A", from: "Coluna dos telefones")
     click_on("Próximo passo");
-    select("Horário Comercial (08:00 às 19:00)", from: 'Respeitar tabela de horários')
+    select("Horário Comercial (08:00 às 19:00)", from: 'Horários válidos')
     click_on("Próximo passo");
     expect(page).to have_content('750 mensagens')
   end
@@ -107,7 +107,7 @@ feature "Send CSV" , :js do
     fin = "2020/10/11 12:13"
     page.execute_script("$('#transmission_request_options_schedule_start_time').val('#{ini}')")
     page.execute_script("$('#transmission_request_options_schedule_finish_time').val('#{fin}')")
-    select("Horário Comercial (08:00 às 19:00)", from: 'Respeitar tabela de horários')
+    select("Horário Comercial (08:00 às 19:00)", from: 'Horários válidos')
     click_on("Próximo passo");
 
     # Confirmar step
@@ -149,7 +149,7 @@ feature "Send CSV" , :js do
     fin = "2020/10/11 12:13"
     page.execute_script("$('#transmission_request_options_schedule_start_time').val('#{ini}')")
     page.execute_script("$('#transmission_request_options_schedule_finish_time').val('#{fin}')")
-    select("Horário Comercial (08:00 às 19:00)", from: 'Respeitar tabela de horários')
+    select("Horário Comercial (08:00 às 19:00)", from: 'Horários válidos')
     click_on("Próximo passo");
 
     # Confirmar step
@@ -192,7 +192,7 @@ feature "Send CSV" , :js do
     fin = "2020/10/11 12:13"
     page.execute_script("$('#transmission_request_options_schedule_start_time').val('#{ini}')")
     page.execute_script("$('#transmission_request_options_schedule_finish_time').val('#{fin}')")
-    select("Horário Comercial (08:00 às 19:00)", from: 'Respeitar tabela de horários')
+    select("Horário Comercial (08:00 às 19:00)", from: 'Horários válidos')
     click_on("Próximo passo");
 
     # Confirmar step

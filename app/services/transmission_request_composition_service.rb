@@ -35,8 +35,12 @@ class TransmissionRequestCompositionService
   def can_step_to?(step)
     return true if step == :upload
     return false unless transmission_request.batch_file.current_path
-    return false if step == :confirm and !valid_construction?
+    return false if step == :confirm and !valid_composition?
     return true
+  end
+
+  def valid_composition?
+    sample_message && transmission_request.options.column_of_number && transmission_request.options.timing_table
   end
 
   def update_attributes(new_attributes)
