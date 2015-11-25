@@ -57,4 +57,8 @@ class TransmissionRequest < ActiveRecord::Base
   def pending_messages
     messages.pending
   end
+
+  def composer
+    @composer ||= TransmissionRequestCompositionService.new(self)
+  end
 end

@@ -20,7 +20,7 @@ class TransmissionRequest::StepsController < ApplicationController
     authorize @transmission_request
     permitted_attributes = transmission_request_params(step)
 
-    TransmissionRequestCompositionService.new.update(@transmission_request, step, permitted_attributes)
+    @transmission_request.composer.update(step, permitted_attributes)
 
     case step.to_s
     when 'confirm'

@@ -12,12 +12,12 @@ div.row
               th 
                 | Mensagem de exemplo:
               td
-                | "#{TransmissionRequestCompositionService.new.sample_message(@transmission_request)}"
+                | "#{@transmission_request.composer.sample_message}"
             tr 
               th 
                 | Estimativa de quantidade:
               td
-                = t 'chat.messages_total', count: TransmissionRequestCompositionService.new.estimate_number_of_messages(@transmission_request)
+                = t 'chat.messages_total', count: @transmission_request.composer.estimate_number_of_messages
 
           div [style="text-align:right"    ]
             = f.submit class: 'btn btn-success', value: "Confirmar!"

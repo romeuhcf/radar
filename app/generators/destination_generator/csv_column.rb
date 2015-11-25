@@ -6,7 +6,7 @@ module DestinationGenerator
     end
 
     def total
-      @total ||= TransmissionRequestCompositionService.new.estimate_number_of_messages(@transmission_request)
+      @total ||= @transmission_request.composer.estimate_number_of_messages
     end
 
     def generate
