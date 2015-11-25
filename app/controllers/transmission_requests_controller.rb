@@ -52,6 +52,13 @@ class TransmissionRequestsController < ApplicationController
     render view, layout: false
   end
 
+  def destroy
+    @transmission_request = safe_scope.find(params[:id])
+    authorize @transmission_request
+    @transmission_request.destroy
+    redirect_to transmission_requests_path, notice: t("transmission_request.destroy.success")
+  end
+
   protected
   def safe_scope
     policy_scope(TransmissionRequest)

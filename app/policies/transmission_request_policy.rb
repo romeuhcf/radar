@@ -18,7 +18,6 @@ class TransmissionRequestPolicy < ApplicationPolicy
   end
 
   def update?
-    record.status == 'draft' and
     related?
   end
 
@@ -26,14 +25,12 @@ class TransmissionRequestPolicy < ApplicationPolicy
     related?
   end
 
-  def step?(step)
-    record.status == 'draft' and
-      related? and
-      record.composer.can_step_to?(step)
+  def destroy?
+    related? && [ 'new', 'draft', 'scheduled' ].include?(record.status)
   end
 
   protected
   def related?
-    user.has_role?(:admin) or record.owner == user
+    (user.has_role?(:admin) or record.owner == user)
   end
 end

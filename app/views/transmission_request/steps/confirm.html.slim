@@ -19,5 +19,8 @@ div.row
               td
                 = t 'chat.messages_total', count: @transmission_request.composer.estimate_number_of_messages
           hr
-          div [style="text-align:right"    ]
-            = f.submit class: 'btn btn-success', value: "Confirmar!"
+          div.row
+            div.col-md-6
+              = link_to 'Desistir', transmission_request_path(@transmission_request.id), method: :delete, data: {confirm: "Realmente deseja desistir desse envio?"}, class: 'btn  btn-danger'
+            div.col-md-6 [style="text-align:right" ]
+              = f.submit class: 'btn btn-success', value: "Confirmar!"

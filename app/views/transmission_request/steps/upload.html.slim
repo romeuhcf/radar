@@ -14,12 +14,14 @@ div.row
             #batch-file.col-sm-9.col-sm-offset-3
               = render partial: 'batch_file'
           hr
-          div [style="text-align:right"    ]
-            - if @transmission_request.batch_file.current_path
-              = link_to 'Próximo passo' , next_wizard_path, {class: "btn btn-primary next-step"}
-            - else
-              = link_to 'Próximo passo' , '#', {class: "btn btn-default next-step", 'data-href' => next_wizard_path}
-       
+           div.row
+             div.col-md-6
+               = link_to 'Desistir', transmission_request_path(@transmission_request.id), method: :delete, data: {confirm: "Realmente deseja desistir desse envio?"}, class: 'btn  btn-danger'
+             div.col-md-6 [style="text-align:right"    ]
+               - if @transmission_request.batch_file.current_path
+                 = link_to 'Próximo passo' , next_wizard_path, {class: "btn btn-primary next-step"}
+               - else
+                 = link_to 'Próximo passo' , '#', {class: "btn btn-default next-step", 'data-href' => next_wizard_path}
 
 
 script#template-upload [type="text/x-tmpl"]

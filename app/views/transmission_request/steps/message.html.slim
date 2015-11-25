@@ -17,10 +17,8 @@ div.row
           h4
             | Preview de dados
           #parse-preview 
-            .content 
-          hr
-          div [style="text-align:right" ]
-            = f.submit class: 'btn btn-primary', value: "Próximo passo" 
+            .content  
+          = render partial: 'controls', locals: {f: f}
 
 - content_for :footer_js
   javascript: 

@@ -1,0 +1,6 @@
+hr
+  div.row
+    div.col-md-6
+      = link_to 'Desistir', transmission_request_path(@transmission_request.id), method: :delete, data: {confirm: "Realmente deseja desistir desse envio?"}, class: 'btn  btn-danger'
+    div.col-md-6 [style="text-align:right" ]
+      = f.submit class: 'btn btn-primary', value: "Próximo passo" 

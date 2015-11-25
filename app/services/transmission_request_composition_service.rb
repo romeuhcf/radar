@@ -1,6 +1,7 @@
 require 'extensions/file'
 class TransmissionRequestCompositionService
   attr_reader :transmission_request
+  attr_accessor :step
   def initialize(transmission_request)
     @transmission_request = transmission_request
   end
@@ -35,7 +36,7 @@ class TransmissionRequestCompositionService
   def can_step_to?(step)
     return true if step == :upload
     return false unless transmission_request.batch_file.current_path
-    return false if step == :confirm and !valid_composition?
+    return false if step == :confirm && !valid_composition?
     return true
   end
 

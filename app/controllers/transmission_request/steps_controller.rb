@@ -7,7 +7,8 @@ class TransmissionRequest::StepsController < ApplicationController
 
   def show
     @transmission_request = safe_scope.find(params[:transmission_request_id])
-    authorize @transmission_request
+    @transmission_request.composer.step = step
+    authorize @transmission_request.composer
 
     if step == :parse
       @parse_type = @transmission_request.batch_file_type + '_parse'
