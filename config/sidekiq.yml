@@ -10,8 +10,6 @@ staging:
 production:
   :concurrency: 40
 
+:dynamic: true
 :limits:
-:queues:
-  - [default, 2]
-  - [mailer, 2]
-  - ['sms-callbacks', 2]
+
