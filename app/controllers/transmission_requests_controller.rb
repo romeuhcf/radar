@@ -24,7 +24,7 @@ class TransmissionRequestsController < ApplicationController
 
     if policy(@transmission_request).destroy?
       @transmission_request.destroy
-      real_destroy!
+      real_destroy
     else
       @transmission_request.cancel!
       redirect_to transmission_requests_path, notice: t("transmission_request.notify.cancel.success")
@@ -85,7 +85,7 @@ class TransmissionRequestsController < ApplicationController
 
   protected
 
-  def real_destroy!
+  def real_destroy
     @transmission_request.destroy
     redirect_to transmission_requests_path, notice: t("transmission_request.notify.destroy.success")
   end

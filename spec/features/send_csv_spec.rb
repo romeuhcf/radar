@@ -98,8 +98,6 @@ feature "Send CSV" , :js do
     check("Usar mensagem de uma coluna?")
     select("B", from: "Coluna das mensagens")
     select("A", from: "Coluna dos telefones")
-
-    # Message step
     click_on("Próximo passo");
 
     # Schedule step
