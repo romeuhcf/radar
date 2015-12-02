@@ -16,6 +16,8 @@ class TransmissionRequestsController < ApplicationController
   def show
     @transmission_request = safe_scope.find(params[:id])
     authorize @transmission_request
+
+    @messages = smart_listing_create(:messages, @transmission_request.messages.joins(:destination, :message_content), partial: 'transmission_requests/messages')
   end
 
   def cancel

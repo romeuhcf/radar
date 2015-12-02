@@ -1,18 +1,17 @@
 ul.nav.nav-sidebar
   li.active
     a[href="#{authenticated_root_path}"]
-      | Dashboard 
+      | Monitoração 
       span.sr-only
         | (current)
   li
     a[href="#{transmission_requests_path}"]
-      | Relatórios
+      | Lista de Envios
   li
     a[href="#{new_inline_sms_request_path}"]
-      | Envio Avulso
+      | Enviar Avulso
   li
-    a[href="#"]
-      | Envio Lote
+    = link_to 'Enviar Lote', transmission_requests_path, method: :post
 ul.nav.nav-sidebar
   li
     a[href=""]

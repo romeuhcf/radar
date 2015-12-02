@@ -1,4 +1,7 @@
   td
+    - if policy(transmission_request).show?
+      = link_to '', transmission_request_path(id: transmission_request.id), class: 'action action-show', title: t('transmission_request.action.show') 
+  td
     - if policy(transmission_request).update?
       = link_to '', transmission_request_step_path(transmission_request_id: transmission_request.id, id: 'upload'), class: 'action action-update', title: t('transmission_request.action.update') 
   td

@@ -17,6 +17,9 @@
   vertical-align: baseline;
   cursor: pointer; 
 
+  &.action-show{ @extend .fa-search; 
+    background-color: $label-info-bg; 
+  }
   &.action-update { @extend .fa-pencil; 
     background-color: $label-info-bg; 
   }
@@ -31,3 +34,39 @@
   }
 }
 
+div.ficha {
+  @extend .well;
+  background-color: lightyellow;
+  h2 {
+    margin-top: 3px;
+    span {
+      margin-right: 10px;
+      &.id {
+        &::before{ content: '#'; }
+      }
+      &.status {
+        font-size: 0.6em;
+        color: #444;
+        &::before{ content: '['; }
+        &::after{ content: ']'; }
+      }
+    }
+  }
+  ul.transmission_request{
+    list-style-type: none;
+    li{
+      span.hint {
+        font-weight: normal;
+      }
+      span.field_name {
+        display: inline-block;
+        width: 210px;
+        margin-right: 20px;
+        font-weight: normal;
+        &::after{ content: ': ' }
+        text-align: right;
+      }
+        font-weight: bold;
+    }
+  }
+}

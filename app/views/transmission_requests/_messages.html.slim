@@ -1,0 +1,24 @@
+- unless smart_listing.empty?
+  table.table.table-striped.table-condensed
+    thead
+      th.col-md-1= smart_listing.sortable "ID","id"
+      th.col-md-2= smart_listing.sortable "Destino","address"
+      th.col-md-4= smart_listing.sortable "Conteúdo","content"
+      th.col-md-2= smart_listing.sortable "Agendamento","scheduled_to"
+      th.col-md-2= smart_listing.sortable "Envio","sent_at"
+      th.col-md-1= smart_listing.sortable "Status", "transmission_state"
+    tbody
+      - smart_listing.collection.each do |o|
+        tr 
+          td = o.id
+          td = pn o.destination.address
+          td = o.message_content.content
+          td = o.scheduled_to ? l( o.scheduled_to, format: :short) : '-'
+          td = o.sent_at ? l( o.sent_at, format: :short) : '-'
+          td = t o.transmission_state, scope: "message.status"
+
+  = smart_listing.paginate
+  = smart_listing.pagination_per_page_links
+- else 
+  p.message.message-warn
+    | Nenhuma mensagem gerada até o momento

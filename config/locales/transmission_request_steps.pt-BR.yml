@@ -8,6 +8,7 @@ pt-BR:
       confirm: Finalizar
 
     action:
+      show: 'Exibir'
       update: 'Editar'
       cancel: 'Cancelar'
       pause: 'Pausar'

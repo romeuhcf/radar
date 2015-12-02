@@ -3,7 +3,7 @@ require 'rails_helper'
 
 def start_creating_transmission_request_with_csv(basename)
   sign_in user
-  click_on('Relatórios')
+  click_on('Lista de Envios')
   click_on('Enviar lote')
 
   attach_file('Arquivo', File.absolute_path(fixture_file(basename)))
@@ -81,7 +81,7 @@ feature "Send CSV" , :js do
   scenario 'simple without headers with message on field' do
     Sidekiq::Testing.fake!
     sign_in user
-    click_on('Relatórios')
+    click_on('Lista de Envios')
     click_on('Enviar lote')
 
     attach_file('Arquivo', File.absolute_path(fixture_file('simple_sms.csv')))
@@ -121,7 +121,7 @@ feature "Send CSV" , :js do
   scenario 'simple with headers with message on field' do
     Sidekiq::Testing.fake!
     sign_in user
-    click_on('Relatórios')
+    click_on('Lista de Envios')
     click_on('Enviar lote')
 
     attach_file('Arquivo', File.absolute_path(fixture_file('simple_sms_with_header.csv')))
@@ -165,7 +165,7 @@ feature "Send CSV" , :js do
   scenario 'simple without headers with message defined by user' do
     Sidekiq::Testing.fake!
     sign_in user
-    click_on('Relatórios')
+    click_on('Lista de Envios')
     click_on('Enviar lote')
 
     attach_file('Arquivo', File.absolute_path(fixture_file('simple_sms.csv')))
@@ -203,7 +203,7 @@ feature "Send CSV" , :js do
 
   scenario "reject unknown type" , :js do
     sign_in user
-    click_on('Relatórios')
+    click_on('Lista de Envios')
     click_on('Enviar lote')
 
     attach_file('Arquivo', File.absolute_path(__FILE__))
