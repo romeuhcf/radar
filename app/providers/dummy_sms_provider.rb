@@ -4,7 +4,8 @@ require 'base_provider'
 class DummySmsProvider < BaseProvider
   attr_accessor :base_url, :passwd
 
-  def initialize(options = {})
+  def initialize(options = nil)
+    options ||= {}
     @forced_hash = options[:forced_hash]
     @forced_status = options[:forced_status]
   end

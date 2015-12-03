@@ -1,11 +1,10 @@
 FactoryGirl.define do
   factory :route_provider do
-    name "MyString"
+    name "DummyProvider"
     provider_klass 'DummySmsProvider'
-    options "MyString"
+    options nil
     enabled true
     priority 1
-    service_type "MyString"
+    service_type "SMS"
   end
-
 end

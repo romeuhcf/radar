@@ -1,7 +1,7 @@
 if defined? Bullet
   Rails.application.config.after_initialize do
     Bullet.enable = true
-    Bullet.alert = true
+    Bullet.alert = Rails.env.development?
     Bullet.console = true
     Bullet.rails_logger = true
     Bullet.slack = {
