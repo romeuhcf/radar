@@ -66,7 +66,7 @@ RSpec.describe Message, type: :model do
     end
 
     describe "non success and non billable" do
-      let(:transmission_update) { ProviderTransmissionResult::Fail.new("Hurray", provider_hash, _billable = false) }
+      let(:transmission_update) { ProviderTransmissionResult::Fail.new("Hurray", provider_hash, nil, _billable = false) }
       it { expect(message.status_notifications.count).to eq 2 }
       it { expect(message).to_not be_billable }
       it { expect(message).to_not be_sent }
@@ -74,7 +74,7 @@ RSpec.describe Message, type: :model do
     end
 
     describe "non success but billable" do
-      let(:transmission_update) { ProviderTransmissionResult::Fail.new("Hurray", provider_hash, _billable = true) }
+      let(:transmission_update) { ProviderTransmissionResult::Fail.new("Hurray", provider_hash, nil, _billable = true) }
       it { expect(message.status_notifications.count).to eq 2 }
       it { expect(message).to be_billable }
       it { expect(message).to_not be_sent }

@@ -33,11 +33,11 @@ class OpsSmsProvider < BaseProvider
       if code == '-1'
         return ProviderTransmissionResult::Success.new response.body, uuid
       else
-        return ProviderTransmissionResult::Fail.new response.body
+        return ProviderTransmissionResult::Fail.new response.body, nil
       end
 
     rescue
-      return ProviderTransmissionResult::Fail.new $!.message, $!
+      return ProviderTransmissionResult::Fail.new $!.message, nil, $!
     end
   end
 end

@@ -30,7 +30,8 @@ class TransmissionRequestCompositionService
                          else
                            transmission_request.options.schedule_start_time + 5.seconds
                          end
-    TransmissionRequestProcessWorker.perform_at(process_start_time , transmission_request.id)
+
+    Sidekiq::Client.enqueue_to_in("owner-#{transmission_request.owner_id}-transmission-request", process_start_time - Time.zone.now , TransmissionRequestProcessWorker, transmission_request.id)
   end
 
   def can_step_to?(step)

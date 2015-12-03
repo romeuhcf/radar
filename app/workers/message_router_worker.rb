@@ -19,10 +19,16 @@ class MessageRouterWorker
     fail "No route found for message" unless route
 
     SmsProviderTransmissionWorker.perform_async(message.id, route.name)
+    queue = ['message', 'owner', message.owner_id, 'route', route.name].join('-')
+    Sidekiq::Cliente.enqueue_to(queue, SmsProviderTransmissionWorker, message_id, route.name)
   end
 
   def choose_sms_route(message)
     RouteProvider.enabled.first
+  end
+  def transfer_to_paused_queue(id)
+    queue ='paused-messages'
+    Sidekiq::Client.enqueue_to_in(queue, 5.minutes, self, id)
   end
 
 end

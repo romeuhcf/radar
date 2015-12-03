@@ -2,8 +2,7 @@ require 'rails_helper'
 
 def compose_transmission_request_until_step(step =nil)
   sign_in user
-  click_on('Relatórios')
-  click_on('Enviar lote')
+  click_on('Enviar Lote')
   return if step.nil?
 
   attach_file('Arquivo', File.absolute_path(fixture_file('simple_sms.csv')))
