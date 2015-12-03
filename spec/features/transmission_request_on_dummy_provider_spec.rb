@@ -9,9 +9,9 @@ feature "Transmission via dummy" , :js do
     Sidekiq::Testing.inline! do
       compose_transmission_request_until_step 'confirm'
       click_on("Confirmar")
+      sleep 1
     end
     expect(TransmissionRequest.count).to eq 1
-    sleep 1
     click_on("Lista de Envios")
     transmission_request = TransmissionRequest.first
     expect(transmission_request.reload.status).to eq 'finished'

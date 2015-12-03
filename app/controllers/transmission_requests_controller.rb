@@ -1,5 +1,5 @@
 class TransmissionRequestsController < ApplicationController
-  after_action :verify_authorized, except: [:index, :show]
+  after_action :verify_authorized, except: [:index, :show, :destroy]
   after_action :verify_policy_scoped
   before_action :authenticate_user!
 
@@ -18,19 +18,6 @@ class TransmissionRequestsController < ApplicationController
     authorize @transmission_request
 
     @messages = smart_listing_create(:messages, @transmission_request.messages.joins(:destination, :message_content), partial: 'transmission_requests/messages')
-  end
-
-  def cancel
-    @transmission_request = safe_scope.find(params[:id])
-    authorize @transmission_request
-
-    if policy(@transmission_request).destroy?
-      @transmission_request.destroy
-      real_destroy
-    else
-      @transmission_request.cancel!
-      redirect_to transmission_requests_path, notice: t("transmission_request.notify.cancel.success")
-    end
   end
 
   def resume
@@ -69,8 +56,15 @@ class TransmissionRequestsController < ApplicationController
 
   def destroy
     @transmission_request = safe_scope.find(params[:id])
-    authorize @transmission_request
-    real_destroy
+    if policy(@transmission_request).destroy?
+      @transmission_request.destroy
+      real_destroy
+    elsif policy(@transmission_request).cancel?
+      @transmission_request.cancel!
+      redirect_to transmission_requests_path, notice: t("transmission_request.notify.cancel.success")
+    else
+      redirect_to :back, notice: 'Permisison Denied'
+    end
   end
 
   protected

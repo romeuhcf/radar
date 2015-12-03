@@ -19,7 +19,6 @@ Rails.application.routes.draw do
       resources :steps, only: [:show, :update], controller: 'transmission_request/steps'
       member do
       get :parse_preview
-        put :cancel
         put :pause
         put :resume
       end
