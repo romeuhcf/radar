@@ -1,0 +1,8 @@
+pt-BR: 
+  message:
+    status:
+      sent: "enviado"
+      processing: "processando"
+      failed: "falho"
+      cancelado: "cancelled"
+

@@ -2,7 +2,6 @@ class SmsCallbackService
   def perform(params)
     the_provider = BaseProvider.providers.find{|provider| provider.my_callback?(params) }
     result  = the_provider.interpret_callback(params)
-
     if result.is_a? ProviderTransmissionResult
       the_message = Localizer.get_item(result.uid)
       if the_message

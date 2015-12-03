@@ -62,9 +62,8 @@ class Message < ActiveRecord::Base
     route_provider_id = route_provider_or_id.is_a?(RouteProvider) ? route_provider_or_id.id : route_provider_or_id
 
     self.status_notifications.create!(route_provider_id: route_provider_id, provider_status: result.raw)
-
     if result.success?
-      self.create_localizer(uid: result.uid)
+      self.create_localizer!(uid: result.uid)
       self.transmission_state = 'sent'
       self.billable = true
       self.sent_at = Time.zone.now

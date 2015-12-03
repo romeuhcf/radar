@@ -3,7 +3,7 @@ require 'base_provider'
 
 class DummySmsProvider < BaseProvider
   attr_accessor :base_url, :passwd
-
+  @@sent=0
   def initialize(options = nil)
     options ||= {}
     @forced_hash = options[:forced_hash]
@@ -12,11 +12,11 @@ class DummySmsProvider < BaseProvider
 
   def sendMessage(msisdn, sms_text, options={})
     hash = @forced_hash || [SecureRandom.uuid, 'DUMMY'].join('-')
-    status = @forced_status || random_status
-
+    status = @forced_status || cycle_status
+    @@sent +=1
     Thread.new do
-      sleep 1
-      SmsCallbackService.new.perform('provider' => 'dummy', 'hash' => hash, 'status' => status)
+      sleep 0.3
+      SmsCallbackWorker.perform_in(2.seconds, 'provider' => 'dummy', 'hash' => hash, 'status' => status, 'callback' => 'yes')
     end
     return ProviderTransmissionResult::Success.new 'dummy-received', hash
   end
@@ -29,12 +29,12 @@ class DummySmsProvider < BaseProvider
     if params['status'] == 'sent'
       ProviderTransmissionResult::Success.new  params['status'], params['hash']
     else
-      ProviderTransmissionResult::Fail.new raw_status, params['hash'], is_billable
+      ProviderTransmissionResult::Fail.new params['status'], params['hash'], false
     end
   end
 
   protected
-  def random_status
-    %w{sent sent sent failed}.shuffle.first
+  def cycle_status
+    ['failed', 'sent'][@@sent % 2]
   end
 end
