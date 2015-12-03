@@ -5,14 +5,7 @@ class TransmissionRequestProcessWorker
   def perform(transmission_request_id)
     transmission_request = TransmissionRequest.find(transmission_request_id)
     return if transmission_request.cancelled?
-
-    if transmission_request.paused?
-      # TODO put on a queue specific for paused items
-      self.class.perform_in(5.minutes, transmission_request_id) # TODO get a way to expire
-      return
-    end
-
-
+    return transfer_to_paused_queue(transmission_request_id) if transmission_request.paused?
 
     generator_service     = BatchFileGeneratorsService.new(transmission_request)
     content_generator     = generator_service.content_generator
@@ -20,5 +13,10 @@ class TransmissionRequestProcessWorker
     schedule_generator    = generator_service.schedule_generator
 
     Transmissions::SendBatchService.new.process_request(transmission_request, content_generator, destination_generator, schedule_generator)
+  end
+
+  def transfer_to_paused_queue(transmission_request_id)
+    queue ='paused-transmission-requests'
+    Sidekiq::Client.enqueue_to_in(queue, 5.minutes, self, transmission_request_id)
   end
 end

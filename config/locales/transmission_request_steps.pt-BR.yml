@@ -1,0 +1,41 @@
+pt-BR:
+  transmission_request:
+    step:
+      upload: "Arquivo"
+      parse: "Formato"
+      message: Mensagem
+      schedule: Horário
+      confirm: Finalizar
+
+    action:
+      show: 'Exibir'
+      update: 'Editar'
+      cancel: 'Cancelar'
+      pause: 'Pausar'
+      resume: 'Continuar'
+      destroy: 'Excluir'
+
+    confirm:
+      pause: "Deseja realmente pausar/suspender esse envio?"
+      resume: "Deseja realmente continuar esse envio?"
+      cancel: "Deseja realmente cancelar esse envio?" 
+
+    status:
+      finished: "Finalizado"
+      paused: "Pausado"
+      processing: "Processando"
+      scheduled: "Agendado"
+      new: "Novo"
+      draft: "Rascunho"
+      cancelled: "Cancelado"
+      failed: Falho
+
+    notify:
+      cancel:
+        success: "Lote cancelado com sucesso"
+      destroy:
+        success: "Lote excluido com sucesso"
+      pause:
+        success: "Lote pausado com sucesso"
+      resume:
+        success: "Lote continuado com sucesso"

@@ -5,7 +5,7 @@ FactoryGirl.define do
     weight ""
     transmission_state "processing"
     billable false
-    scheduled_to "2015-10-30 03:54:17"
+    scheduled_to { Time.current }
     sent_at nil
     transmission_request nil
     destination { create(:destination) }
@@ -18,7 +18,7 @@ FactoryGirl.define do
     end
 
     trait :sent do
-      sent_at {Time.now}
+      sent_at {Time.current}
       transmission_state "sent"
     end
   end

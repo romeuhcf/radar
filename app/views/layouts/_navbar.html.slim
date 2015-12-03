@@ -16,17 +16,22 @@ nav.navbar.navbar-default.navbar-fixed-top
               = image_tag "#{(request.ssl? ? 'https://secure' : 'http://www')}.gravatar.com/avatar/#{Digest::MD5.hexdigest current_user.email}?s=30"
               span [style="margin-left: 5px; margin-right: 5px;"] = current_user.email
               span.caret
-            ul.dropdown-menu
-              li
-                a [href="#"]
-                  i.glyphicon.glyphicon-cog
-                  | Preferences 
-              li
-                a [href="#"]
-                  i.glyphicon.glyphicon-cog
-                  | Contact Support
-              li.divider
-              li = link_to t('admin.misc.log_out'), destroy_user_session_path, :method => Devise.sign_out_via
+            ul.dropdown-menu 
+              - if false # disabled 
+                li
+                  a [href="#"]
+                    i.glyphicon.glyphicon-cog
+                    | Preferences 
+                li
+                  a [href="#"]
+                    i.glyphicon.glyphicon-cog
+                    | Contact Support
+                li.divider
+              li 
+                = link_to destroy_user_session_path, :method => Devise.sign_out_via do
+                  span.fa.fa-sign-out
+                  =t('admin.misc.log_out') 
+
         - elsif params[:controller] =~ /devise/i
           li = link_to 'Já possui conta?', new_user_session_path
         - else

@@ -4,7 +4,6 @@ def send_message_to(destination, owner)
   create(:message, :sent,  destination: destination, owner: owner )
 end
 
-
 describe ChatRoomService do
   let(:destination){ create(:destination) }
   let(:user){ create(:user) }
@@ -13,7 +12,7 @@ describe ChatRoomService do
     send_message_to(destination, user)
 
     # When
-    subject.receive_message_from(destination.address, Faker::Lorem.sentence, Time.now)
+    subject.receive_message_from(destination.address, Faker::Lorem.sentence, Time.current)
 
     # Then
     expect(ChatRoom.count).to eq 1
@@ -38,7 +37,7 @@ describe ChatRoomService do
 
     # Later
     # When
-    subject.receive_message_from(destination.address, Faker::Lorem.sentence, Time.now)
+    subject.receive_message_from(destination.address, Faker::Lorem.sentence, Time.current)
     the_chat.reload
     expect(the_chat).to_not be_archived
     expect(the_chat).to_not be_answered

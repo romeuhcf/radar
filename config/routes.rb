@@ -17,7 +17,12 @@ Rails.application.routes.draw do
     resources :inline_sms_requests
     resources :transmission_requests do
       resources :steps, only: [:show, :update], controller: 'transmission_request/steps'
-      get :parse_preview, on: :member
+      member do
+      get :parse_preview
+        put :cancel
+        put :pause
+        put :resume
+      end
     end
     resources :chat_rooms, only: [:index, :show] do
       post :answer, on: :member

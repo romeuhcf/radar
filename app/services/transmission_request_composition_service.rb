@@ -1,43 +1,60 @@
 require 'extensions/file'
 class TransmissionRequestCompositionService
+  attr_reader :transmission_request
+  attr_accessor :step
+  def initialize(transmission_request)
+    @transmission_request = transmission_request
+  end
+
   def self.steps
     [ :upload, :parse, :message, :schedule, :confirm ]
   end
 
-  def update(transmission_request, step, safe_params)
+  def update(step, safe_params)
     case step
     when :confirm
-      confirm(transmission_request)
+      confirm
     else
-      update_attributes(transmission_request, safe_params)
+      update_attributes(safe_params)
       if step == :upload  # calculate csv options
-        guessed_attributes = guess_attributes(transmission_request)
-        update_attributes(transmission_request, guessed_attributes)
+        update_attributes(guess_attributes)
       end
     end
   end
 
-  def confirm(transmission_request)
+  def confirm
     transmission_request.status = 'scheduled'
     transmission_request.save!
-    process_start_time = if transmission_request.options.schedule_start_time - DateTime.now > 6.minutes
+    process_start_time = if transmission_request.options.schedule_start_time - Time.current > 6.minutes
                            transmission_request.options.schedule_start_time - 5.minutes
                          else
                            transmission_request.options.schedule_start_time + 5.seconds
                          end
-    TransmissionRequestProcessWorker.perform_at(process_start_time , transmission_request.id)
+
+    Sidekiq::Client.enqueue_to_in("owner-#{transmission_request.owner_id}-transmission-request", process_start_time - Time.zone.now , TransmissionRequestProcessWorker, transmission_request.id)
   end
 
-  def update_attributes(transmission_request, new_attributes)
+  def can_step_to?(step)
+    return true if step == :upload
+    return false unless transmission_request.batch_file.current_path
+    return false if step == :confirm && !valid_composition?
+    return true
+  end
+
+  def valid_composition?
+    sample_message && transmission_request.options.column_of_number && transmission_request.options.timing_table
+  end
+
+  def update_attributes(new_attributes)
     new_attributes[:options] = transmission_request.options.merge(new_attributes[:options] || {} ).serializable_hash
     transmission_request.update(new_attributes)
   end
 
-  def guess_attributes(transmission_request)
-    send( 'guess_attributes_for_type_' + transmission_request.batch_file_type, transmission_request )
+  def guess_attributes
+    send( 'guess_attributes_for_type_' + transmission_request.batch_file_type)
   end
 
-  def available_fields(transmission_request)
+  def available_fields
     if transmission_request.batch_file_type == 'csv'
       ParsePreviewService.new.preview_csv(transmission_request, transmission_request.options)[:headers]
     else
@@ -45,13 +62,13 @@ class TransmissionRequestCompositionService
     end
   end
 
-  def guess_attributes_for_type_csv(transmission_request)
+  def guess_attributes_for_type_csv
     require 'csv_col_sep_sniffer'
     col_sep = CsvColSepSniffer.find(transmission_request.batch_file.current_path)
     {:options => {file_type: 'csv', field_separator: col_sep }}
   end
 
-  def estimate_number_of_messages(transmission_request)
+  def estimate_number_of_messages
     if transmission_request.batch_file_type == 'csv'
       nolines = File.wc_l(transmission_request.batch_file.current_path)
       if transmission_request.options.headers_at_first_line?
@@ -64,7 +81,7 @@ class TransmissionRequestCompositionService
     end
   end
 
-  def sample_message(transmission_request)
+  def sample_message
     if transmission_request.batch_file_type == 'csv'
       if transmission_request.options.message_defined_at_column?
         col = transmission_request.options.column_of_message

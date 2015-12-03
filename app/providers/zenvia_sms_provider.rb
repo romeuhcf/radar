@@ -32,10 +32,10 @@ class ZenviaSmsProvider < BaseProvider
     if code == '000'
       return ProviderTransmissionResult::Success.new response, uuid
     else
-      return ProviderTransmissionResult::Fail.new response.body
+      return ProviderTransmissionResult::Fail.new response.body, nil
     end
   rescue
-    return ProviderTransmissionResult::Fail.new $!.message, $!
+    return ProviderTransmissionResult::Fail.new $!.message, nil, $!
   end
 
   def self.my_callback?(params)
@@ -73,7 +73,7 @@ class ZenviaSmsProvider < BaseProvider
     if is_success
       ProviderTransmissionResult::Success.new raw_status, uid
     else
-      ProviderTransmissionResult::Fail.new raw_status, nil, is_billable
+      ProviderTransmissionResult::Fail.new raw_status, uid, nil, is_billable
     end
   end
 

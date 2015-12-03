@@ -7,9 +7,9 @@
 @import "flatty";
 @import "parse-preview";
 @import "parse-preview/csv";
+@import "transmission_requests";
 
 .number {
-  float: right;
   margin-right: 20%;
 }
 
@@ -108,4 +108,8 @@ ul.chat-rooms{
       }
     }
   }
+}
+
+a.disabled {
+  color: $gray;
 }

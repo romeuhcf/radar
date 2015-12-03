@@ -5,3 +5,5 @@ pt-BR:
       zero: "Nenhuma mensagem"
       one: "%{count} mensagem"
       other: "%{count} mensagens"
+  chat-room:
+    no_pending_messages: "Nenhuma mensagem pendente"

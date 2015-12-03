@@ -17,7 +17,7 @@ def send_a_sms(destination, content, owner)
 end
 
 def receive_an_answer(destination, content)
-  ChatRoomService.new.receive_message_from(destination.address, content, Time.now)
+  ChatRoomService.new.receive_message_from(destination.address, content, Time.current)
 end
 
 feature 'Display ansered messages as a chat', :js do
@@ -29,7 +29,7 @@ feature 'Display ansered messages as a chat', :js do
     receive_an_answer(destination, "nao sou jose")
     sign_in user
     visit(authenticated_root_path)
-    expect(page).to_not  have_content("No Pending Messages")
+    expect(page).to_not  have_content("Nenhuma mensagem pendente")
     expect(page).to have_content("jose, vc deve")
     expect(page).to have_content("nao sou jose")
   end
@@ -38,10 +38,10 @@ feature 'Display ansered messages as a chat', :js do
     send_a_sms(destination , "jose, vc deve", user)
     sign_in user
     visit(authenticated_root_path)
-    expect(page).to have_content("No Pending Messages")
+    expect(page).to have_content("Nenhuma mensagem pendente")
     receive_an_answer(destination, "nao sou jose")
     wait 5.seconds
-    expect(page).to_not  have_content("No Pending Messages")
+    expect(page).to_not  have_content("Nenhuma mensagem pendente")
     expect(page).to have_content("jose, vc deve")
     expect(page).to have_content("nao sou jose")
   end
@@ -53,7 +53,7 @@ feature 'Display ansered messages as a chat', :js do
     sign_in user
     visit(authenticated_root_path)
 
-    expect(page).to_not  have_content("No Pending Messages")
+    expect(page).to_not  have_content("Nenhuma mensagem pendente")
 
     expect(all('.chat-room').size).to eq n_pending
     click_on 'Responder', match: :first
@@ -74,7 +74,7 @@ feature 'Display ansered messages as a chat', :js do
     sign_in user
     visit(authenticated_root_path)
 
-    expect(page).to_not  have_content("No Pending Messages")
+    expect(page).to_not  have_content("Nenhuma mensagem pendente")
 
     expect(all('.chat-room').size).to eq n_pending
     click_on 'Arquivar', match: :first

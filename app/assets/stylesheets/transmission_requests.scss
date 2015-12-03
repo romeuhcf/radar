@@ -1,3 +1,72 @@
 // Place all the styles related to the TransmissionRequests controller here.
 // They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+// You can use Sass (SCSS) here: http://sass-lang.com/ 
+
+.action { 
+  @include border-top-radius(3px); 
+  @include border-bottom-radius(3px); 
+  @extend .fa; 
+  font-size: 75%;
+  font-weight: bold;
+  line-height: 1;
+  color: $label-color;
+  padding: 4px 5px 4px 5px;
+  text-align: center;
+  white-space: nowrap;
+  box-sizing: border-box;
+  vertical-align: baseline;
+  cursor: pointer; 
+
+  &.action-show{ @extend .fa-search; 
+    background-color: $label-info-bg; 
+  }
+  &.action-update { @extend .fa-pencil; 
+    background-color: $label-info-bg; 
+  }
+  &.action-resume { @extend .fa-play; 
+    background-color: $label-warning-bg; 
+  }
+  &.action-pause { @extend .fa-pause; 
+    background-color: $label-warning-bg; 
+  }
+  &.action-cancel{ @extend .fa-remove; 
+    background-color: $label-danger-bg; 
+  }
+}
+
+div.ficha {
+  @extend .well;
+  background-color: lightyellow;
+  h2 {
+    margin-top: 3px;
+    span {
+      margin-right: 10px;
+      &.id {
+        &::before{ content: '#'; }
+      }
+      &.status {
+        font-size: 0.6em;
+        color: #444;
+        &::before{ content: '['; }
+        &::after{ content: ']'; }
+      }
+    }
+  }
+  ul.transmission_request{
+    list-style-type: none;
+    li{
+      span.hint {
+        font-weight: normal;
+      }
+      span.field_name {
+        display: inline-block;
+        width: 210px;
+        margin-right: 20px;
+        font-weight: normal;
+        &::after{ content: ': ' }
+        text-align: right;
+      }
+        font-weight: bold;
+    }
+  }
+}

@@ -1,3 +1,6 @@
+role :app, %w{deploy@186.224.192.101:443 deploy@186.224.192.102:443 deploy@186.224.192.103:443 deploy@186.224.192.104:443}
+role :web, %w{deploy@186.224.192.101:443 deploy@186.224.192.102:443 deploy@186.224.192.103:443 deploy@186.224.192.104:443}
+role :db, %w{deploy@186.224.192.101:443}
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.

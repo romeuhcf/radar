@@ -42,3 +42,4 @@ jQuery ->
 
       if (data.errorThrown != 'abort')
         alert("Erro importando arquivo: " + data.errorThrown)
+

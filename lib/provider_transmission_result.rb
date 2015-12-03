@@ -22,11 +22,12 @@ class ProviderTransmissionResult
 
   class Fail < ProviderTransmissionResult
 
-    attr_reader :raw, :exception, :billable
+    attr_reader :raw, :exception, :billable, :uid
 
-    def initialize(raw, exception = nil, billable = false)
-      @billable = billable
+    def initialize(raw, uid = nil, exception = nil, billable = false)
       @raw = raw && raw.to_s.strip
+      @uid = uid
+      @billable = billable
       @exception = exception
     end
 

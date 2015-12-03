@@ -1,0 +1,17 @@
+pt-BR: 
+  simple_form:
+    labels:
+      transmission_request:
+        batch_file: 'Arquivo'
+        options: 
+          file_type: "Tipo de arquivo"
+          field_separator: "Separador de campos" 
+          column_of_message: "Coluna das mensagens"
+          column_of_number: "Coluna dos telefones"
+          headers_at_first_line: "Títulos das colunas na primeira linha"
+          custom_message: "Mensagem customizada"
+          message_defined_at_column: "Usar mensagem de uma coluna?"
+          timing_table: "Horários válidos"
+          schedule_start_time: "Início"
+          schedule_finish_time: "Fim"
+

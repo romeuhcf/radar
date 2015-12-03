@@ -4,7 +4,7 @@ class TransmissionRequestsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @transmission_requests = safe_scope
+    @transmission_requests = safe_scope.includes(:owner)
 
     # Make users initally sorted by name ascending
     smart_listing_create :transmission_requests,
@@ -17,7 +17,34 @@ class TransmissionRequestsController < ApplicationController
     @transmission_request = safe_scope.find(params[:id])
     authorize @transmission_request
 
-    render_wizard
+    @messages = smart_listing_create(:messages, @transmission_request.messages.joins(:destination, :message_content), partial: 'transmission_requests/messages')
+  end
+
+  def cancel
+    @transmission_request = safe_scope.find(params[:id])
+    authorize @transmission_request
+
+    if policy(@transmission_request).destroy?
+      @transmission_request.destroy
+      real_destroy
+    else
+      @transmission_request.cancel!
+      redirect_to transmission_requests_path, notice: t("transmission_request.notify.cancel.success")
+    end
+  end
+
+  def resume
+    @transmission_request = safe_scope.find(params[:id])
+    authorize @transmission_request
+    @transmission_request.resume!
+    redirect_to @transmission_request, notice: t("transmission_request.notify.resume.success")
+  end
+
+  def pause
+    @transmission_request = safe_scope.find(params[:id])
+    authorize @transmission_request
+    @transmission_request.pause!
+    redirect_to @transmission_request, notice: t("transmission_request.notify.pause.success")
   end
 
   def new
@@ -52,8 +79,20 @@ class TransmissionRequestsController < ApplicationController
     render view, layout: false
   end
 
+  def destroy
+    @transmission_request = safe_scope.find(params[:id])
+    authorize @transmission_request
+    real_destroy
+  end
+
   protected
-  def safe_scope
+
+  def real_destroy
+    @transmission_request.destroy
+    redirect_to transmission_requests_path, notice: t("transmission_request.notify.destroy.success")
+  end
+
+    def safe_scope
     policy_scope(TransmissionRequest)
   end
 

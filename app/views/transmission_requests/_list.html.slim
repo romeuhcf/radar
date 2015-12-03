@@ -23,7 +23,9 @@
             - else
               '-'
           td
-            .label.label-info = o.status
+            .label.label-info = t o.status, scope: 'transmission_request.status'
+          td.actions
+            = render partial: 'actions', locals: {transmission_request: o}
       
   = smart_listing.paginate
   = smart_listing.pagination_per_page_links

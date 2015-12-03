@@ -1,4 +1,8 @@
 ul.nav.nav-tabs
   - controller.steps.each_with_index do |step, index|
     li [role="presentation" class="#{current_step?(step) ? 'active' : ''}"]
-      = link_to [index+1, t("step.#{step}")].join(' - ').html_safe, wizard_path(step)
+      - if policy(@transmission_request.composer).show?(step)
+        = link_to  "#{index + 1 } - " + t(step, scope: "transmission_request.step"), wizard_path(step)
+      - else
+        = link_to  "#{index + 1 } - " + t(step, scope: "transmission_request.step"), '#', class: 'disabled'
+

@@ -39,6 +39,12 @@ class TransmissionRequest < ActiveRecord::Base
     event :resume do
       transitions from: :paused, to: :processing
     end
+    event :cancel do
+      transitions from: :processing, to: :cancelled
+    end
+    event :pause do
+      transitions from: :processing, to: :paused
+    end
   end
 
   def options
@@ -56,5 +62,9 @@ class TransmissionRequest < ActiveRecord::Base
 
   def pending_messages
     messages.pending
+  end
+
+  def composer
+    @composer ||= TransmissionRequestCompositionService.new(self)
   end
 end
