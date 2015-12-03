@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   authenticate :user do
     resources :route_providers
     resources :inline_sms_requests
-    resources :transmission_requests do
+    resources :transmission_requests, except: [:new, :update]  do
       resources :steps, only: [:show, :update], controller: 'transmission_request/steps'
       member do
       get :parse_preview

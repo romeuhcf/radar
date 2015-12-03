@@ -47,24 +47,12 @@ class TransmissionRequestsController < ApplicationController
     redirect_to @transmission_request, notice: t("transmission_request.notify.pause.success")
   end
 
-  def new
-    @transmission_request = safe_scope.new
-    authorize @transmission_request
-  end
-
   def create
     @transmission_request = safe_scope.new(owner: current_owner, user: current_user, requested_via: 'web')
 
     authorize @transmission_request
     @transmission_request.save!(validate: false)
     redirect_to transmission_request_step_path(@transmission_request, 'upload')
-  end
-
-  def update
-    @transmission_request = safe_scope.new(transmission_request_params)
-    authorize @transmission_request
-
-    @transmission_request.save
   end
 
   def parse_preview
@@ -94,10 +82,6 @@ class TransmissionRequestsController < ApplicationController
 
     def safe_scope
     policy_scope(TransmissionRequest)
-  end
-
-  def transmission_request_params
-    params.require(:transmission_request).permit(:identification, :batch_file)
   end
 
 end
