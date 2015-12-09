@@ -1,4 +1,28 @@
 // Place all the styles related to the Dashboard controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.dashboard-stats{
+  li{
+    margin: 8px;
+    padding: 8px;
+    list-style-type: none;
 
+    &.total{ border-left: 4px solid #888; background-color: #eee}
+    &.processing{border-left: 4px solid lightblue;background-color: #eef }
+    &.sent{ border-left: 4px solid lightgreen;background-color: #efffef }
+    &.failed{ border-left: 4px solid orange; background-color: #ffe}
+
+    span.caption {
+      display: inline-block;
+      width: 70%;
+      margin-left: 20px;
+    }
+
+    span.stat{
+      display: inline-block;
+      width: 20%;
+      font-weight: bold;
+      text-align: right;
+    }
+  }
+}

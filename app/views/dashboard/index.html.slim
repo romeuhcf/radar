@@ -1,7 +1,16 @@
 h2
   | Centro de controle
-hr
+hr 
 .row
+  .col-md-3
+    .panel.panel-default
+      .panel-heading =  "Estatísticas do dia"
+      ul.panel-body.dashboard-stats
+          - [:processing, :failed, :sent, :total].each do |s|
+           li[class=s]
+             span.caption = t( s , scope: 'message.status').capitalize
+             span.stat = stats :ever, s
+
   .col-md-4
     .panel.panel-default
       .panel-heading =  "Inbox"

@@ -22,4 +22,34 @@ module ApplicationHelper
     }
   end
 
+  def stats_today
+    @@stats_today||=begin
+                h = Message.where(owner: current_user).where(created_at: (Time.zone.now.beginning_of_day)..(Time.zone.now.end_of_day)).group(:transmission_state).count
+                h['total'] = h.values.sum
+                h
+              end
+  end
+
+  def stats_month
+    @@stats_month||=begin
+                h = Message.where(owner: current_user).where(created_at: (Time.zone.now.beginning_of_month)..(Time.zone.now.end_of_month)).group(:transmission_state).count
+                h['total'] = h.values.sum
+                h
+              end
+  end
+
+  def stats_ever
+    @@stats_ever||=begin
+                h = Message.where(owner: current_user).group(:transmission_state).count
+                h['total'] = h.values.sum
+                h
+              end
+  end
+
+
+  def stats(period, what)
+    n =  self.send("stats_#{period}")[what.to_s] || 0
+    number_with_delimiter n
+  end
+
 end
