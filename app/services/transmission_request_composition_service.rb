@@ -42,7 +42,11 @@ class TransmissionRequestCompositionService
   end
 
   def valid_composition?
-    sample_message && transmission_request.options.column_of_number && transmission_request.options.timing_table
+    transmission_request.options.column_of_number &&
+      (transmission_request.options.column_of_message ||
+       transmission_request.options.custom_message ) &&
+      sample_message &&
+      transmission_request.options.timing_table
   end
 
   def update_attributes(new_attributes)
@@ -82,17 +86,16 @@ class TransmissionRequestCompositionService
   end
 
   def sample_message
-    if transmission_request.batch_file_type == 'csv'
-      if transmission_request.options.message_defined_at_column?
-        col = transmission_request.options.column_of_message
-        preview_data = ParsePreviewService.new.preview_csv(transmission_request, transmission_request.options)
-        first_row = preview_data.fetch(:rows).first
-        first_row.fetch(col)
-      else
-        transmission_request.options.custom_message
-      end
-    else
-      fail 'not implemented'
-    end
+    generator_service = BatchFileGeneratorsService.new(transmission_request)
+
+    generator_service     = BatchFileGeneratorsService.new(transmission_request)
+    content_generator     = generator_service.content_generator
+    destination_generator = generator_service.destination_generator
+    schedule_generator    = generator_service.schedule_generator
+
+    destination_data = nil
+    destination_generator.generate(1) {|dd| destination_data = dd }
+    content_generator.generate(destination_data)
+
   end
 end

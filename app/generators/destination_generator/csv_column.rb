@@ -9,11 +9,18 @@ module DestinationGenerator
       @total ||= @transmission_request.composer.estimate_number_of_messages
     end
 
-    def generate
+    def generate(n_to_generate = nil)
+      n_generated = 0
       with_csv do |csv|
         csv.each do |row|
+          return if n_to_generate and n_generated >= n_to_generate
           next if row.empty?
-          yield destination_data(row)
+          destination =  destination_data(row)
+
+          if destination
+            yield destination
+            n_generated +=1
+          end
         end
       end
     end
@@ -21,8 +28,14 @@ module DestinationGenerator
     def destination_data(row)
       row = to_hash(row)
       number = number_on(row)
-      destination = Destination.find_or_create(number)
-      DestinationData.new(destination, to_hash(row))
+      destination = Destination.find_or_new(number)
+
+      if destination.valid?
+        destination.save!
+        DestinationData.new(destination, to_hash(row))
+      else
+        nil
+      end
     end
 
     def number_on(row)

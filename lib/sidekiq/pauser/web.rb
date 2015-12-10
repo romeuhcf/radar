@@ -13,7 +13,7 @@ module Sidekiq
 
         app.get "/pauser/:name/pause" do
           halt 404 unless (name = params[:name])
-        pp  queue = Sidekiq::Queue[name]
+          queue = Sidekiq::Queue[name]
           halt 404 unless queue
           p queue.pause
           redirect "#{root_path}pauser"
@@ -21,7 +21,7 @@ module Sidekiq
 
         app.get "/pauser/:name/resume" do
           halt 404 unless (name = params[:name])
-        pp  queue = Sidekiq::Queue[name]
+          queue = Sidekiq::Queue[name]
           halt 404 unless queue
           p queue.unpause
           redirect "#{root_path}pauser"
