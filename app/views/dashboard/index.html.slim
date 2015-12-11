@@ -9,7 +9,7 @@ hr
           - [:processing, :failed, :sent, :total].each do |s|
            li[class=s]
              span.caption = t( s , scope: 'message.status').capitalize
-             span.stat = stats :ever, s
+             span.stat = stats :today, s
 
   .col-md-4
     .panel.panel-default
