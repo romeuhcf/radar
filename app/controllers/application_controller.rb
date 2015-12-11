@@ -29,6 +29,6 @@ class ApplicationController < ActionController::Base
 
   def notify_client_action
     return if request.request_method == 'GET'
-    CustomerMonitoringService.delay.notify(request.path, current_user, params)
+    CustomerMonitoringService.delay.notify(request.path, current_user && current_user.id, params.to_json)
   end
 end
