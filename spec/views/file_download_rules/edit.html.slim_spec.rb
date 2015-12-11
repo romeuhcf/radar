@@ -16,7 +16,7 @@ RSpec.describe "file_download_rules/edit", type: :view do
     ))
   end
 
-  it "renders the edit file_download_rule form" do
+  xit "renders the edit file_download_rule form" do
     render
 
     assert_select "form[action=?][method=?]", file_download_rule_path(@file_download_rule), "post" do
