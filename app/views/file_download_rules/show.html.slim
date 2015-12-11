@@ -1,0 +1,39 @@
+.well.ficha
+  h2 
+    | Regra de download de arquivo
+    = @file_download_rule.id 
+    |  # 
+    = @file_download_rule.description
+  ul
+    li
+      strong Enabled:
+      = @file_download_rule.enabled
+    li
+      strong Schedule:
+      = @file_download_rule.schedule
+    li
+      strong Server:
+      = @file_download_rule.transfer_options['server']
+    li
+      strong Port:
+      = @file_download_rule.transfer_options['port']
+    li
+      strong User:
+      = @file_download_rule.transfer_options['user']
+    li
+      strong Pwd:
+      = @file_download_rule.transfer_options['pwd']
+    li
+      strong Passive:
+      = @file_download_rule.transfer_options['passive']
+    li
+      strong Remote path:
+      = @file_download_rule.transfer_options['remote_path']
+    li
+      strong Patterns:
+      = @file_download_rule.transfer_options['patterns']
+
+hr
+= link_to 'Edit', edit_file_download_rule_path(@file_download_rule)
+'|
+= link_to 'Back', file_download_rules_path

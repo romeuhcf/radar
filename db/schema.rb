@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151119212538) do
+ActiveRecord::Schema.define(version: 20151211161420) do
 
   create_table "bills", force: :cascade do |t|
     t.integer  "customer_id",          limit: 4
@@ -76,6 +76,27 @@ ActiveRecord::Schema.define(version: 20151119212538) do
   end
 
   add_index "divisions", ["owner_type", "owner_id"], name: "index_divisions_on_owner_type_and_owner_id", using: :btree
+
+  create_table "file_download_rules", force: :cascade do |t|
+    t.string   "worker_class",     limit: 255
+    t.integer  "owner_id",         limit: 4
+    t.string   "owner_type",       limit: 255
+    t.boolean  "enabled"
+    t.string   "description",      limit: 255
+    t.text     "transfer_options", limit: 65535
+    t.text     "process_options",  limit: 65535
+    t.string   "schedule",         limit: 255
+    t.string   "status",           limit: 255
+    t.datetime "last_success_at"
+    t.datetime "last_failed_at"
+    t.text     "last_log",         limit: 65535
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+  end
+
+  add_index "file_download_rules", ["enabled"], name: "index_file_download_rules_on_enabled", using: :btree
+  add_index "file_download_rules", ["owner_type", "owner_id"], name: "index_file_download_rules_on_owner_type_and_owner_id", using: :btree
+  add_index "file_download_rules", ["worker_class"], name: "index_file_download_rules_on_worker_class", using: :btree
 
   create_table "localizers", force: :cascade do |t|
     t.integer  "item_id",    limit: 4

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :file_download_rules
   get 'dashboard/index'
 
   devise_for :users

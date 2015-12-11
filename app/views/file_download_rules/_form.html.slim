@@ -1,0 +1,17 @@
+= simple_form_for(@file_download_rule, simple_form_horizontal_setup) do |f|
+  = f.error_notification
+  .form-inputs
+    = f.input :description
+    = f.input :enabled
+    = f.input :schedule
+    = f.simple_fields_for :transfer_options, @file_download_rule.transfer_options do |ff|
+      = ff.input :server
+      = ff.input :port
+      = ff.input :user
+      = ff.input :pwd
+      = ff.input :passive
+      = ff.input :remote_path
+      = ff.input :patterns
+
+  .form-actions
+    = f.button :submit, value: 'Salvar'

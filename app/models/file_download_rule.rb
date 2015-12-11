@@ -1,12 +1,13 @@
 class FileDownloadRule < ActiveRecord::Base
   belongs_to :owner, polymorphic: true
 
-  serialize :options, Hash
+  serialize :process_options, Hash
+  serialize :transfer_options, Hash
   validates :owner,   presence: true
-  validates :name,    presence: true
+  validates :description,    presence: true
 
   after_save :update_schedule
-  after_destroy :unschedule
+  after_destroy :unschedule!
 
   def worker_label
     [self.owner.email, self.class.name, self.id, self.description].join('-').parameterize
