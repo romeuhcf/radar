@@ -19,7 +19,7 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe FileDownloadRulesController, type: :controller do
-
+=begin
   # This should return the minimal set of attributes required to create a valid
   # FileDownloadRule. As you add validations to FileDownloadRule, be sure to
   # adjust the attributes here as well.
@@ -155,5 +155,5 @@ RSpec.describe FileDownloadRulesController, type: :controller do
       expect(response).to redirect_to(file_download_rules_url)
     end
   end
-
+=end
 end
