@@ -1,6 +1,10 @@
 class SmsCallbackService
   def perform(params)
     the_provider = BaseProvider.providers.find{|provider| provider.my_callback?(params) }
+    if not the_provider
+      Rails.logger.warn "Provider not found for callback #{params.to_json}"
+      return
+    end
     result  = the_provider.interpret_callback(params)
     if result.is_a? ProviderTransmissionResult
       the_message = Localizer.get_item(result.uid)
