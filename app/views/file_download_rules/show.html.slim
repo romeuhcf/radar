@@ -1,39 +1,73 @@
 .well.ficha
-  h2 
-    | Regra de download de arquivo
-    = @file_download_rule.id 
-    |  # 
+  h2
+    | Regra 
     = @file_download_rule.description
-  ul
+    | 
+    span.status = t @file_download_rule.status || 'unknown', scope: 'file_download_rule.status' 
+  ul.details
     li
-      strong Enabled:
+      span.field_name 
+        =t 'Enabled'
+        |: 
       = @file_download_rule.enabled
     li
-      strong Schedule:
+      span.field_name 
+        =t ' Schedule'
+        |: 
       = @file_download_rule.schedule
     li
-      strong Server:
+      span.field_name 
+        =t 'Server'
+        |: 
       = @file_download_rule.transfer_options['server']
     li
-      strong Port:
+      span.field_name 
+        =t 'Port'
+        |: 
       = @file_download_rule.transfer_options['port']
     li
-      strong User:
+      span.field_name 
+        =t 'User'
+        |: 
       = @file_download_rule.transfer_options['user']
     li
-      strong Pwd:
+      span.field_name 
+        =t 'Pwd'
+        |: 
       = @file_download_rule.transfer_options['pwd']
     li
-      strong Passive:
+      span.field_name 
+        =t 'Passive'
+        |: 
       = @file_download_rule.transfer_options['passive']
     li
-      strong Remote path:
+      span.field_name 
+        =t 'Remote path'
+        |: 
       = @file_download_rule.transfer_options['remote_path']
     li
-      strong Patterns:
+      span.field_name 
+        = t('Patterns')
+        |:
       = @file_download_rule.transfer_options['patterns']
 
+h3 Histórico
+table.table.table-striped.table-condensed
+  thead
+    tr 
+      th Data
+      th Autor
+      th Evento
+      th Diferença
+  tbody
+    - @file_download_rule.versions.limit(50).reverse.each do |version|
+      tr 
+        td = version.created_at
+        td = version.whodunnit
+        td = version.event 
+        td = version.changeset.except(:updated_at).to_json
+
+
 hr
-= link_to 'Edit', edit_file_download_rule_path(@file_download_rule)
-'|
-= link_to 'Back', file_download_rules_path
+= link_to 'Editar', edit_file_download_rule_path(@file_download_rule), class: 'btn btn-primary'
+= link_to 'Voltar à Lista', file_download_rules_path, class: 'btn btn-default'

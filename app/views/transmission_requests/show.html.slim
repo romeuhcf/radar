@@ -4,7 +4,7 @@ div.row
       span.id = @transmission_request.id 
       span.identification = @transmission_request.identification
       span.status = t @transmission_request.status, scope: 'transmission_request.status' 
-    ul.transmission_request
+    ul.transmission_request.details
       li
         span.field_name 
           | Arquivo

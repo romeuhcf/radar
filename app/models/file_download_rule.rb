@@ -1,4 +1,5 @@
 class FileDownloadRule < ActiveRecord::Base
+  has_paper_trail
   belongs_to :owner, polymorphic: true
 
   serialize :process_options, Hash
