@@ -18,6 +18,10 @@ class FileDownloadRule < ActiveRecord::Base
     [self.owner.email, self.class.name, self.id, self.description].join('-').parameterize
   end
 
+  def transfer_options
+    OpenStruct.new(read_attribute(:transfer_options))
+  end
+
   protected
   def update_schedule
     unschedule!
@@ -49,8 +53,10 @@ class FileDownloadRule < ActiveRecord::Base
   end
 
   def test_connection
-    worker_class.constantize.new.test_connection(self)
+    klass = worker_class.constantize
+    instance = klass.new
+    instance.test_connection(self)
   rescue
-    errors.add(:schedule, [$!.class.name, $!.message])
+    errors.add(:transfer_options, $!.class.name)
   end
 end

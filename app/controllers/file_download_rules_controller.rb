@@ -74,7 +74,7 @@ class FileDownloadRulesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def file_download_rule_params
-    params.require(:file_download_rule).permit(:description, :enabled, :schedule, transfer_options: [:server, :port, :user, :pwd, :passive, :remote_path, :patterns] )
+    params.require(:file_download_rule).permit(:worker_class, :description, :enabled, :schedule, transfer_options: [:server, :port, :user, :pwd, :passive, :remote_path, :patterns] )
   end
 
   def safe_scope
