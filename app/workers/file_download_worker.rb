@@ -3,8 +3,26 @@ require 'stringio'
 
 require 'ftp_connection'
 
-class FileDownloadWorker< ActiveJob::Base
+class FileDownloadWorker < ActiveJob::Base
   queue_as :file_download
+
+  def test_connection(rule)
+    cfg = rule.transfer_options
+    server = cfg['server']
+    port = (cfg['port'] || 21).to_i
+    user = cfg['user']
+    pwd = cfg['pwd']
+    passive = cfg['passive'] && true
+    remote_path = cfg['remote_path']
+
+    output = StringIO.new
+    FtpConnection.start('test_connection', server, port, user, pwd, passive, output) do |conn|
+      FtpConnection::timeout(10){
+        conn.chdir(remote_path)
+        conn.list('*')
+      }
+    end
+  end
 
   def perform(rule_id)
     rule = FileDownloadRule.find(rule_id)

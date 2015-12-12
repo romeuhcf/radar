@@ -4,12 +4,13 @@
     = f.input :description
     = f.input :enabled
     = f.input :schedule
+    = f.input :worker_class, collection: ['FileDownloadWorker'].map{|k| [t(k),k]}
     = f.simple_fields_for :transfer_options, @file_download_rule.transfer_options do |ff|
       = ff.input :server
-      = ff.input :port
+      = ff.input :port, as: 'integer'
       = ff.input :user
       = ff.input :pwd
-      = ff.input :passive
+      = ff.input :passive, as: 'boolean'
       = ff.input :remote_path
       = ff.input :patterns
 

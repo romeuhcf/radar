@@ -20,7 +20,7 @@
               - else
                 = distance_of_time_in_words_to_now o.last_success_at
           td.actions
-            -  # render partial: 'actions', locals: {transmission_request: o}
+            = render partial: 'actions', locals: {file_download_rule: o}
       
   = smart_listing.paginate
   = smart_listing.pagination_per_page_links

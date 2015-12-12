@@ -1,0 +1,25 @@
+pt-BR: 
+  file_download_rule:
+    action:
+      show: 'Detalhar'
+      update: 'Editar'
+      cancel: 'Cancelar'
+      pause: 'Pausar'
+      resume: 'Continuar'
+      destroy: 'Excluir'
+
+    confirm:
+      pause: "Deseja realmente pausar/suspender?"
+      resume: "Deseja realmente continuar?"
+      cancel: "Deseja realmente cancelar?" 
+
+    status:
+      finished: "Finalizado"
+      paused: "Pausado"
+      processing: "Processando"
+      scheduled: "Agendado"
+      new: "Novo"
+      draft: "Rascunho"
+      cancelled: "Cancelado"
+      failed: Falho
+

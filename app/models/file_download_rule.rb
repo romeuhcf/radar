@@ -6,7 +6,11 @@ class FileDownloadRule < ActiveRecord::Base
   serialize :transfer_options, Hash
   validates :owner,   presence: true
   validates :description,    presence: true
-
+  validates :worker_class,    presence: true
+  validates :schedule,    presence: true
+  validate :validate_worker_class
+  validate :validate_schedule
+  validate :test_connection
   after_save :update_schedule
   after_destroy :unschedule!
 
@@ -26,5 +30,27 @@ class FileDownloadRule < ActiveRecord::Base
 
   def unschedule!
     Sidekiq::Cron::Job.destroy worker_label
+  end
+
+  def validate_worker_class
+    begin
+      klass = worker_class.constantize
+      errors.add(:worker_class, "doesn't respond to #perform") unless klass.instance_methods(false).include?(:perform)
+      errors.add(:worker_class, "doesn't respond to #test_connection") unless klass.instance_methods(false).include?(:test_connection)
+    rescue NameError
+      errors.add(:worker_class, 'not found')
+    end
+  end
+
+  def validate_schedule
+    Rufus::Scheduler.parse(schedule)
+  rescue ArgumentError
+    errors.add(:schedule, 'invalid format')
+  end
+
+  def test_connection
+    worker_class.constantize.new.test_connection(self)
+  rescue
+    errors.add(:schedule, [$!.class.name, $!.message])
   end
 end
