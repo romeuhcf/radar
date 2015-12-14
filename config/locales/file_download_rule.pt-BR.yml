@@ -14,12 +14,26 @@ pt-BR:
       cancel: "Deseja realmente cancelar?" 
 
     status:
-      finished: "Finalizado"
-      paused: "Pausado"
-      processing: "Processando"
-      scheduled: "Agendado"
-      new: "Novo"
-      draft: "Rascunho"
-      cancelled: "Cancelado"
+      success: Sucesso
+      new: Novo
       failed: Falho
 
+  simple_form:
+    labels:
+      transfer_options: Parâmetros de transferência
+      file_download_rule:
+        last_log: Último log 
+        last_success_at: Data de último sucesso
+        last_failed_at: Data de última falha
+        description: Descrição
+        schedule: Programação
+        transfer_options: 
+          patterns: Arquivos
+          port: Porta
+          server: Servidor
+          passive: Modo passivo
+          remote_path: Caminho remoto
+          user: Usuário
+          pwd: Senha
+        enabled: Ativo
+        worker_class: Tipo de Processo

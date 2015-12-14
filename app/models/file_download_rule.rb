@@ -15,7 +15,7 @@ class FileDownloadRule < ActiveRecord::Base
   after_destroy :unschedule!
 
   def worker_label
-    [self.owner.email, self.class.name, self.id, self.description].join('-').parameterize
+    ['owner', owner.class.name, owner.id, self.class.name, self.id].join('-').parameterize
   end
 
   def transfer_options
@@ -29,10 +29,17 @@ class FileDownloadRule < ActiveRecord::Base
   end
 
   def schedule!
-    Sidekiq::Cron::Job.new(name: worker_label, cron: schedule, worker_class: worker_class)
+    Rails.logger.info "Adicionando schedule #{worker_label} #{schedule}"
+    job = Sidekiq::Cron::Job.new(name: worker_label, cron: schedule, class: worker_class, args: [self.id])
+    if job.valid?
+      job.save
+    else
+      fail "invalid job #{job.errors}"
+    end
   end
 
   def unschedule!
+    Rails.logger.info "Removendo schedule #{worker_label}"
     Sidekiq::Cron::Job.destroy worker_label
   end
 

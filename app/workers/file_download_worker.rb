@@ -30,7 +30,7 @@ class FileDownloadWorker < ActiveJob::Base
       output = StringIO.new
       tmp_path = "/tmp" #XXX defined tmp path
 
-      download(rule.worker_label, rule.process_options, tmp_path, output) do |tmp, fname|
+      download(rule.worker_label, rule.transfer_options, tmp_path, output) do |tmp, fname|
         fail 'process the file'
         # ToDO XXX process the file
       end
@@ -45,13 +45,15 @@ class FileDownloadWorker < ActiveJob::Base
         rule.status = 'failed'
       end
     ensure
-      rule.last_log = output.rewind.string
+      output.rewind
+      rule.last_log = output.string
       rule.whodunnit(self.class.name) { rule.save! }
     end
   end
 
   def download(label, cfg, tmp_path, output)
     FileUtils.mkdir_p(tmp_path)
+
     server = cfg['server']
     port = (cfg['port'] || 21).to_i
     user = cfg['user']

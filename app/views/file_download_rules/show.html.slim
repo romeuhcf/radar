@@ -3,52 +3,43 @@
     | Regra 
     = @file_download_rule.description
     | 
-    span.status = t @file_download_rule.status || 'unknown', scope: 'file_download_rule.status' 
+    span.status.label [class="label-#{@file_download_rule.status}"] = t @file_download_rule.status || 'unknown', scope: 'file_download_rule.status' 
   ul.details
     li
       span.field_name 
-        =t 'Enabled'
-        |: 
+        =t 'enabled' , scope: 'simple_form.labels.file_download_rule'
       = @file_download_rule.enabled
     li
       span.field_name 
-        =t ' Schedule'
-        |: 
+        =t ' schedule', scope: 'simple_form.labels.file_download_rule'
       = @file_download_rule.schedule
     li
       span.field_name 
-        =t 'Server'
-        |: 
+        =t 'server', scope: 'simple_form.labels.file_download_rule.transfer_options'
       = @file_download_rule.transfer_options['server']
     li
       span.field_name 
-        =t 'Port'
-        |: 
+        =t 'port', scope: 'simple_form.labels.file_download_rule.transfer_options'
       = @file_download_rule.transfer_options['port']
     li
       span.field_name 
-        =t 'User'
-        |: 
+        =t 'user', scope: 'simple_form.labels.file_download_rule.transfer_options'
       = @file_download_rule.transfer_options['user']
     li
       span.field_name 
-        =t 'Pwd'
-        |: 
+        =t 'pwd', scope: 'simple_form.labels.file_download_rule.transfer_options'
       = @file_download_rule.transfer_options['pwd']
     li
       span.field_name 
-        =t 'Passive'
-        |: 
+        =t 'passive', scope: 'simple_form.labels.file_download_rule.transfer_options'
       = @file_download_rule.transfer_options['passive']
     li
       span.field_name 
-        =t 'Remote path'
-        |: 
+        =t 'remote_path', scope: 'simple_form.labels.file_download_rule.transfer_options'
       = @file_download_rule.transfer_options['remote_path']
     li
       span.field_name 
-        = t('Patterns')
-        |:
+        = t('patterns', scope: 'simple_form.labels.file_download_rule.transfer_options')
       = @file_download_rule.transfer_options['patterns']
 
 h3 Histórico
@@ -63,9 +54,20 @@ table.table.table-striped.table-condensed
     - @file_download_rule.versions.limit(50).reverse.each do |version|
       tr 
         td = version.created_at
-        td = version.whodunnit
+        td = version.whodunnit =~ /\A[0-9]+\z/ ? User.find(version.whodunnit).email : version.whodunnit
         td = version.event 
-        td = version.changeset.except(:updated_at).to_json
+        td 
+          - version.changeset.except(:updated_at).each do |k, v|
+            p
+              strong
+                - if k == 'transfer_options'
+                  = t(k, scope: 'simple_form.labels')
+                - else
+                  = t(k, scope: 'simple_form.labels.file_download_rule')
+              i passou a ser: 
+              strong
+                pre = v.last.to_s
+              
 
 
 hr
