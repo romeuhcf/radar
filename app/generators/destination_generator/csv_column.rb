@@ -32,7 +32,7 @@ module DestinationGenerator
 
       if destination.valid?
         destination.save!
-        DestinationData.new(destination, to_hash(row))
+        DestinationData.new(destination, row)
       else
         nil
       end
@@ -44,18 +44,19 @@ module DestinationGenerator
     end
 
     def headers(row)
-      @headers ||= if @transmission_request.options.headers_at_first_line?
-                     rows.first.headers
-                   else
-                     (1..(row.size)).to_a.map(&:to_column)
-                   end
+      if @transmission_request.options.headers_at_first_line?
+        row.to_hash.keys
+      else
+        (1..(row.size)).to_a.map(&:to_column)
+      end
     end
 
     def to_hash(row)
       if @transmission_request.options.headers_at_first_line?
         row.to_hash
       else
-        Hash[*headers(row).zip(row).flatten]
+        keys = headers(row)
+        Hash[*keys.zip(row).flatten]
       end
     end
 
