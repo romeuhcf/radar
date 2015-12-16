@@ -85,6 +85,7 @@ gem "wkhtmltopdf-binary-edge", "~> 0.12.2.1"
 # authz
 gem "devise"
 gem "devise-async"
+gem 'devise_masquerade'
 gem "pundit"
 gem "rolify"
 

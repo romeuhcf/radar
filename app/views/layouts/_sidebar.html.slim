@@ -12,7 +12,16 @@ ul.nav.nav-sidebar
       | Enviar Avulso
   li
     = link_to 'Enviar Lote', transmission_requests_path, method: :post
+
 ul.nav.nav-sidebar
   li
     = link_to 'Configurações FTP', file_download_rules_path
 
+- if current_user && current_user.has_role?(:admin)
+  ul.nav.nav-sidebar
+    li
+      a[href='/admin']
+        | DB Admin
+    li
+      a[href='/sidekiq']
+        | Sidekiq

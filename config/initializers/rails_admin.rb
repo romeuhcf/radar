@@ -1,3 +1,7 @@
+require Rails.root.join('lib/rails_admin/masquerade')
+RailsAdmin::Config::Actions.register(RailsAdmin::Config::Actions::Masquerade)
+
+
 RailsAdmin.config do |config|
 
   ### Popular gems integration
@@ -26,6 +30,7 @@ RailsAdmin.config do |config|
     edit
     delete
     show_in_app
+    masquerade
 
     ## With an audit adapter, you can add:
     # history_index
