@@ -19,6 +19,7 @@
 //= require jquery-fileupload/vendor/tmpl
 //= require moment
 //= require bootstrap-datetimepicker
+//= require bootstrap-tour
 //= require pickers
 //= require moment/pt-br
 //= require_tree .
