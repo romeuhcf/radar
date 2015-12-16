@@ -285,7 +285,7 @@ GEM
       nenv (~> 0.1)
       shellany (~> 0.0)
     orm_adapter (0.5.0)
-    paper_trail (4.0.0)
+    paper_trail (4.0.1)
       activerecord (>= 3.0, < 6.0)
       activesupport (>= 3.0, < 6.0)
       request_store (~> 1.1)
@@ -589,7 +589,7 @@ DEPENDENCIES
   mysql2 (= 0.3.20)
   net-ftp-list
   newrelic_rpm
-  paper_trail (~> 4.0.0)
+  paper_trail (~> 4.0.1)
   pdfkit
   phonelib
   poltergeist

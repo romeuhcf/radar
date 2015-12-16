@@ -91,7 +91,7 @@ gem "rolify"
 
 # admin 
 gem "rails_admin"
-gem 'paper_trail', '~> 4.0.0'
+gem 'paper_trail', '~> 4.0.1'
 gem "aasm"
 gem 'phonelib'
 
