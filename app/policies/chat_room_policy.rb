@@ -1,7 +1,7 @@
 class ChatRoomPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      related?
+      scope.where(owner: user)
     end
   end
 
