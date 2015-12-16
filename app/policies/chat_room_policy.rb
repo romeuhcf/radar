@@ -1,19 +1,15 @@
 class ChatRoomPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      if user.has_role?(:admin)
-        scope.all
-      else
-        scope.where(owner: user)
-      end
+      related?
     end
   end
 
   def archive?
-    true # TODO check role
+    related?
   end
 
   def answer?
-    true # TODO check credit permission
+    related?
   end
 end
