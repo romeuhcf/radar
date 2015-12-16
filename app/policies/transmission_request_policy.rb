@@ -41,8 +41,4 @@ class TransmissionRequestPolicy < ApplicationPolicy
     related? && record.paused?
   end
 
-  protected
-  def related?
-    (user.has_role?(:admin) or record.owner == user)
-  end
 end

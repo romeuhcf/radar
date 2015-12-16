@@ -35,5 +35,6 @@ class User < ActiveRecord::Base
          :validatable,
          :confirmable,
          :lockable,
+         :masqueradable,
          :async
 end

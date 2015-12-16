@@ -14,7 +14,7 @@ class TransmissionRequestCompositionServicePolicy < ApplicationPolicy
 
   protected
   def related?
-    (user.has_role?(:admin) or record.transmission_request.owner == user)
+    admin? or (record.transmission_request.owner == user)
   end
 
 end
