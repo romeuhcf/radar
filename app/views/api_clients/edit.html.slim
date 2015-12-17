@@ -1,0 +1,8 @@
+h1 = "Editando cliente de API ##{@api_client.id}"
+
+== render 'form'
+
+hr
+= link_to 'Exibir', @api_client, class: 'btn btn-default'
+= link_to 'Voltar', api_clients_path, class: 'btn btn-default'
+

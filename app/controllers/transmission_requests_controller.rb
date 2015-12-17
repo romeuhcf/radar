@@ -74,7 +74,7 @@ class TransmissionRequestsController < ApplicationController
     redirect_to transmission_requests_path, notice: t("transmission_request.notify.destroy.success")
   end
 
-    def safe_scope
+  def safe_scope
     policy_scope(TransmissionRequest)
   end
 

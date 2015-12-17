@@ -1,9 +1,11 @@
 ul.nav.nav-sidebar
+  li Monitoração 
   li.active
     a[href="#{authenticated_root_path}"]
-      | Monitoração 
+      | Painel
       span.sr-only
         | (current)
+  li Transmissão
   li
     a[href="#{transmission_requests_path}"]
       | Lista de Envios
@@ -20,9 +22,15 @@ ul.nav.nav-sidebar
 
 - if current_user && current_user.has_role?(:admin)
   ul.nav.nav-sidebar
+    li Administração
     li
       a[href='/admin']
         | DB Admin
     li
       a[href='/sidekiq']
         | Sidekiq
+
+ul.nav.nav-sidebar
+  li Desenvolvedores
+  - if policy(ApiClient).index?
+    li = link_to t("api_client"), api_clients_path

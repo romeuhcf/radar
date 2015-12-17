@@ -1,0 +1,30 @@
+h2 Clientes de API
+
+table.table.table-condensed.table-striped
+  thead
+    tr
+      th Ativo
+      th Descrição
+      th Último uso em
+      th
+      th
+      th
+
+  tbody
+    - @api_clients.each do |api_client|
+      tr
+        td 
+          - if api_client.enabled?
+            .label.label-success Ativo
+          - else
+            .label.label-default Inativo
+    
+        td = api_client.description
+        td = api_client.last_used_at || '-' 
+        td = link_to 'Detalhar', api_client
+        td = link_to 'Editar', edit_api_client_path(api_client)
+        td = link_to 'Remover', api_client, data: {:confirm => 'Certeza?'}, :method => :delete
+
+br
+
+= link_to 'Adicionar Novo', new_api_client_path, class: 'btn btn-primary'
