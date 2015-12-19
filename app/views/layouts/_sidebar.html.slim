@@ -17,8 +17,7 @@ ul.nav.nav-sidebar
 
 ul.nav.nav-sidebar
   li
-    a[href=""]
-      | Configurações
+    = link_to 'Configurações FTP', file_download_rules_path
 
 - if current_user && current_user.has_role?(:admin)
   ul.nav.nav-sidebar

@@ -17,7 +17,7 @@ class BatchFileGeneratorsService
       if transmission_request.options.message_defined_at_column?
         ContentGenerator::CsvColumn.new(transmission_request.options)
       else
-        ContentGenerator::Static.new(options.custom_message)
+        ContentGenerator::MultiTemplate.new(transmission_request.options)
       end
     else
       raise ArgumentError, "Unknown generator for type", transmission_request.batch_file_type

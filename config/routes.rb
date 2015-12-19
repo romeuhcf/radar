@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     resources :transmission_requests, except: [:new, :update]  do
       resources :steps, only: [:show, :update], controller: 'transmission_request/steps'
       member do
-      get :parse_preview
+        get :parse_preview
         put :pause
         put :resume
       end
@@ -29,6 +29,14 @@ Rails.application.routes.draw do
       post :archive, on: :member
       resources :messages, only: [:index, :show]
     end
+
+    resources :file_download_rules do
+      member do
+        put :pause
+        put :resume
+      end
+    end
+
   end
 
   authenticated :user do

@@ -47,6 +47,12 @@ gem 'smart_listing'
 gem 'wicked' # wizard
 
 
+# templating
+gem 'liquid' 
+
+# Comm
+gem 'net-ftp-list'
+
 group :development, :test do
   # Call "byebug" anywhere in the code to stop execution and get a debugger console
   gem "byebug"
@@ -85,7 +91,7 @@ gem "rolify"
 
 # admin 
 gem "rails_admin"
-
+gem 'paper_trail', '~> 4.0.1'
 gem "aasm"
 gem 'phonelib'
 

@@ -42,7 +42,7 @@ class Destination < ActiveRecord::Base
     errors.add(:address, 'must be valid mobile number')
   end
 
-  def self.find_or_create(address)
-    find_by_address(address) || create!(address: address)
+  def self.find_or_new(address)
+    find_by_address(address) || new(address: address)
   end
 end
