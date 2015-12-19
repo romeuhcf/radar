@@ -1,0 +1,16 @@
+p
+  strong Enabled:
+  = @api_client.enabled
+p
+  strong Description:
+  = @api_client.description
+p
+  strong Secret key:
+  = @api_client.secret_key
+p
+  strong Last used at:
+  = @api_client.last_used_at
+
+= link_to 'Edit', edit_api_client_path(@api_client)
+'|
+= link_to 'Back', api_clients_path

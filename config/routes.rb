@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :api_clients
   get 'dashboard/index'
 
   devise_for :users,  :controllers => {:masquerades => "users/masquerades"}
