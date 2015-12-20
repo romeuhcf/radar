@@ -1,0 +1,12 @@
+.page-header
+  = link_to ftp_configurations_path, class: 'btn btn-default' do
+    span.glyphicon.glyphicon-list-alt
+    |  Back 
+  = link_to @ftp_configuration, class: 'btn btn-primary' do
+    span.glyphicon.glyphicon-info-sign
+    |  Show 
+  h1
+    | Editing 
+    | ftp_configuration
+
+= render 'form'

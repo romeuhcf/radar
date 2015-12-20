@@ -6,66 +6,64 @@ require 'ftp_connection'
 class FileDownloadWorker < ActiveJob::Base
   queue_as :file_download
 
-  def test_connection(rule)
-    cfg         = rule.transfer_options
-    server      = cfg['server']
-    port        = (cfg['port'] || 21).to_i
-    user        = cfg['user']
-    pwd         = cfg['pwd']
-    passive     = cfg['passive'] && true
-    remote_path = cfg['remote_path']
+  def test_connection(transfer_bot)
+    cfg         = transfer_bot.ftp_configuration
+    host      = cfg.host
+    port        = (cfg.port || 21).to_i
+    user        = cfg.user
+    secret         = cfg.secret
+    passive     = cfg.passive && true
+    remote_path = transfer_bot.remote_path
 
     output = StringIO.new
 
-    FtpConnection.start('test_connection', server, port, user, pwd, passive, output) do |conn|
-      FtpConnection::timeout(10){
+    FtpConnection::timeout(10) do
+      FtpConnection.start('test_connection', host, port, user, secret, passive, output) do |conn|
         conn.chdir(remote_path)
         conn.list('*')
-      }
+      end
     end
   end
 
   def perform(rule_id)
-    rule = FileDownloadRule.find(rule_id)
+    transfer_bot = TransferBot.find(rule_id)
     begin
       output = StringIO.new
-      tmp_path = "/tmp" #XXX defined tmp path
+      tmp_path = "/tmp" #TODO defined tmp path
 
-      download(rule.worker_label, rule.transfer_options, tmp_path, output) do |tmp, fname|
+      download(transfer_bot.worker_label, transfer_bot.ftp_configuration, tmp_path, output) do |tmp, fname|
         fail 'process the file'
-        # ToDO XXX process the file
+        # TODO XXX process the file
       end
 
-      rule.last_success_at = Time.zone.now
-      rule.status = 'success'
+      transfer_bot.last_success_at = Time.zone.now
+      transfer_bot.status = 'success'
     rescue
       output.puts "Exception #{$!.class}, #{$!.message}"
       $!.backtrace[0,5].each do |l|
         output.puts "\t#{l}"
-        rule.last_failed_at = Time.zone.now
-        rule.status = 'failed'
+        transfer_bot.last_failed_at = Time.zone.now
+        transfer_bot.status = 'failed'
       end
     ensure
       output.rewind
-      rule.last_log = output.string
-      rule.whodunnit(self.class.name) { rule.save! }
+      transfer_bot.last_log = output.string
+      transfer_bot.whodunnit(self.class.name) { transfer_bot.save! }
     end
   end
 
-  def download(label, cfg, tmp_path, output)
+  def download(label, cfg, patterns, remote_path, tmp_path, output)
     FileUtils.mkdir_p(tmp_path)
 
-    server = cfg['server']
-    port = (cfg['port'] || 21).to_i
-    user = cfg['user']
-    pwd = cfg['pwd']
-    passive = cfg['passive'] && true
-    remote_path = cfg['remote_path']
-    patterns = cfg['patterns']
-    remotely_delete_after = cfg['remotely_delete_after']
+    host = cfg.host
+    port = (cfg.port || 21).to_i
+    user = cfg.user
+    secret = cfg.secret
+    passive = cfg.passive && true
+    remotely_delete_after = cfg.source_delete_after
 
-    output.puts "(#{label})\t CONNECTING... server=#{server}, port=#{port}, user=#{user} , pwd=#{'*' * pwd.size} , passive=#{passive}"
-    FtpConnection.start(label, server, port, user, pwd, passive, output) do |conn|
+    output.puts "(#{label})\t CONNECTING... host=#{host}, port=#{port}, user=#{user} , secret=#{'*' * secret.size} , passive=#{passive}"
+    FtpConnection.start(label, host, port, user, secret, passive, output) do |conn|
 
       listed_files = []
       output.puts "(#{label})\t CONNECTED"
@@ -75,7 +73,7 @@ class FileDownloadWorker < ActiveJob::Base
           listed_files = conn.list(patterns)
         }
       rescue Net::FTPTempError, Net::FTPConnectionError
-        output.puts ["(#{label})", 'ERRO', $!, server, port].join(' ')
+        output.puts ["(#{label})", 'ERRO', $!, host, port].join(' ')
         return
       end
 

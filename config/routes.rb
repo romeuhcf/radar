@@ -1,5 +1,16 @@
 Rails.application.routes.draw do
-  resources :api_clients
+  resources :ftp_configurations
+  resources :ftp_configurations
+  resources :ftp_configurations
+  resources :ftp_configurations
+  resources :ftp_configurations
+  resources :ftp_configurations
+  resources :ftp_configurations
+  resources :ftp_configurations
+  resources :ftp_configurations
+  resources :ftp_configurations
+  resources :ftp_configurations
+  resources :ftp_configurations
   get 'dashboard/index'
 
   devise_for :users,  :controllers => {:masquerades => "users/masquerades"}
@@ -30,12 +41,13 @@ Rails.application.routes.draw do
       resources :messages, only: [:index, :show]
     end
 
-    resources :file_download_rules do
+    resources :transfer_bots do
       member do
-        put :pause
-        put :resume
+        put :activate
+        put :deactivate
       end
     end
+    resources :api_clients
 
   end
 

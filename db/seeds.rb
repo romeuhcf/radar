@@ -9,7 +9,7 @@ email = %x{ git config --get user.email }.chomp
 puts "Creating user for #{email}"
 
 u1 = User.create(email: email, password: email, password_confirmation: email, confirmed_at: Time.current)
-
+u1.add_role :admin
 50.times do
   TransmissionRequest.create!(owner: u1, user: u1, identification: [%w[CSV TXT WEB API].shuffle.first, 'request', SecureRandom.hex(5) ].join(' '), messages_count: rand(3874874), requested_via: %w(web api ftp).shuffle.first, status: %w[processing finished finished cancelled].shuffle.first, created_at: Time.current - (rand( 1000).minutes))
 end

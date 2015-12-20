@@ -1,0 +1,54 @@
+.page-header
+  = link_to new_ftp_configuration_path, class: 'btn btn-primary' do 
+    span.glyphicon.glyphicon-plus
+    = t('New Ftp configuration')
+  h2
+    = t('listing  ftp_configurations')
+
+.table-responsive
+  table.table.table-striped.table-hover
+    thead
+      tr
+        th
+          | Owner
+        th
+          | Host
+        th
+          | Port
+        th
+          | User
+        th
+          | Secret
+        th
+          | Passive
+        th
+          | Kind
+        th
+        th
+        th
+    tbody
+      - @ftp_configurations.each do | ftp_configuration |
+        tr
+          td
+            = ftp_configuration.owner
+          td
+            = ftp_configuration.host
+          td
+            = ftp_configuration.port
+          td
+            = ftp_configuration.user
+          td
+            = ftp_configuration.secret
+          td
+            = ftp_configuration.passive
+          td
+            = ftp_configuration.kind
+          td
+            - if policy(ftp_configuration).show?
+              = link_to t('Show'), ftp_configuration_path(id: ftp_configuration.id), class: 'action action-show', title: t('ftp_configuration.action.show') 
+          td
+            - if policy(ftp_configuration).update?
+              = link_to t('Edit'), edit_ftp_configuration_path(ftp_configuration), class: 'action action-update', title: t('ftp_configuration.action.update') 
+          td
+            - if policy(ftp_configuration).destroy?
+              = link_to t('Destroy'), ftp_configuration_path(ftp_configuration), class: 'action action-destroy', title: t('ftp_configuration.action.destroy'), method: 'delete', data: {confirm:  t('ftp_configuration.confirm.destroy')}

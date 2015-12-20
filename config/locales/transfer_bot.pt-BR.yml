@@ -1,0 +1,50 @@
+pt-BR: 
+  ftp_configuration:
+    action:
+      show: Exibir
+      destroy: Remover
+      update: Alterar
+      edit: Alterar 
+    confirm:
+      deactivate: "Deseja realmente desativá-lo?"
+      activate: "Deseja realmente ativá-lo?"
+      destroy: "Deseja realmente removê-lo?" 
+
+  transfer_bot:
+    action:
+      show: 'Detalhar'
+      update: 'Editar'
+      cancel: 'Cancelar'
+      deactivate: 'Desativar'
+      activate: 'Ativar'
+      destroy: 'Excluir'
+
+    confirm:
+      deactivate: "Deseja realmente desativá-lo?"
+      activate: "Deseja realmente ativá-lo?"
+      cancel: "Deseja realmente cancelar?" 
+
+    status:
+      success: Sucesso
+      new: Novo
+      failed: Falho
+
+  simple_form:
+    labels:
+      transfer_options: Parâmetros de transferência
+      transfer_bot:
+        last_log: Último log 
+        last_success_at: Data de último sucesso
+        last_failed_at: Data de última falha
+        description: Descrição
+        schedule: Programação
+        transfer_options: 
+          patterns: Arquivos
+          port: Porta
+          server: Servidor
+          passive: Modo passivo
+          remote_path: Caminho remoto
+          user: Usuário
+          pwd: Senha
+        enabled: Ativo
+        worker_class: Tipo de Processo

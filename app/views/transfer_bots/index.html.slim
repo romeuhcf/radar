@@ -1,0 +1,8 @@
+.page-header
+  = link_to new_transfer_bot_path, class: 'btn btn-primary' do 
+    span.glyphicon.glyphicon-plus
+    = t('New Ftp configuration')
+  h2
+    = t('listing  transfer_bots')
+
+= smart_listing_render(:transfer_bots)

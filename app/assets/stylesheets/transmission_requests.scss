@@ -32,6 +32,13 @@
   &.action-cancel{ @extend .fa-remove; 
     background-color: $label-danger-bg; 
   }
+  &.action-deactivate { @extend .fa-pause; 
+    background-color: $label-warning-bg; 
+  }
+  &.action-activate{ @extend .fa-play; 
+    background-color: $label-danger-bg; 
+  }
+
 }
 
 div.ficha {

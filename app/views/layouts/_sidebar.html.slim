@@ -17,7 +17,9 @@ ul.nav.nav-sidebar
 
 ul.nav.nav-sidebar
   li
-    = link_to 'Configurações FTP', file_download_rules_path
+    = link_to 'Robôs de Transmissão', transfer_bots_path
+  li
+    = link_to 'Acessos FTP', ftp_configurations_path
 
 - if current_user && current_user.has_role?(:admin)
   ul.nav.nav-sidebar
