@@ -1,5 +1,5 @@
 pt-BR: 
-  ftp_configuration:
+  ftp_config:
     action:
       show: Exibir
       destroy: Remover

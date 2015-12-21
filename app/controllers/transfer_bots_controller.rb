@@ -89,7 +89,7 @@ class TransferBotsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def transfer_bot_params
-    params.require(:transfer_bot).permit(:worker_class, :description, :enabled, :schedule, :remote_path, :patterns, :source_delete_after, ftp_configuration_attributes: [:host, :port, :user, :secret, :passive, :id] ).merge(owner: current_owner, worker_class: 'FileDownloadWorker')
+    params.require(:transfer_bot).permit(:worker_class, :description, :enabled, :schedule, :remote_path, :patterns, :source_delete_after, ftp_config_attributes: [:host, :port, :user, :secret, :passive, :id] ).merge(owner: current_owner, worker_class: 'FileDownloadWorker')
   end
 
   def safe_scope

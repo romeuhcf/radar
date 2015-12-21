@@ -15,9 +15,9 @@ div.row
       li 
         span.field_name 
           | Data de agendamento
-        = l @transmission_request.options.schedule_start_time.in_time_zone, format: :short
+        = l @transmission_request.parse_config.schedule_start_time.in_time_zone, format: :short
         span.hint = " até "
-        = l @transmission_request.options.schedule_finish_time.in_time_zone, format: :short
+        = l @transmission_request.parse_config.schedule_finish_time.in_time_zone, format: :short
       li 
         span.field_name
           | Quantidade de destinos 

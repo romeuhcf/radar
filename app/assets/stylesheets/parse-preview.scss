@@ -2,11 +2,11 @@ $color_of_number: rgba(81, 203, 238, 1);
 $color_of_message: rgba(203, 81, 238, 1);
 $color_of_overlap: rgba(203, 81, 81, 1);
 
-#transmission_request_options_column_of_message{
+#transmission_request_parse_config_column_of_message{
   box-shadow: 0 0 5px $color_of_message;
   margin-bottom: 5px;
 }
-#transmission_request_options_column_of_number{
+#transmission_request_parse_config_column_of_number{
   box-shadow: 0 0 5px $color_of_number;
   margin-bottom: 5px;
 }

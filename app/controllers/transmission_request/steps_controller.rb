@@ -18,6 +18,7 @@ class TransmissionRequest::StepsController < ApplicationController
 
   def update
     @transmission_request = safe_scope.find(params[:transmission_request_id])
+    @transmission_request.parse_config || @transmission_request.build_parse_config
     authorize @transmission_request
     permitted_attributes = transmission_request_params(step)
 
@@ -44,25 +45,24 @@ class TransmissionRequest::StepsController < ApplicationController
                            when :upload
                              [:batch_file]
                            when :parse
-                             {:options => [:file_type] + parameters_for_file_type}
+                             {:parse_config_attributes => [:id, :kind] + parameters_for_kind}
                            when :message
-                             {:options => [:message_defined_at_column, :column_of_message, :custom_message, :column_of_number]}
+                             {:parse_config_attributes => [:id, :message_defined_at_column, :column_of_message, :custom_message, :column_of_number]}
                            when :schedule
-                             {:options => [:schedule_finish_time, :schedule_start_time, :timing_table]}
+                             {:parse_config_attributes => [:id, :schedule_finish_time, :schedule_start_time, :timing_table]}
                            when :confirm
                              return {}
                            end
     params.require(:transmission_request).permit(permitted_attributes)
   end
 
-  def parameters_for_file_type
-    type = params[:transmission_request][:options][:file_type]
+  def parameters_for_kind
+    type = params[:transmission_request][:parse_config_attributes][:kind]
     case type
     when 'csv'
       [:field_separator, :headers_at_first_line, :message_defined_at_column]
     else
       fail 'File type not allowed'
     end
-
   end
 end

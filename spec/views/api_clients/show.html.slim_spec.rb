@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "api_clients/show", type: :view do
   before(:each) do
     @api_client = assign(:api_client, ApiClient.create!(
-      :owner => nil,
+      :owner => create(:user),
       :secret_key => "Secret Key",
       :enabled => false,
       :description => "Description"

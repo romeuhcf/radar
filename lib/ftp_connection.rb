@@ -18,12 +18,12 @@ class FtpConnection
     instance.close
   end
 
-  def initialize(label, server, port, user, pwd, passive, output)
+  def initialize(label, server, port, user, pwd, passive, output, debug = false)
     @output = output
     @label = label
     begin
       @ftp = Net::FTP.new
-      @ftp.debug_mode  = $LDEBUG
+      @ftp.debug_mode  = debug
       @ftp.connect(server, port)
       @ftp.login(user,pwd)
       @ftp.passive  = passive

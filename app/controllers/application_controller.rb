@@ -29,6 +29,7 @@ class ApplicationController < ActionController::Base
   end
 
   def notify_client_action
+    return if ENV['NO_SLACK']
     return if request.request_method == 'GET'
     CustomerMonitoringService.delay.notify(request.path, current_user && current_user.id, params.pretty_inspect)
   end

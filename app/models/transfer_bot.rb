@@ -3,8 +3,8 @@ class TransferBot < ActiveRecord::Base
 
   belongs_to :owner, polymorphic: true
   has_many self.versions_association_name, :as => :item, :foreign_key => :item_id, :class_name => version_class_name
-  belongs_to :ftp_configuration
-  accepts_nested_attributes_for :ftp_configuration
+  belongs_to :ftp_config
+  accepts_nested_attributes_for :ftp_config
 
   validates :owner,   presence: true
   validates :description,    presence: true, format: /.{3,}/
@@ -76,6 +76,6 @@ class TransferBot < ActiveRecord::Base
     return true if !enabled?
     FileDownloadWorker.new.test_connection(self)
   rescue
-    errors.add(:ftp_configuration, $!.class.name)
+    errors.add(:ftp_config, $!.class.name)
   end
 end

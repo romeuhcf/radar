@@ -46,8 +46,11 @@ class TransmissionRequestsController < ApplicationController
     @transmission_request = safe_scope.find(params[:id])
     authorize @transmission_request
 
-    @request_options = @transmission_request.options.merge( params[:transmission_request][:options].to_hash )
-    @preview_data = ParsePreviewService.new.preview(@transmission_request, @request_options)
+    current_parse_config_attribs = @transmission_request.parse_config.attributes
+    updated_attribs = current_parse_config_attribs.merge( params[:transmission_request][:parse_config_attributes] )
+
+    @request_parse_config = ParseConfig.new(updated_attribs)
+    @preview_data = ParsePreviewService.new.preview(@transmission_request, @request_parse_config)
 
     view = ['transmission_requests','parse_preview', @transmission_request.batch_file_type].join('/')
 

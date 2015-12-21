@@ -1,6 +1,7 @@
 class ApiClientsController < ApplicationController
   after_action :verify_authorized, except: [:new, :index]
   after_action :verify_policy_scoped
+  before_action :authenticate_user!
 
   before_action :set_api_client, only: [:show, :edit, :update, :destroy]
 

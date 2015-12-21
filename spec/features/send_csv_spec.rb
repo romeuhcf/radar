@@ -16,6 +16,8 @@ end
 
 feature "Preview CSV", :js do
   let(:user){create(:confirmed_user)}
+  let(:ini){ "2020/10/10 12:13" }
+  let(:fin){ "2020/10/11 12:13" }
 
   scenario 'csv with header' do
     start_creating_transmission_request_with_csv('simple_sms_with_header.csv')
@@ -46,6 +48,8 @@ end
 
 feature "CSV Estimations", :js do
   let(:user){create(:confirmed_user)}
+  let(:ini){ "2020/10/10 12:13" }
+  let(:fin){ "2020/10/11 12:13" }
 
   scenario 'csv with header' do
     start_creating_transmission_request_with_csv('large_sms_with_header.csv')
@@ -56,6 +60,8 @@ feature "CSV Estimations", :js do
     select("A", from: "Coluna dos telefones")
 
     click_on("Próximo passo");
+    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_start_time').val('#{ini}')")
+    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_finish_time').val('#{fin}')")
     select("Horário Comercial (08:00 às 19:00)", from: 'Horários válidos')
     click_on("Próximo passo");
 
@@ -69,6 +75,8 @@ feature "CSV Estimations", :js do
     select("B", from: "Coluna das mensagens")
     select("A", from: "Coluna dos telefones")
     click_on("Próximo passo");
+    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_start_time').val('#{ini}')")
+    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_finish_time').val('#{fin}')")
     select("Horário Comercial (08:00 às 19:00)", from: 'Horários válidos')
     click_on("Próximo passo");
     expect(page).to have_content('750 mensagens')
@@ -77,6 +85,8 @@ end
 
 feature "Send CSV" , :js do
   let(:user){create(:confirmed_user)}
+  let(:ini){ "2020/10/10 12:13" }
+  let(:fin){ "2020/10/11 12:13" }
 
   scenario 'simple without headers with message on field' do
     Sidekiq::Testing.fake!
@@ -101,10 +111,8 @@ feature "Send CSV" , :js do
     click_on("Próximo passo");
 
     # Schedule step
-    ini = "2020/10/10 12:13"
-    fin = "2020/10/11 12:13"
-    page.execute_script("$('#transmission_request_options_schedule_start_time').val('#{ini}')")
-    page.execute_script("$('#transmission_request_options_schedule_finish_time').val('#{fin}')")
+    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_start_time').val('#{ini}')")
+    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_finish_time').val('#{fin}')")
     select("Horário Comercial (08:00 às 19:00)", from: 'Horários válidos')
     click_on("Próximo passo");
 
@@ -143,10 +151,8 @@ feature "Send CSV" , :js do
     click_on("Próximo passo");
 
     # Schedule step
-    ini = "2020/10/10 12:13"
-    fin = "2020/10/11 12:13"
-    page.execute_script("$('#transmission_request_options_schedule_start_time').val('#{ini}')")
-    page.execute_script("$('#transmission_request_options_schedule_finish_time').val('#{fin}')")
+    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_start_time').val('#{ini}')")
+    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_finish_time').val('#{fin}')")
     select("Horário Comercial (08:00 às 19:00)", from: 'Horários válidos')
     click_on("Próximo passo");
 
@@ -183,10 +189,8 @@ feature "Send CSV" , :js do
     click_on("Próximo passo");
 
     # Schedule step
-    ini = "2020/10/10 12:13"
-    fin = "2020/10/11 12:13"
-    page.execute_script("$('#transmission_request_options_schedule_start_time').val('#{ini}')")
-    page.execute_script("$('#transmission_request_options_schedule_finish_time').val('#{fin}')")
+    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_start_time').val('#{ini}')")
+    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_finish_time').val('#{fin}')")
     select("Horário Comercial (08:00 às 19:00)", from: 'Horários válidos')
     click_on("Próximo passo");
 
@@ -223,10 +227,9 @@ feature "Send CSV" , :js do
       click_on("Próximo passo");
 
       # Schedule step
-      ini = "2020/10/10 12:13"
-      fin = "2020/10/11 12:13"
-      page.execute_script("$('#transmission_request_options_schedule_start_time').val('#{ini}')")
-      page.execute_script("$('#transmission_request_options_schedule_finish_time').val('#{fin}')")
+
+      page.execute_script("$('#transmission_request_parse_config_attributes_schedule_start_time').val('#{ini}')")
+      page.execute_script("$('#transmission_request_parse_config_attributes_schedule_finish_time').val('#{fin}')")
       select("Horário Comercial (08:00 às 19:00)", from: 'Horários válidos')
       click_on("Próximo passo");
 

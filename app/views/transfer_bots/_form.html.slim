@@ -2,7 +2,7 @@
   = render partial: 'layouts/form_errors', locals: {record: @transfer_bot}
   - [:description, 'schedule', 'remote_path', 'patterns',  enabled: 'check_box', 'source_delete_after' => 'check_box'].each do |field|
     = field f, field
-  = f.fields_for :ftp_configuration, @transfer_bot.ftp_configuration || FtpConfiguration.new do |ff|
+  = f.fields_for :ftp_config, @transfer_bot.ftp_config || FtpConfig.new do |ff|
    - [:host, :port, :user, :secret, passive: 'check_box'].each do |field|
       = field ff, field
 

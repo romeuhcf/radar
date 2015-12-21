@@ -3,25 +3,26 @@ require 'ftp_connection'
 
 def force_ftp_success_at_codeship
   return unless ENV['CI_NAME'] == 'codeship'
-  allow(FtpConnection).to receive(:start) do |label, server, port, user, pwd, passive, output|
-    fail 'OOPS' unless server == 'ftp.unicamp.br'
+  allow(FtpConnection).to receive(:start) do |label, host, port, user, secret, passive, output|
+    fail 'OOPS' unless host == 'ftp.demec.ufpr.br'
   end
 end
 
 RSpec.describe TransferBot, type: :model do
   before { force_ftp_success_at_codeship }
 
-  let(:ftp_unicamp_options){
+  let(:accessible_ftp_server_options){
     {
-      'server' => 'ftp.unicamp.br',
+      'host' => 'ftp.demec.ufpr.br',
       'port' => 21,
       'user' => 'anonymous',
-      'pwd' => 'anonymous',
-      'remote_path' => '/pub'
+      'secret' => 'anonymous',
+      'passive' => true,
+
     }
   }
   let(:user){create(:user)}
-  let(:valid_attributes){ {worker_class: 'FileDownloadWorker', schedule: '* * * * * *', description: "Just a description", transfer_options: ftp_unicamp_options, owner: user}}
+  let(:valid_attributes){ {worker_class: 'FileDownloadWorker', schedule: '* * * * * *', description: "Just a description", ftp_config_attributes: accessible_ftp_server_options, owner: user, remote_path: '.', patterns: '*.txt', enabled: true}}
 
   it  {expect(described_class.new(valid_attributes)).to be_valid}
   context 'owner' do
@@ -46,8 +47,8 @@ RSpec.describe TransferBot, type: :model do
   end
 
   context 'validates ftp connection' do
-    it  {expect(described_class.new(valid_attributes.merge(transfer_options: nil))).to_not be_valid}
-    it  {expect(described_class.new(valid_attributes.merge(transfer_options: {}))).to_not be_valid}
-    it  {expect(described_class.new(valid_attributes.merge(transfer_options: ftp_unicamp_options.merge('server' => 'dont.know')))).to_not be_valid}
+    it  {expect(described_class.new(valid_attributes.merge({}))).to be_valid}
+    it  {expect(described_class.new(valid_attributes.merge(ftp_config_attributes: {}))).to_not be_valid}
+    it  {expect(described_class.new(valid_attributes.merge(ftp_config_attributes: accessible_ftp_server_options.merge('host' => 'dont.know')))).to_not be_valid}
   end
 end

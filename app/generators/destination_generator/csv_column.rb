@@ -39,12 +39,12 @@ module DestinationGenerator
     end
 
     def number_on(row)
-      row_column = @transmission_request.options.column_of_number
+      row_column = @transmission_request.parse_config.column_of_number
       row.fetch(row_column)
     end
 
     def headers(row)
-      if @transmission_request.options.headers_at_first_line?
+      if @transmission_request.parse_config.headers_at_first_line?
         row.to_hash.keys
       else
         (1..(row.size)).to_a.map(&:to_column)
@@ -52,7 +52,7 @@ module DestinationGenerator
     end
 
     def to_hash(row)
-      if @transmission_request.options.headers_at_first_line?
+      if @transmission_request.parse_config.headers_at_first_line?
         row.to_hash
       else
         keys = headers(row)
@@ -65,8 +65,8 @@ module DestinationGenerator
       open_mode = 'r'
 
       open_options = {
-        col_sep: @transmission_request.options.field_separator,
-        headers: @transmission_request.options.headers_at_first_line
+        col_sep: @transmission_request.parse_config.field_separator,
+        headers: @transmission_request.parse_config.headers_at_first_line
       }
 
       CSV.open(path, open_mode, open_options) do |csv|

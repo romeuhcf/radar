@@ -1,0 +1,9 @@
+= form_for(@ftp_config, html: { class: "form-horizontal", role: "form" }) do |f|
+  = render partial: 'layouts/form_errors', locals: {record: @ftp_config}
+  - [:kind, :host, :port, :user, :secret, passive: 'check_box'].each do |field|
+    = field f, field 
+
+  .form-group
+    hr
+    .col-sm-offset-2.col-sm-6
+      = f.submit class: "btn btn-primary"

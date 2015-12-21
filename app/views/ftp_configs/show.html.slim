@@ -1,0 +1,34 @@
+.page-header
+  = link_to ftp_configs_path, class: 'btn btn-default' do 
+    span.glyphicon.glyphicon-list-alt
+    |  Back 
+  = link_to edit_ftp_config_path(@ftp_config), class: 'btn btn-primary' do 
+    span.glyphicon.glyphicon-pencil
+    |  Edit 
+  h1
+    | Show ftp_config
+dl.dl-horizontal
+  dt
+    | Host:
+  dd
+    = @ftp_config.host
+  dt
+    | Port:
+  dd
+    = @ftp_config.port
+  dt
+    | User:
+  dd
+    = @ftp_config.user
+  dt
+    | Secret:
+  dd
+    = @ftp_config.secret
+  dt
+    | Passive:
+  dd
+    = @ftp_config.passive
+  dt
+    | Kind:
+  dd
+    = @ftp_config.kind

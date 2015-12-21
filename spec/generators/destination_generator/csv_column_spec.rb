@@ -1,17 +1,18 @@
 require 'rails_helper'
 
 describe DestinationGenerator::CsvColumn do
-  let(:transmission_request) { create(:transmission_request, options: csv_options, batch_file: csv) }
+  let(:transmission_request) { create(:transmission_request, parse_config: csv_parse_config, batch_file: csv) }
   subject{ described_class.new(transmission_request) }
 
   context "with headers at first line" do
-    let(:csv_options) do
+    let(:csv_parse_config) do
+      create :parse_config,
       {
         message_defined_at_column: true,
         headers_at_first_line: true,
         column_of_number: 'numero',
         column_of_message: 'mensagem',
-        file_type: 'csv',
+        kind: 'csv',
         timing_table: 'business_hours',
         field_separator: ';',
         schedule_start_time: '2010-01-01 10:00:00',
@@ -49,13 +50,14 @@ describe DestinationGenerator::CsvColumn do
     end
   end
   context "with headers and extra fields on some lines" do
-    let(:csv_options) do
+    let(:csv_parse_config) do
+      create :parse_config,
       {
         message_defined_at_column: true,
         headers_at_first_line: true,
         column_of_number: 'numero',
         column_of_message: 'mensagem',
-        file_type: 'csv',
+        kind: 'csv',
         timing_table: 'business_hours',
         field_separator: ';',
         schedule_start_time: '2010-01-01 10:00:00',
@@ -99,13 +101,14 @@ describe DestinationGenerator::CsvColumn do
   end
 
   context "without headers and extra fields on some lines" do
-    let(:csv_options) do
+    let(:csv_parse_config) do
+      create :parse_config,
       {
         message_defined_at_column: true,
         headers_at_first_line: false,
         column_of_number: 'A',
         column_of_message: 'B',
-        file_type: 'csv',
+        kind: 'csv',
         timing_table: 'business_hours',
         field_separator: ';',
         schedule_start_time: '2010-01-01 10:00:00',
@@ -146,18 +149,18 @@ describe DestinationGenerator::CsvColumn do
 
   end
   context "without headers at first line" do
-    let(:csv_options) do
-      {
+    let(:csv_parse_config) do
+      create(:parse_config,{
         message_defined_at_column: true,
         headers_at_first_line: false,
         column_of_number: 'A',
         column_of_message: 'B',
-        file_type: 'csv',
+        kind: 'csv',
         timing_table: 'business_hours',
         field_separator: ';',
         schedule_start_time: '2010-01-01 10:00:00',
         schedule_finish_time: '2010-01-01 11:00:00',
-      }
+      })
     end
     let(:csv) { Rack::Test::UploadedFile.new(fixture_file('simple_sms.csv')) }
 

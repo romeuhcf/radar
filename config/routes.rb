@@ -1,16 +1,17 @@
 Rails.application.routes.draw do
-  resources :ftp_configurations
-  resources :ftp_configurations
-  resources :ftp_configurations
-  resources :ftp_configurations
-  resources :ftp_configurations
-  resources :ftp_configurations
-  resources :ftp_configurations
-  resources :ftp_configurations
-  resources :ftp_configurations
-  resources :ftp_configurations
-  resources :ftp_configurations
-  resources :ftp_configurations
+  resources :parse_configs
+  resources :ftp_configs
+  resources :ftp_configs
+  resources :ftp_configs
+  resources :ftp_configs
+  resources :ftp_configs
+  resources :ftp_configs
+  resources :ftp_configs
+  resources :ftp_configs
+  resources :ftp_configs
+  resources :ftp_configs
+  resources :ftp_configs
+  resources :ftp_configs
   get 'dashboard/index'
 
   devise_for :users,  :controllers => {:masquerades => "users/masquerades"}

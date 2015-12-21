@@ -7,12 +7,12 @@ class FileDownloadWorker < ActiveJob::Base
   queue_as :file_download
 
   def test_connection(transfer_bot)
-    cfg         = transfer_bot.ftp_configuration
-    host      = cfg.host
+    cfg         = transfer_bot.ftp_config
+    host        = cfg.host
     port        = (cfg.port || 21).to_i
     user        = cfg.user
-    secret         = cfg.secret
-    passive     = cfg.passive && true
+    secret      = cfg.secret
+    passive     = cfg.passive?
     remote_path = transfer_bot.remote_path
 
     output = StringIO.new
@@ -31,7 +31,7 @@ class FileDownloadWorker < ActiveJob::Base
       output = StringIO.new
       tmp_path = "/tmp" #TODO defined tmp path
 
-      download(transfer_bot.worker_label, transfer_bot.ftp_configuration, tmp_path, output) do |tmp, fname|
+      download(transfer_bot.worker_label, transfer_bot.ftp_config, tmp_path, output) do |tmp, fname|
         fail 'process the file'
         # TODO XXX process the file
       end
