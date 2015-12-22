@@ -17,7 +17,7 @@ feature "Transfer bots creation" do
     fill_in "Porta", with: "21"
     fill_in "Usuário", with: "anonymous"
     fill_in "Senha", with: "anonymous"
-    check("Ativo")
+    uncheck("Ativo")
     click_on "Salvar"
     expect(page).to have_content('Robô de transmissão foi criado com sucesso')
   end
