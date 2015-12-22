@@ -5,15 +5,20 @@
       th.col-md-4= smart_listing.sortable "Ativo?", "enabled"
       th.col-md-2= smart_listing.sortable "Status atual", "status"
       th.col-md-2= smart_listing.sortable "Último sucesso em ", "last_success_at"
+      th.col-md-2= smart_listing.sortable "Caminho remoto", "remote_path"
     tbody
       - smart_listing.collection.each do |o|
         tr [data-transmission-request-id="#{o.id}"]
           td = o.description
           td = o.enabled
-          td = o.status
-          td 
+          td
+            span.status.label [class="label-#{o.status == 'success' ? 'success' : 'danger'  }"] = t(:last_transmission)+ ': ' + t( o.status || 'unknown', scope: 'transfer_bot.status' )
+          td =
+            span.status.label [class="label-#{o.enabled? ? 'primary' : 'warning'}"] = t('enabled') + ': '+ t( (o.enabled? ? 'yes' : 'no'), scope: 'transfer_bot.enabled')
+          td = o.remote_path
+          td
             span [title="#{o.last_success_at}"]
-              - if !o.last_success_at 
+              - if !o.last_success_at
                 | -
               - elsif o.last_success_at < 1.day.ago
                 = l o.last_success_at, format: :short
@@ -21,9 +26,9 @@
                 = distance_of_time_in_words_to_now o.last_success_at
           td.actions
             = render partial: 'actions', locals: {transfer_bot: o}
-      
+
   = smart_listing.paginate
   = smart_listing.pagination_per_page_links
 - else
-  p.warning 
+  p.warning
     =t 'no_records'

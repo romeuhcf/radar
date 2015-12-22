@@ -5,6 +5,8 @@
     |   
   span.status.label [class="label-#{@transfer_bot.status == 'success' ? 'success' : 'danger'  }"] = t(:last_transmission)+ ': ' + t( @transfer_bot.status || 'unknown', scope: 'transfer_bot.status' )
   span.status.label [class="label-#{@transfer_bot.enabled? ? 'primary' : 'warning'}"] = t('enabled') + ': '+ t( (@transfer_bot.enabled? ? 'yes' : 'no'), scope: 'transfer_bot.enabled') 
+  | |
+  = distance_of_time_in_words_to_now @transfer_bot.update_at
   hr
   ul.details
     li

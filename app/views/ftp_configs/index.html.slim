@@ -9,7 +9,7 @@
   table.table.table-striped.table-hover
     thead
       tr
-        - [:host, :port, :user, :secret, :passive].each do |field|
+        - [:host, :port, :user, :passive].each do |field|
           th
             = t(field, scope: "simple_form.labels.ftp_config")
         th
@@ -18,7 +18,7 @@
     tbody
       - @ftp_configs.each do | ftp_config |
         tr
-          - [:host, :port, :user, :secret, :passive].each do |field|
+          - [:host, :port, :user, :passive].each do |field|
             td
               = ftp_config.read_attribute(field)
           td
