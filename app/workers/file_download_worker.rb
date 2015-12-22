@@ -25,17 +25,38 @@ class FileDownloadWorker < ActiveJob::Base
     end
   end
 
+  def download_one(label, conn, entry, i, listed_files_size, output, remotely_delete_after)
+    tmp_path = "/tmp" #TODO defined tmp path
+    FileUtils.mkdir_p(tmp_path)
+    dest_file = File.join(tmp_path, entry)
+    tmp_dest_file = dest_file+'.part'
+
+
+    output.puts "(#{label})\t DOWNLOADING #{i+1} of #{listed_files_size}: [#{entry}]"
+    conn.download("./" + entry, tmp_dest_file)
+    output.puts "(#{label})\t DOWNLOADED #{i+1} of #{listed_files_size}: [#{entry}]"
+    if remotely_delete_after
+      conn.delete(entry)
+      output.puts "(#{label})\t REMOTELY DELETED #{entry}"
+    end
+
+    yield tmp_dest_file, entry
+  ensure
+    File.unlink(tmp_dest_file) rescue nil
+  end
+
+
   def perform(rule_id)
     transfer_bot = TransferBot.find(rule_id)
     begin
       output = StringIO.new
-      tmp_path = "/tmp" #TODO defined tmp path
 
-      download(transfer_bot.worker_label, transfer_bot.ftp_config, transfer_bot.patterns, transfer_bot.remote_path, transfer_bot.source_delete_after, tmp_path, output) do |tmp, fname|
-        fail "Missing inplementation of  file process: #{fname}"
-        # TODO XXX process the file
+      download_all(transfer_bot.worker_label, transfer_bot.ftp_config, transfer_bot.patterns, transfer_bot.remote_path, transfer_bot.source_delete_after, output) do |real, original|
+        # TODO XXX process the  file
+        # TODO handle patterns as array. Use fnmatch
+
+        puts [real, original].join(': ')
       end
-
       transfer_bot.last_success_at = Time.zone.now
       transfer_bot.status = 'success'
     rescue
@@ -52,8 +73,7 @@ class FileDownloadWorker < ActiveJob::Base
     end
   end
 
-  def download(label, cfg, patterns, remote_path, remotely_delete_after, tmp_path, output)
-    FileUtils.mkdir_p(tmp_path)
+  def download_all(label, cfg, patterns, remote_path, remotely_delete_after, output, &block)
 
     host = cfg.host
     port = (cfg.port || 21).to_i
@@ -68,7 +88,9 @@ class FileDownloadWorker < ActiveJob::Base
       output.puts "(#{label})\t CONNECTED"
       begin
         FtpConnection::timeout(20){
+          output.puts "(#{label})\t CHDIR #{remote_path}"
           conn.chdir(remote_path)
+          output.puts "(#{label})\t LS #{patterns}"
           listed_files = conn.list(patterns)
         }
       rescue Net::FTPTempError, Net::FTPConnectionError
@@ -78,19 +100,7 @@ class FileDownloadWorker < ActiveJob::Base
 
       output.puts "(#{label})\t LISTED (#{remote_path}) #{listed_files.size} entries (#{patterns})"
       listed_files.each_with_index do |entry, i|
-        dest_file = File.join(tmp_path, entry)
-        tmp_dest_file = dest_file+'.tmp'
-
-        conn.download(entry, tmp_dest_file) do
-          if remotely_delete_after
-            conn.delete(entry)
-            output.puts "(#{label})\t REMOTELY DELETED #{entry}"
-          end
-
-          output.puts "(#{label})\t DOWNLOADED #{i+1} of #{listed_files.size}: [#{entry}] (#{patterns})"
-          yield tmp_dest_file, dest_file
-        end
-
+        download_one(label, conn, entry, i, listed_files.size, output, remotely_delete_after, &block)
       end
       output.puts "(#{label})\t FULL DOWNLOADED  #{listed_files.size} (#{patterns})"
     end

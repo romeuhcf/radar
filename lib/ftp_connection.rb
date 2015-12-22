@@ -40,13 +40,6 @@ class FtpConnection
       @output.puts "OOPS: [#{@label}] on getbinaryfile (#{entry}) " + $!.to_s.strip + "@ pwd #{@ftp.pwd} "
       return
     end
-
-    begin
-      yield
-
-    rescue
-      File.unlink(to_path) rescue nil
-    end
   end
 
   def upload(entry, local_path)
