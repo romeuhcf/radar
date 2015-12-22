@@ -31,7 +31,7 @@ class FileDownloadWorker < ActiveJob::Base
       output = StringIO.new
       tmp_path = "/tmp" #TODO defined tmp path
 
-      download(transfer_bot.worker_label, transfer_bot.ftp_config, tmp_path, output) do |tmp, fname|
+      download(transfer_bot.worker_label, transfer_bot.ftp_config, transfer_bot.patterns, transfer_bot.remote_path, tmp_path, output) do |tmp, fname|
         fail 'process the file'
         # TODO XXX process the file
       end

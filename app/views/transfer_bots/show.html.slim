@@ -3,8 +3,8 @@
     | Regra 
     = @transfer_bot.description
     |   
-  span.status.label [class="label-#{@transfer_bot.status}"] = t(:last_transmission)+ ': ' + t( @transfer_bot.status || 'unknown', scope: 'transfer_bot.status' )
-  span.status.label [class="label-#{@transfer_bot.enabled? ? 'success' : 'default'}"] = t('enabled') + ': '+ t( (@transfer_bot.enabled? ? 'yes' : 'no'), scope: 'transfer_bot.enabled') 
+  span.status.label [class="label-#{@transfer_bot.status == 'success' ? 'success' : 'danger'  }"] = t(:last_transmission)+ ': ' + t( @transfer_bot.status || 'unknown', scope: 'transfer_bot.status' )
+  span.status.label [class="label-#{@transfer_bot.enabled? ? 'primary' : 'warning'}"] = t('enabled') + ': '+ t( (@transfer_bot.enabled? ? 'yes' : 'no'), scope: 'transfer_bot.enabled') 
   hr
   ul.details
     li

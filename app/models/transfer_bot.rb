@@ -1,5 +1,5 @@
 class TransferBot < ActiveRecord::Base
-  has_paper_trail ignore: [:last_success_at, :updated_at]
+  has_paper_trail ignore: [:last_success_at, :updated_at, :last_failed_at]
 
   belongs_to :owner, polymorphic: true
   has_many self.versions_association_name, :as => :item, :foreign_key => :item_id, :class_name => version_class_name
