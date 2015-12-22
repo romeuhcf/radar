@@ -31,8 +31,8 @@ class FileDownloadWorker < ActiveJob::Base
       output = StringIO.new
       tmp_path = "/tmp" #TODO defined tmp path
 
-      download(transfer_bot.worker_label, transfer_bot.ftp_config, transfer_bot.patterns, transfer_bot.remote_path, tmp_path, output) do |tmp, fname|
-        fail 'process the file'
+      download(transfer_bot.worker_label, transfer_bot.ftp_config, transfer_bot.patterns, transfer_bot.remote_path, transfer_bot.source_delete_after, tmp_path, output) do |tmp, fname|
+        fail "Missing inplementation of  file process: #{fname}"
         # TODO XXX process the file
       end
 
@@ -52,7 +52,7 @@ class FileDownloadWorker < ActiveJob::Base
     end
   end
 
-  def download(label, cfg, patterns, remote_path, tmp_path, output)
+  def download(label, cfg, patterns, remote_path, remotely_delete_after, tmp_path, output)
     FileUtils.mkdir_p(tmp_path)
 
     host = cfg.host
@@ -60,7 +60,6 @@ class FileDownloadWorker < ActiveJob::Base
     user = cfg.user
     secret = cfg.secret
     passive = cfg.passive && true
-    remotely_delete_after = cfg.source_delete_after
 
     output.puts "(#{label})\t CONNECTING... host=#{host}, port=#{port}, user=#{user} , secret=#{'*' * secret.size} , passive=#{passive}"
     FtpConnection.start(label, host, port, user, secret, passive, output) do |conn|
