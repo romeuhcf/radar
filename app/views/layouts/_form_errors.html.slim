@@ -4,9 +4,13 @@
         span aria-hidden="true"
           | &times;
         span.sr-only
-          | Close
-      h4= "#{pluralize(record.errors.count,"error")} prohibited this record from being saved:"
+          = t :close
+      h4 = t('errors_on_save', count: record.errors.count)
       ul
-        - record.errors.full_messages.each do |msg|
-          li= msg
+        - record.errors.each do |f, msg|
+          li
+            b
+              = t(f, scope: ['simple_form', 'labels', record.class.name.underscore].join('.'))
+            | : 
+            = msg 
 

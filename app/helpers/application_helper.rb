@@ -59,7 +59,7 @@ module ApplicationHelper
     end
     content_tag(:div, class:'form-group') do
       [
-        f.label( field, class: "col-sm-2 control-label") ,
+        f.label( field, t(field, scope: "simple_form.labels.#{f.object.class.name.underscore}"), class: "col-sm-2 control-label") ,
         content_tag(:div, class: 'col-sm-6') do
           f.send(type, field, class: "form-control" )
         end

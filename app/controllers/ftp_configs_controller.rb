@@ -25,7 +25,7 @@ class FtpConfigsController < ApplicationController
     @ftp_config = safe_scope.new(ftp_config_params)
 
     if @ftp_config.save
-      redirect_to @ftp_config, notice: t('Ftp configuration was successfully created.')
+      redirect_to @ftp_config, notice: t('ftp_config.notify.success.create')
     else
       render :new
     end
@@ -34,7 +34,7 @@ class FtpConfigsController < ApplicationController
   # PATCH/PUT /ftp_configs/1
   def update
     if @ftp_config.update(ftp_config_params)
-      redirect_to @ftp_config, notice: t('Ftp configuration was successfully updated.')
+      redirect_to @ftp_config, notice: t('ftp_config.notify.success.update')
     else
       render :edit
     end
@@ -43,7 +43,7 @@ class FtpConfigsController < ApplicationController
   # DELETE /ftp_configs/1
   def destroy
     @ftp_config.destroy
-    redirect_to ftp_configs_url, notice: 'Ftp configuration was successfully destroyed.'
+    redirect_to ftp_configs_url, notice: t('ftp_config.notify.success.destroy')
   end
 
   private

@@ -18,4 +18,4 @@
 <%- end -%>
   .form-group
     .col-sm-offset-2.col-sm-10
-      = f.submit class: "btn btn-primary"
+      = f.submit class: "btn btn-primary", value: t(:save, scope: '<%= singular_table_name %>')

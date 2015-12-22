@@ -33,7 +33,7 @@ class TransferBotsController < ApplicationController
 
     respond_to do |format|
       if @transfer_bot.save
-        format.html { redirect_to @transfer_bot, notice: 'File download rule was successfully created.' }
+        format.html { redirect_to @transfer_bot, notice: t("transfer_bot.notify.success.create") }
         format.json { render :show, status: :created, location: @transfer_bot }
       else
         format.html { render :new }
@@ -47,7 +47,7 @@ class TransferBotsController < ApplicationController
   def update
     respond_to do |format|
       if @transfer_bot.update(transfer_bot_params)
-        format.html { redirect_to @transfer_bot, notice: 'File download rule was successfully updated.' }
+        format.html { redirect_to @transfer_bot, notice: t("transfer_bot.notify.success.update") }
         format.json { render :show, status: :ok, location: @transfer_bot }
       else
         format.html { render :edit }
@@ -61,7 +61,7 @@ class TransferBotsController < ApplicationController
   def destroy
     @transfer_bot.destroy
     respond_to do |format|
-      format.html { redirect_to transfer_bots_url, notice: 'File download rule was successfully destroyed.' }
+      format.html { redirect_to transfer_bots_url, notice: t("transfer_bot.notify.success.destroy") }
       format.json { head :no_content }
     end
   end
@@ -70,14 +70,14 @@ class TransferBotsController < ApplicationController
     @transfer_bot = safe_scope.find(params[:id])
     authorize @transfer_bot
     @transfer_bot.activate!
-    redirect_to @transfer_bot, notice: t("transfer_bot.notify.activate.success")
+    redirect_to @transfer_bot, notice: t("transfer_bot.notify.success.activate")
   end
 
   def deactivate
     @transfer_bot = safe_scope.find(params[:id])
     authorize @transfer_bot
     @transfer_bot.deactivate!
-    redirect_to @transfer_bot, notice: t("transfer_bot.notify.deactivate.success")
+    redirect_to @transfer_bot, notice: t("transfer_bot.notify.success.deactivate")
   end
 
 

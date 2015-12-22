@@ -29,7 +29,7 @@ class <%= controller_class_name %>Controller < ApplicationController
     @<%= singular_table_name %> = safe_scope.new(<%= singular_table_name %>_params)
 
     if @<%= orm_instance.save %>
-      redirect_to @<%= singular_table_name %>, notice: t(<%= "'#{human_name} was successfully created.'" %>)
+      redirect_to @<%= singular_table_name %>, notice: t('<%= singular_table_name %>.notify.success.create')
     else
       render :new
     end
@@ -38,7 +38,7 @@ class <%= controller_class_name %>Controller < ApplicationController
   # PATCH/PUT <%= route_url %>/1
   def update
     if @<%= orm_instance.update("#{singular_table_name}_params") %>
-      redirect_to @<%= singular_table_name %>, notice: t(<%= "'#{human_name} was successfully updated.'" %>)
+      redirect_to @<%= singular_table_name %>, notice: t('<%= singular_table_name %>.notify.success.update')
     else
       render :edit
     end
@@ -47,7 +47,7 @@ class <%= controller_class_name %>Controller < ApplicationController
   # DELETE <%= route_url %>/1
   def destroy
     @<%= orm_instance.destroy %>
-    redirect_to <%= index_helper %>_url, notice: <%= "'#{human_name} was successfully destroyed.'" %>
+    redirect_to <%= index_helper %>_url, notice: t('<%= singular_table_name %>.notify.success.destroy')
   end
 
   private

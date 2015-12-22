@@ -1,9 +1,9 @@
 .page-header
   = link_to new_<%= singular_table_name %>_path, class: 'btn btn-primary' do 
     span.glyphicon.glyphicon-plus
-    = t('New <%= human_name %>')
+    = t('new_record', scope: '<%= singular_table_name %>')
   h2
-    = t('listing  <%= plural_table_name %>')
+    = t('listing', scope: '<%= singular_table_name %>')
 
 .table-responsive
   table.table.table-striped.table-hover

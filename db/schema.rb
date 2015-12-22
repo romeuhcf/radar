@@ -95,7 +95,7 @@ ActiveRecord::Schema.define(version: 20151221101709) do
     t.integer  "owner_id",   limit: 4
     t.string   "owner_type", limit: 255
     t.string   "host",       limit: 255
-    t.string   "port",       limit: 255
+    t.integer  "port",       limit: 4
     t.string   "user",       limit: 255
     t.string   "secret",     limit: 255
     t.boolean  "passive"
