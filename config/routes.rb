@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :schedule_span_configs
+  resources :schedule_span_configs
+  resources :schedule_span_configs
   resources :parse_configs
   resources :ftp_configs
   resources :ftp_configs

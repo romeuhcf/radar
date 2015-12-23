@@ -1,0 +1,1 @@
+json.extract! @schedule_span_config, :id, :owner_id, :owner_type, :name, :relative, :start_span_id, :finish_span_id, :start_time, :finish_time, :time_table, :reschedule_when_time_table_ends, :created_at, :updated_at

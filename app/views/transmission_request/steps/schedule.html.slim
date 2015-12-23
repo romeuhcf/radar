@@ -4,21 +4,14 @@ div.row
     p
     .panel.panel-primary
       .panel-heading
-        | Upload de arquivo
+        | Agendamento
       .panel-body
 
-        = simple_form_for @transmission_request, {method: :put, url: wizard_path}.merge(simple_form_horizontal_setup)  do |f| 
-          =  f.simple_fields_for :parse_config, @transmission_request.parse_config do |ff|
-            = ff.input :timing_table , collection: ["business_hours", "extended_business_hours", "anytime"].map{|i| [ t(i, scope: :timing_tables),i]}, required: true
-            // = ff.input :dont_send_at_holidays, as: :boolean, # TODO
-            .datetimerange
-              = ff.input :schedule_start_time, as: :datetime_picker, wrapper: :ranged_datetime, required: true
-              = ff.input :schedule_finish_time, as: :datetime_picker, wrapper: :ranged_datetime , required: true
+        = simple_form_for @transmission_request, {method: :put, url: wizard_path}.merge(simple_form_horizontal_setup)  do |f|
+          =  f.simple_fields_for :schedule_span_config, @transmission_request.schedule_span_config || @transmission_request.build_schedule_span_config do |ff|
+            = render partial: 'schedule_span_configs/subform', locals: {form: ff}
 
-          br
-          br
-          br
-          br
-          br
+
+          hr
 
           = render partial: 'controls', locals: {f: f}

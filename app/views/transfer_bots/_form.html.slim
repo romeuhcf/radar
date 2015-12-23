@@ -1,10 +1,48 @@
 = form_for(@transfer_bot, html: { class: "form-horizontal", role: "form" }) do |f|
   = render partial: 'layouts/form_errors', locals: {record: @transfer_bot}
-  - [:description, 'schedule', 'remote_path', 'patterns',  ['enabled', 'check_box'], ['source_delete_after' , 'check_box']].each do |field|
-    = field f, *Array(field).flatten
-  = f.fields_for :ftp_config, @transfer_bot.ftp_config || FtpConfig.new do |ff|
-    - [:host, [:port, 'number_field'], :user, :secret, [:passive, 'check_box']].each do |field|
-      = field ff, *Array(field).flatten
+
+  fieldset#bot
+    legend
+      | Dados do robô
+    - [:description, 'schedule', 'remote_path', 'patterns',  ['enabled', 'check_box'], ['source_delete_after' , 'check_box']].each do |field|
+      = field f, *Array(field).flatten
+
+
+  fieldset
+    legend
+      | Configurações FTP
+    .form-group
+      = f.label(:ftp_config_id, t(:ftp_config, scope:"simple_form.labels.transfer_bot"), class: 'col-sm-3 control-label')
+      .col-sm-6
+        = f.select :ftp_config_id, policy_scope(current_owner.ftp_configs).map{|pc| [pc.name, pc.id]},{}, {class: 'form-control'}
+      .col-sm-2
+
+    = f.fields_for :ftp_config, @transfer_bot.ftp_config || FtpConfig.new do |ff|
+      = render partial: 'ftp_configs/subform', locals: {form: ff}
+  fieldset
+    legend
+      | Processamento
+    .form-group
+      = f.label(:parse_config_id, t(:parse_config, scope:"simple_form.labels.transfer_bot"), class: 'col-sm-3 control-label')
+      .col-sm-6
+        = f.select :parse_config_id, policy_scope(current_owner.parse_configs).map{|pc| [pc.name, pc.id]},{}, {class: 'form-control'}
+      .col-sm-2
+    = f.fields_for :parse_config, @transfer_bot.parse_config || ParseConfig.new do |ff|
+      = render partial: 'parse_configs/subform', locals: {form: ff}
+
+  fieldset
+    legend
+      | Agendamento
+
+    .form-group
+      = f.label(:schedule_span_config_id, t(:schedule_span_config, scope:"simple_form.labels.transfer_bot"), class: 'col-sm-3 control-label')
+      .col-sm-6
+        = f.select :schedule_span_config_id,  policy_scope(current_owner.schedule_span_configs).map{|pc| [pc.name, pc.id]},{}, {class: 'form-control'}
+      .col-sm-2
+
+
+    = f.fields_for :schedule_span_config, @transfer_bot.schedule_span_config || ScheduleSpanConfig.new do |ff|
+      = render partial: 'schedule_span_configs/subform', locals: {form: ff}
 
   .form-group
     hr

@@ -1,6 +1,6 @@
 require 'rails_helper'
 describe TransmissionRequestProcessWorker do
-  let(:transmission_request) { create(:transmission_request, size: 0, parse_config: parse_config, batch_file: csv, status: 'scheduled') }
+  let(:transmission_request) { create(:transmission_request, size: 0, parse_config: parse_config, batch_file: csv, status: 'scheduled', schedule_span_config: schedule_span_config) }
 
   context "with headers at first line" do
     let(:csv) { Rack::Test::UploadedFile.new(fixture_file('simple_sms_with_header.csv')) }
@@ -11,13 +11,16 @@ describe TransmissionRequestProcessWorker do
         column_of_number: 'numero',
         column_of_message: 'mensagem',
         kind: 'csv',
-        timing_table: 'business_hours',
         field_separator: ';',
-        schedule_start_time: '2010-01-01T10:00:00-0200',
-        schedule_finish_time: '2010-01-01T11:00:00-0200',
       })
     end
-
+    let(:schedule_span_config) do
+      create(:schedule_span_config, {
+        time_table: 'business_hours',
+        start_time: '2010-01-01T10:00:00-0200',
+        finish_time: '2010-01-01T11:00:00-0200',
+      })
+    end
     describe "#perform(transmission_request_id)" do
       before do
         Sidekiq::Testing.fake! do

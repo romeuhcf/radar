@@ -9,7 +9,7 @@
   table.table.table-striped.table-hover
     thead
       tr
-        - [:kind, :name, :schedule_start_time, :schedule_finish_time, :timing_table, :custom_message].each do |field|
+        - [:kind, :name, :custom_message].each do |field|
           th = t(field, scope: 'simple_form.labels.parse_config')
         th
         th
@@ -17,7 +17,7 @@
     tbody
       - @parse_configs.each do | parse_config |
         tr
-          - [:kind, :name, :schedule_start_time, :schedule_finish_time, :timing_table, :custom_message].each do |field|
+          - [:kind, :name, :custom_message].each do |field|
             td = parse_config.read_attribute(field)
           td
             - if policy(parse_config).show?

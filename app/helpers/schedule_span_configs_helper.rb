@@ -1,0 +1,2 @@
+module ScheduleSpanConfigsHelper
+end

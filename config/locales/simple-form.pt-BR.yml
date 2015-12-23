@@ -27,8 +27,13 @@ pt-BR:
         column_of_destination_reference: "Coluna das referências do destinatário"
         headers_at_first_line: "Títulos das colunas na primeira linha"
         custom_message: "Mensagem customizada"
-        message_defined_at_column: "Usar mensagem de uma coluna?"
-        timing_table: "Horários válidos"
-        schedule_start_time: "Início"
-        schedule_finish_time: "Fim"
+        message_defined_at_column: "Usar mensagem de uma coluna?" 
+
+      schedule_span_config:
+        time_table: "Horários válidos"
+        start_time: "Início"
+        finish_time: "Fim"
+        start_span_id: "Início em"
+        finish_span_id: "Fim em"
+        relative: "Em relação ao horário atual"
 

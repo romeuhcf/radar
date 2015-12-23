@@ -5,6 +5,8 @@ FactoryGirl.define do
     identification Faker::Lorem.sentence
     requested_via "MyString"
     reference_date "2015-10-30"
+    parse_config { create(:parse_config) }
+    schedule_span_config { create(:schedule_span_config) }
 
     transient do
       size 5

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151221101709) do
+ActiveRecord::Schema.define(version: 20151223170230) do
 
   create_table "api_clients", force: :cascade do |t|
     t.integer  "owner_id",     limit: 4
@@ -152,6 +152,13 @@ ActiveRecord::Schema.define(version: 20151221101709) do
   add_index "messages", ["owner_type", "owner_id"], name: "index_messages_on_owner_type_and_owner_id", using: :btree
   add_index "messages", ["transmission_request_id"], name: "index_messages_on_transmission_request_id", using: :btree
 
+  create_table "named_time_spans", force: :cascade do |t|
+    t.integer  "span",       limit: 4
+    t.string   "name",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
   create_table "parse_configs", force: :cascade do |t|
     t.string   "kind",                            limit: 255
     t.integer  "owner_id",                        limit: 4
@@ -161,9 +168,6 @@ ActiveRecord::Schema.define(version: 20151221101709) do
     t.string   "column_of_message",               limit: 255
     t.string   "column_of_number",                limit: 255
     t.string   "column_of_destination_reference", limit: 255
-    t.string   "schedule_start_time",             limit: 255
-    t.string   "schedule_finish_time",            limit: 255
-    t.string   "timing_table",                    limit: 255
     t.string   "field_separator",                 limit: 255
     t.boolean  "headers_at_first_line"
     t.text     "custom_message",                  limit: 65535
@@ -198,6 +202,25 @@ ActiveRecord::Schema.define(version: 20151221101709) do
 
   add_index "route_providers", ["enabled", "service_type", "name"], name: "index_route_providers_on_enabled_and_service_type_and_name", using: :btree
 
+  create_table "schedule_span_configs", force: :cascade do |t|
+    t.integer  "owner_id",                        limit: 4
+    t.string   "owner_type",                      limit: 255
+    t.string   "name",                            limit: 255
+    t.boolean  "relative"
+    t.datetime "start_time"
+    t.datetime "finish_time"
+    t.string   "time_table",                      limit: 255
+    t.boolean  "reschedule_when_time_table_ends"
+    t.integer  "start_span_id",                   limit: 4
+    t.integer  "finish_span_id",                  limit: 4
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
+  end
+
+  add_index "schedule_span_configs", ["finish_span_id"], name: "fk_rails_a00b4166f7", using: :btree
+  add_index "schedule_span_configs", ["owner_type", "owner_id"], name: "index_schedule_span_configs_on_owner_type_and_owner_id", using: :btree
+  add_index "schedule_span_configs", ["start_span_id"], name: "fk_rails_07063788f8", using: :btree
+
   create_table "status_notifications", force: :cascade do |t|
     t.integer  "route_provider_id", limit: 4
     t.integer  "message_id",        limit: 4
@@ -210,50 +233,56 @@ ActiveRecord::Schema.define(version: 20151221101709) do
   add_index "status_notifications", ["route_provider_id"], name: "index_status_notifications_on_route_provider_id", using: :btree
 
   create_table "transfer_bots", force: :cascade do |t|
-    t.string   "worker_class",        limit: 255
-    t.integer  "owner_id",            limit: 4
-    t.string   "owner_type",          limit: 255
+    t.string   "worker_class",            limit: 255
+    t.integer  "owner_id",                limit: 4
+    t.string   "owner_type",              limit: 255
     t.boolean  "enabled"
-    t.string   "description",         limit: 255
-    t.string   "schedule",            limit: 255
-    t.string   "status",              limit: 255
+    t.string   "description",             limit: 255
+    t.string   "schedule",                limit: 255
+    t.string   "status",                  limit: 255
     t.datetime "last_success_at"
     t.datetime "last_failed_at"
-    t.text     "last_log",            limit: 65535
-    t.datetime "created_at",                                             null: false
-    t.datetime "updated_at",                                             null: false
-    t.string   "remote_path",         limit: 255
-    t.string   "patterns",            limit: 255
+    t.text     "last_log",                limit: 65535
+    t.datetime "created_at",                                                 null: false
+    t.datetime "updated_at",                                                 null: false
+    t.string   "remote_path",             limit: 255
+    t.string   "patterns",                limit: 255
     t.boolean  "source_delete_after"
-    t.string   "direction",           limit: 255,   default: "download"
-    t.integer  "ftp_config_id",       limit: 4
+    t.string   "direction",               limit: 255,   default: "download"
+    t.integer  "ftp_config_id",           limit: 4
+    t.integer  "parse_config_id",         limit: 4
+    t.integer  "schedule_span_config_id", limit: 4
   end
 
   add_index "transfer_bots", ["enabled"], name: "index_transfer_bots_on_enabled", using: :btree
   add_index "transfer_bots", ["ftp_config_id"], name: "index_transfer_bots_on_ftp_config_id", using: :btree
   add_index "transfer_bots", ["owner_type", "owner_id"], name: "index_transfer_bots_on_owner_type_and_owner_id", using: :btree
+  add_index "transfer_bots", ["parse_config_id"], name: "index_transfer_bots_on_parse_config_id", using: :btree
+  add_index "transfer_bots", ["schedule_span_config_id"], name: "index_transfer_bots_on_schedule_span_config_id", using: :btree
   add_index "transfer_bots", ["worker_class"], name: "index_transfer_bots_on_worker_class", using: :btree
 
   create_table "transmission_requests", force: :cascade do |t|
-    t.integer  "owner_id",        limit: 4
-    t.string   "owner_type",      limit: 255
-    t.integer  "user_id",         limit: 4
-    t.string   "identification",  limit: 255
-    t.string   "requested_via",   limit: 255
-    t.string   "status",          limit: 255
+    t.integer  "owner_id",                limit: 4
+    t.string   "owner_type",              limit: 255
+    t.integer  "user_id",                 limit: 4
+    t.string   "identification",          limit: 255
+    t.string   "requested_via",           limit: 255
+    t.string   "status",                  limit: 255
     t.date     "reference_date"
-    t.integer  "messages_count",  limit: 4
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.integer  "division_id",     limit: 4
-    t.string   "batch_file",      limit: 255
-    t.integer  "parse_config_id", limit: 4
+    t.integer  "messages_count",          limit: 4
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.integer  "division_id",             limit: 4
+    t.string   "batch_file",              limit: 255
+    t.integer  "parse_config_id",         limit: 4
+    t.integer  "schedule_span_config_id", limit: 4
   end
 
   add_index "transmission_requests", ["division_id"], name: "index_transmission_requests_on_division_id", using: :btree
   add_index "transmission_requests", ["owner_type", "owner_id"], name: "index_transmission_requests_on_owner_type_and_owner_id", using: :btree
   add_index "transmission_requests", ["parse_config_id"], name: "index_transmission_requests_on_parse_config_id", using: :btree
   add_index "transmission_requests", ["requested_via", "status", "reference_date"], name: "idx_requests_for_admin_report", using: :btree
+  add_index "transmission_requests", ["schedule_span_config_id"], name: "index_transmission_requests_on_schedule_span_config_id", using: :btree
   add_index "transmission_requests", ["user_id", "requested_via", "status", "reference_date"], name: "idx_requests_for_user_report", using: :btree
   add_index "transmission_requests", ["user_id"], name: "index_transmission_requests_on_user_id", using: :btree
 
@@ -318,10 +347,15 @@ ActiveRecord::Schema.define(version: 20151221101709) do
   add_foreign_key "chat_rooms", "users", column: "last_contacted_by_id"
   add_foreign_key "message_contents", "messages"
   add_foreign_key "messages", "destinations"
+  add_foreign_key "schedule_span_configs", "named_time_spans", column: "finish_span_id"
+  add_foreign_key "schedule_span_configs", "named_time_spans", column: "start_span_id"
   add_foreign_key "status_notifications", "messages"
   add_foreign_key "status_notifications", "route_providers"
   add_foreign_key "transfer_bots", "ftp_configs"
+  add_foreign_key "transfer_bots", "parse_configs"
+  add_foreign_key "transfer_bots", "schedule_span_configs"
   add_foreign_key "transmission_requests", "divisions"
   add_foreign_key "transmission_requests", "parse_configs"
+  add_foreign_key "transmission_requests", "schedule_span_configs"
   add_foreign_key "transmission_requests", "users"
 end

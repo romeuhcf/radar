@@ -60,8 +60,8 @@ feature "CSV Estimations", :js do
     select("A", from: "Coluna dos telefones")
 
     click_on("Próximo passo");
-    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_start_time').val('#{ini}')")
-    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_finish_time').val('#{fin}')")
+    page.execute_script("$('#transmission_request_schedule_span_config_attributes_start_time').val('#{ini}')")
+    page.execute_script("$('#transmission_request_schedule_span_config_attributes_finish_time').val('#{fin}')")
     select("Horário Comercial (08:00 às 19:00)", from: 'Horários válidos')
     click_on("Próximo passo");
 
@@ -75,8 +75,8 @@ feature "CSV Estimations", :js do
     select("B", from: "Coluna das mensagens")
     select("A", from: "Coluna dos telefones")
     click_on("Próximo passo");
-    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_start_time').val('#{ini}')")
-    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_finish_time').val('#{fin}')")
+    page.execute_script("$('#transmission_request_schedule_span_config_attributes_start_time').val('#{ini}')")
+    page.execute_script("$('#transmission_request_schedule_span_config_attributes_finish_time').val('#{fin}')")
     select("Horário Comercial (08:00 às 19:00)", from: 'Horários válidos')
     click_on("Próximo passo");
     expect(page).to have_content('750 mensagens')
@@ -111,8 +111,8 @@ feature "Send CSV" , :js do
     click_on("Próximo passo");
 
     # Schedule step
-    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_start_time').val('#{ini}')")
-    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_finish_time').val('#{fin}')")
+    page.execute_script("$('#transmission_request_schedule_span_config_attributes_start_time').val('#{ini}')")
+    page.execute_script("$('#transmission_request_schedule_span_config_attributes_finish_time').val('#{fin}')")
     select("Horário Comercial (08:00 às 19:00)", from: 'Horários válidos')
     click_on("Próximo passo");
 
@@ -151,8 +151,8 @@ feature "Send CSV" , :js do
     click_on("Próximo passo");
 
     # Schedule step
-    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_start_time').val('#{ini}')")
-    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_finish_time').val('#{fin}')")
+    page.execute_script("$('#transmission_request_schedule_span_config_attributes_start_time').val('#{ini}')")
+    page.execute_script("$('#transmission_request_schedule_span_config_attributes_finish_time').val('#{fin}')")
     select("Horário Comercial (08:00 às 19:00)", from: 'Horários válidos')
     click_on("Próximo passo");
 
@@ -189,8 +189,8 @@ feature "Send CSV" , :js do
     click_on("Próximo passo");
 
     # Schedule step
-    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_start_time').val('#{ini}')")
-    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_finish_time').val('#{fin}')")
+    page.execute_script("$('#transmission_request_schedule_span_config_attributes_start_time').val('#{ini}')")
+    page.execute_script("$('#transmission_request_schedule_span_config_attributes_finish_time').val('#{fin}')")
     select("Horário Comercial (08:00 às 19:00)", from: 'Horários válidos')
     click_on("Próximo passo");
 
@@ -228,8 +228,8 @@ feature "Send CSV" , :js do
 
       # Schedule step
 
-      page.execute_script("$('#transmission_request_parse_config_attributes_schedule_start_time').val('#{ini}')")
-      page.execute_script("$('#transmission_request_parse_config_attributes_schedule_finish_time').val('#{fin}')")
+      page.execute_script("$('#transmission_request_schedule_span_config_attributes_start_time').val('#{ini}')")
+      page.execute_script("$('#transmission_request_schedule_span_config_attributes_finish_time').val('#{fin}')")
       select("Horário Comercial (08:00 às 19:00)", from: 'Horários válidos')
       click_on("Próximo passo");
 

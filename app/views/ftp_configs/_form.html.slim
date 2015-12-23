@@ -1,7 +1,5 @@
 = form_for(@ftp_config, html: { class: "form-horizontal", role: "form" }) do |f|
-  = render partial: 'layouts/form_errors', locals: {record: @ftp_config}
-  - [:host, [:port, 'number_field'], :user, :secret, [:passive, 'check_box']].each do |field|
-    = field f, *Array(field).flatten
+  = render partial: 'subform', locals: {form:f}
 
   .form-group
     hr

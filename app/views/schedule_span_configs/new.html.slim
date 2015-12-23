@@ -1,0 +1,8 @@
+.page-header
+  = link_to schedule_span_configs_path, class: 'btn btn-default' do 
+    span.glyphicon.glyphicon-list-alt
+    = t :back 
+  h1
+    = t :new_record, scope: 'schedule_span_config'
+
+= render 'form'

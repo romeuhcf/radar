@@ -52,18 +52,20 @@ module ApplicationHelper
     number_with_delimiter n
   end
 
-  def field(f, field, type = 'text_field')
-    if field.is_a? Hash
-      field = field.flatten.first
-      type ||= field.flatten.last
-    end
-    content_tag(:div, class:'form-group') do
+  def field(f, field, type = 'text_field', options = {})
+    options[:class] = [ options[:class] ,  "form-control" ].compact.join(' ')
+
+    content_tag(:div, class:'form-group row') do
       [
-        f.label( field, t(field, scope: "simple_form.labels.#{f.object.class.name.underscore}"), class: "col-sm-2 control-label") ,
+        f.label( field, t(field, scope: "simple_form.labels.#{f.object.class.name.underscore}"), class: "col-sm-3 control-label") ,
         content_tag(:div, class: 'col-sm-6') do
-          f.send(type, field, class: "form-control" )
-        end
+          block_given? ? yield('form-control') : f.send(type, field, options)
+        end,
       ].join(' ').html_safe
     end
+  end
+
+  def named_time_spans_collection
+    NamedTimeSpan.all.map{|nts| [nts.id, t(nts.name, scope: 'named_time_span.names' )]}
   end
 end

@@ -1,5 +1,6 @@
-h4
-  | Configurações do arquivo csv
+fieldset
+  legend
+    | Configurações do arquivo csv
 
 =  f.simple_fields_for :parse_config, @transmission_request.parse_config do |ff|
   = ff.input :kind, collection: ['csv'], required: true

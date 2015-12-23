@@ -41,8 +41,6 @@ class FileDownloadWorker < ActiveJob::Base
     end
 
     yield tmp_dest_file, entry
-  ensure
-    File.unlink(tmp_dest_file) rescue nil
   end
 
 
@@ -52,11 +50,9 @@ class FileDownloadWorker < ActiveJob::Base
       output = StringIO.new
 
       download_all(transfer_bot.worker_label, transfer_bot.ftp_config, transfer_bot.patterns, transfer_bot.remote_path, transfer_bot.source_delete_after, output) do |real, original|
-        # TODO XXX process the  file
-        # TODO handle patterns as array. Use fnmatch
-
-        puts [real, original].join(': ')
+        ReceiveTransferBotRequestService.new.receive(real, original, transfer_bot)
       end
+
       transfer_bot.last_success_at = Time.zone.now
       transfer_bot.status = 'success'
     rescue

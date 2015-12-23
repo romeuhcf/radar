@@ -13,4 +13,17 @@ class File
   def self.wc_l(fname)
     %x{ wc -l #{Shellwords.escape(fname)} }.strip.to_i
   end
+
+  def force_name(forced_name)
+    @forced_name = forced_name
+  end
+
+  def original_filename
+    if @forced_name
+      @forced_name
+    else
+      super
+    end
+  end
+
 end

@@ -1,0 +1,3 @@
+= render partial: 'layouts/form_errors', locals: {record: form.object}
+- [:host, [:port, 'number_field'], :user, :secret, [:passive, 'check_box']].each do |field|
+  = field form, *Array(field).flatten

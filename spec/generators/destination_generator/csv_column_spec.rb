@@ -13,10 +13,7 @@ describe DestinationGenerator::CsvColumn do
         column_of_number: 'numero',
         column_of_message: 'mensagem',
         kind: 'csv',
-        timing_table: 'business_hours',
         field_separator: ';',
-        schedule_start_time: '2010-01-01 10:00:00',
-        schedule_finish_time: '2010-01-01 11:00:00',
       }
     end
     let(:csv) { Rack::Test::UploadedFile.new(fixture_file('simple_sms_with_header.csv')) }
@@ -58,10 +55,7 @@ describe DestinationGenerator::CsvColumn do
         column_of_number: 'numero',
         column_of_message: 'mensagem',
         kind: 'csv',
-        timing_table: 'business_hours',
         field_separator: ';',
-        schedule_start_time: '2010-01-01 10:00:00',
-        schedule_finish_time: '2010-01-01 11:00:00',
       }
     end
 
@@ -109,10 +103,7 @@ describe DestinationGenerator::CsvColumn do
         column_of_number: 'A',
         column_of_message: 'B',
         kind: 'csv',
-        timing_table: 'business_hours',
         field_separator: ';',
-        schedule_start_time: '2010-01-01 10:00:00',
-        schedule_finish_time: '2010-01-01 11:00:00',
       }
     end
     let(:csv) { Rack::Test::UploadedFile.new(fixture_file('simple_sms_disarranged.csv')) }
@@ -156,10 +147,7 @@ describe DestinationGenerator::CsvColumn do
         column_of_number: 'A',
         column_of_message: 'B',
         kind: 'csv',
-        timing_table: 'business_hours',
         field_separator: ';',
-        schedule_start_time: '2010-01-01 10:00:00',
-        schedule_finish_time: '2010-01-01 11:00:00',
       })
     end
     let(:csv) { Rack::Test::UploadedFile.new(fixture_file('simple_sms.csv')) }

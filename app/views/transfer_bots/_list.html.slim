@@ -1,11 +1,12 @@
 - unless smart_listing.empty?
   table.table.table-striped
     thead
-      th.col-md-3= smart_listing.sortable "Descrição", "description"
-      th.col-md-4= smart_listing.sortable "Ativo?", "enabled"
+      th.col-md-2= smart_listing.sortable "Descrição", "description"
+      th.col-md-2= smart_listing.sortable "Ativo?", "enabled"
       th.col-md-2= smart_listing.sortable "Status atual", "status"
       th.col-md-2= smart_listing.sortable "Último sucesso em ", "last_success_at"
       th.col-md-2= smart_listing.sortable "Caminho remoto", "remote_path"
+      th.col-md-2= smart_listing.sortable "Tratamento", "parse_config"
     tbody
       - smart_listing.collection.each do |o|
         tr [data-transmission-request-id="#{o.id}"]
@@ -18,6 +19,7 @@
             span.status.label [class="label-#{(o.enabled? ? 'primary' : 'warning')}"]
               = t('enabled') + ': '+ t( (o.enabled? ? 'yes' : 'no'), scope: 'transfer_bot.enabled')
           td = o.remote_path
+          td = o.parse_config && o.parse_config.name || '-'
           td
             span [title="#{o.last_success_at}"]
               - if !o.last_success_at
@@ -26,8 +28,7 @@
                 = l o.last_success_at, format: :short
               - else
                 = distance_of_time_in_words_to_now o.last_success_at
-          td.actions
-            = render partial: 'actions', locals: {transfer_bot: o}
+          = render partial: 'actions', locals: {transfer_bot: o}
 
   = smart_listing.paginate
   = smart_listing.pagination_per_page_links

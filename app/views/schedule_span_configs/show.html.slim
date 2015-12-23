@@ -1,0 +1,46 @@
+.page-header
+  = link_to schedule_span_configs_path, class: 'btn btn-default' do 
+    span.glyphicon.glyphicon-list-alt
+    = t(:back )
+  = link_to edit_schedule_span_config_path(@schedule_span_config), class: 'btn btn-primary' do 
+    span.glyphicon.glyphicon-pencil
+    = t(:edit)
+  h1
+    = t :show, scope: 'schedule_span_config'
+dl.dl-horizontal
+  dt
+    | Owner:
+  dd
+    = @schedule_span_config.owner
+  dt
+    | Name:
+  dd
+    = @schedule_span_config.name
+  dt
+    | Relative:
+  dd
+    = @schedule_span_config.relative
+  dt
+    | Start span:
+  dd
+    = @schedule_span_config.start_span
+  dt
+    | Finish span:
+  dd
+    = @schedule_span_config.finish_span
+  dt
+    | Start time:
+  dd
+    = @schedule_span_config.start_time
+  dt
+    | Finish time:
+  dd
+    = @schedule_span_config.finish_time
+  dt
+    | Time table:
+  dd
+    = @schedule_span_config.time_table
+  dt
+    | Reschedule when time table ends:
+  dd
+    = @schedule_span_config.reschedule_when_time_table_ends

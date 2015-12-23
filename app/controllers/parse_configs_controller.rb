@@ -55,46 +55,11 @@ class ParseConfigsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def parse_config_params
-      params.require(:parse_config).permit(:kind, :owner_id, :owner_type, :name, :is_message_defined_at_column, :column_of_message, :column_of_number, :column_of_destination_reference, :schedule_finish_time, :schedule_start_time, :timing_table, :field_separator, :headers_at_first_line, :custom_message, :skip_records)
+      params.require(:parse_config).permit(:kind, :owner_id, :owner_type, :name, :is_message_defined_at_column, :column_of_message, :column_of_number, :column_of_destination_reference, :field_separator, :headers_at_first_line, :custom_message, :skip_records)
     end
 
     def safe_scope
       policy_scope(ParseConfig)
     end
-end
-class ParseConfigPolicy < ApplicationPolicy
-  class Scope < Scope
-    def resolve
-      if user.has_role?(:admin)
-        scope.all
-      else
-        scope.where(owner: user)
-      end .where.not('parse_configs.name' => nil)
-    end
-  end
-
-  def update?
-    related?
-  end
-
-  def edit?
-    related?
-  end
-
-  def new?
-    related?
-  end
-
-  def create?
-    related?
-  end
-
-  def destroy?
-    related?
-  end
-
-  def index?
-    true
-  end
 end
 

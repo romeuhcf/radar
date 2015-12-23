@@ -19,8 +19,8 @@ def compose_transmission_request_until_step(step =nil, file = nil)
 
   ini = "2020/10/10 12:13"
   fin = "2020/10/11 12:13"
-  page.execute_script("$('#transmission_request_parse_config_attributes_schedule_start_time').val('#{ini}')")
-  page.execute_script("$('#transmission_request_parse_config_attributes_schedule_finish_time').val('#{fin}')")
+  page.execute_script("$('#transmission_request_schedule_span_config_attributes_start_time').val('#{ini}')")
+  page.execute_script("$('#transmission_request_schedule_span_config_attributes_finish_time').val('#{fin}')")
   select("Horário Comercial (08:00 às 19:00)", from: 'Horários válidos')
   click_on("Próximo passo")
   return if step == 'schedule'

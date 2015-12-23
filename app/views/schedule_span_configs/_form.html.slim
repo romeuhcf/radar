@@ -1,0 +1,6 @@
+= form_for(@schedule_span_config, html: { class: "form-horizontal", role: "form" }) do |f|
+  = render partial: 'subform', locals: {form:f}
+
+  .form-group
+    .col-sm-offset-2.col-sm-10
+      = f.submit class: "btn btn-primary", value: t(:save, scope: 'schedule_span_config')

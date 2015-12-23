@@ -1,0 +1,11 @@
+  = render partial: 'layouts/form_errors', locals: {record: form.object}
+  = field(form, :kind, :text_field)
+  = field(form, :name, :text_field)
+  = field(form, :message_defined_at_column, :check_box)
+  = field(form, :column_of_message, :text_field)
+  = field(form, :column_of_number, :text_field)
+  = field(form, :column_of_destination_reference, :text_field)
+  = field(form, :field_separator, :text_field)
+  = field(form, :headers_at_first_line, :check_box)
+  = field(form, :custom_message, :text_area)
+  = field(form, :skip_records, :number_field)

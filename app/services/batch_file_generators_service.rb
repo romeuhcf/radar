@@ -25,6 +25,6 @@ class BatchFileGeneratorsService
   end
 
   def schedule_generator
-    ScheduleGenerator::Hashing.new(transmission_request.parse_config)
+    ScheduleGenerator::Hashing.new(transmission_request.schedule_span_config)
   end
 end

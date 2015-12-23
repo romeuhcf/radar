@@ -1,5 +1,5 @@
 pt-BR:
-  timing_tables:
+  time_tables:
     business_hours: Horário Comercial (08:00 às 19:00)
     extended_business_hours: Horário Extendido (07:00 às 21:00)
     anytime: Qualquer horário (24x7)

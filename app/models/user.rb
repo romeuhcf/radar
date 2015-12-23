@@ -37,4 +37,8 @@ class User < ActiveRecord::Base
          :lockable,
          :masqueradable,
          :async
+
+  has_many :parse_configs, as: :owner
+  has_many :schedule_span_configs, as: :owner
+  has_many :ftp_configs, as: :owner
 end

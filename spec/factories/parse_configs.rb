@@ -1,16 +1,13 @@
 FactoryGirl.define do
   factory :parse_config do
-    kind "MyString"
+    kind "csv"
     owner {create(:user)}
     name "MyString"
     message_defined_at_column false
-    column_of_message "MyString"
-    column_of_number "MyString"
+    column_of_message "B"
+    column_of_number "A"
     column_of_destination_reference "MyString"
-    schedule_finish_time "MyString"
-    schedule_start_time "MyString"
-    timing_table "MyString"
-    field_separator "MyString"
+    field_separator ";"
     headers_at_first_line false
     custom_message "MyText"
     skip_records 1

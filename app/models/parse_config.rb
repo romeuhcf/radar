@@ -1,13 +1,7 @@
 class ParseConfig < ActiveRecord::Base
+  has_many :transfer_bot
+  has_many :transmission_requests
   belongs_to :owner, polymorphic: true
+  scope :named, ->{ where.not(name: nil) }
   #validates :owner, presence: true
-
-  #TODO implement this in relative mode
-  def schedule_start_time
-    read_attribute(:schedule_start_time) &&  Time.zone.parse(read_attribute(:schedule_start_time))
-  end
-
-  def schedule_finish_time
-    read_attribute(:schedule_finish_time) &&   Time.zone.parse(read_attribute(:schedule_finish_time))
-  end
 end

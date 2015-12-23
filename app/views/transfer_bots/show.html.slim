@@ -46,6 +46,11 @@
         = t('patterns', scope: 'simple_form.labels.transfer_bot')
       = @transfer_bot.patterns
 
+    li
+      span.field_name
+        = t('parse_config_id', scope: 'simple_form.labels.transfer_bot')
+      = (@transfer_bot.parse_config && @transfer_bot.parse_config.name) || '-'
+
   hr
   = link_to 'Editar', edit_transfer_bot_path(@transfer_bot), class: 'btn btn-primary'
   = link_to 'Voltar à Lista', transfer_bots_path, class: 'btn btn-default'

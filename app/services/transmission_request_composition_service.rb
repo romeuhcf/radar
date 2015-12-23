@@ -25,10 +25,12 @@ class TransmissionRequestCompositionService
   def confirm
     transmission_request.status = 'scheduled'
     transmission_request.save!
-    process_start_time = if transmission_request.parse_config.schedule_start_time - Time.current > 6.minutes
-                           transmission_request.parse_config.schedule_start_time - 5.minutes
+
+    # TODO relative span
+    process_start_time = if transmission_request.schedule_span_config.get_start_time - Time.current > 6.minutes
+                           transmission_request.schedule_span_config.get_start_time - 5.minutes
                          else
-                           transmission_request.parse_config.schedule_start_time + 5.seconds
+                           transmission_request.schedule_span_config.get_start_time + 5.seconds
                          end
 
     Sidekiq::Client.enqueue_to_in("owner-#{transmission_request.owner_id}-transmission-request", process_start_time - Time.zone.now , TransmissionRequestProcessWorker, transmission_request.id)
@@ -45,8 +47,7 @@ class TransmissionRequestCompositionService
     transmission_request.parse_config.column_of_number &&
       (transmission_request.parse_config.column_of_message ||
        transmission_request.parse_config.custom_message ) &&
-      sample_message &&
-      transmission_request.parse_config.timing_table
+      sample_message  # TODO && transmission_request.schedule_span_config.timing_table
   end
 
   def update_attributes(new_attributes)

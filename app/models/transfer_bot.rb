@@ -5,6 +5,14 @@ class TransferBot < ActiveRecord::Base
   has_many self.versions_association_name, :as => :item, :foreign_key => :item_id, :class_name => version_class_name
   belongs_to :ftp_config
   accepts_nested_attributes_for :ftp_config
+  belongs_to :parse_config
+  accepts_nested_attributes_for :parse_config
+  belongs_to :schedule_span_config
+  accepts_nested_attributes_for :schedule_span_config
+
+  validates :parse_config, presence: true, if: :enabled?
+  validates :schedule_span_config, presence: true, if: :enabled?
+  validates :ftp_config, presence: true, if: :enabled?
 
   validates :owner,   presence: true
   validates :description,    presence: true, format: /.{3,}/
@@ -18,6 +26,7 @@ class TransferBot < ActiveRecord::Base
   validate :validate_schedule
   validate :test_connection
 
+  before_save :set_configs_ownership
   after_save :update_schedule
   after_destroy :unschedule!
 
@@ -77,5 +86,22 @@ class TransferBot < ActiveRecord::Base
     FileDownloadWorker.new.test_connection(self)
   rescue
     errors.add(:ftp_config, $!.class.name)
+  end
+
+  def set_configs_ownership
+    if ftp_config
+      ftp_config.owner = self.owner
+      ftp_config.save!
+    end
+
+    if parse_config
+      parse_config.owner = self.owner
+      parse_config.save!
+    end
+
+    if schedule_span_config
+      schedule_span_config.owner = self.owner
+      schedule_span_config.save!
+    end
   end
 end

@@ -1,0 +1,52 @@
+.page-header
+  = link_to new_schedule_span_config_path, class: 'btn btn-primary' do
+    span.glyphicon.glyphicon-plus
+    = t('new_record', scope: 'schedule_span_config')
+  h2
+    = t('listing', scope: 'schedule_span_config')
+
+.table-responsive
+  table.table.table-striped.table-hover
+    thead
+      tr
+        th
+          | Name
+        th
+          | Relative
+        th
+          | Start time
+        th
+          | Finish time
+        th
+          | Time table
+        th
+          | Reschedule when time table ends
+        th
+        th
+        th
+    tbody
+      - @schedule_span_configs.each do | schedule_span_config |
+        tr
+          td
+            = schedule_span_config.owner
+          td
+            = schedule_span_config.name
+          td
+            = schedule_span_config.relative
+          td
+            = schedule_span_config.start_time
+          td
+            = schedule_span_config.finish_time
+          td
+            = schedule_span_config.time_table
+          td
+            = schedule_span_config.reschedule_when_time_table_ends
+          td
+            - if policy(schedule_span_config).show?
+              = link_to t('Show'), schedule_span_config_path(id: schedule_span_config.id), class: 'action action-show', title: t('schedule_span_config.action.show')
+          td
+            - if policy(schedule_span_config).update?
+              = link_to t('Edit'), edit_schedule_span_config_path(schedule_span_config), class: 'action action-update', title: t('schedule_span_config.action.update')
+          td
+            - if policy(schedule_span_config).destroy?
+              = link_to t('Destroy'), schedule_span_config_path(schedule_span_config), class: 'action action-destroy', title: t('schedule_span_config.action.destroy'), method: 'delete', data: {confirm:  t('schedule_span_config.confirm.destroy')}

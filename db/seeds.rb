@@ -28,3 +28,5 @@ _m22=  Message.create!(sent_at: Time.current, destination: d2, owner: u1, messag
 _m23=  Message.create!(sent_at: Time.current, destination: d2, owner: u1, message_content: MessageContent.create(content: "Caro(a), estou verificando os nossos cadastros. Desculpe-nos o incomodo"))
 _m24=  Message.create!(sent_at: Time.current, destination: d2, owner: u1, message_content: MessageContent.create(content: "OBRIGADO"), outgoing: false)
 _c2 = ChatRoom.create!(owner: u1, destination: d2, last_contacted_by: u1, answered: false, archived: false)
+
+

@@ -1,11 +1,7 @@
 class FtpConfigPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      if user.has_role?(:admin)
-        scope.all
-      else
-        scope.where(owner: user)
-      end
+      scope.where(owner: user)
     end
   end
 

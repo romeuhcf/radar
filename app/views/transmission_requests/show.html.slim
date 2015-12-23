@@ -1,34 +1,34 @@
 div.row
   div.col-md-11.ficha
-    h2 
-      span.id = @transmission_request.id 
+    h2
+      span.id = @transmission_request.id
       span.identification = @transmission_request.identification
-      span.status = t @transmission_request.status, scope: 'transmission_request.status' 
+      span.status = t @transmission_request.status, scope: 'transmission_request.status'
     ul.transmission_request.details
       li
-        span.field_name 
+        span.field_name
           | Arquivo
         - if  @transmission_request.batch_file.current_path
           = link_to File.basename(@transmission_request.batch_file.current_path), @transmission_request.batch_file.url
         - else
-          | - 
-      li 
-        span.field_name 
+          | -
+      li
+        span.field_name
           | Data de agendamento
-        = l @transmission_request.parse_config.schedule_start_time.in_time_zone, format: :short
+        = l @transmission_request.schedule_span_config.start_time.in_time_zone, format: :short
         span.hint = " até "
-        = l @transmission_request.parse_config.schedule_finish_time.in_time_zone, format: :short
-      li 
+        = l @transmission_request.schedule_span_config.finish_time.in_time_zone, format: :short
+      li
         span.field_name
-          | Quantidade de destinos 
+          | Quantidade de destinos
         = @transmission_request.messages_count || 'n/a'
-      li 
+      li
         span.field_name
-          | Origem 
+          | Origem
         = @transmission_request.requested_via
 
 div.row
-  div.col-md-11 
+  div.col-md-11
     div.transmission_request_messages
       hr
       = smart_listing_render(:messages)

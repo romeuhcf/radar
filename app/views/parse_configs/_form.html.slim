@@ -1,17 +1,4 @@
 = form_for(@parse_config, html: { class: "form-horizontal", role: "form" }) do |f|
-  = render partial: 'layouts/form_errors', locals: {record: @parse_config}
-  = field(f, :kind, :text_field)
-  = field(f, :name, :text_field)
-  = field(f, :message_defined_at_column, :check_box)
-  = field(f, :column_of_message, :text_field)
-  = field(f, :column_of_number, :text_field)
-  = field(f, :column_of_destination_reference, :text_field)
-  = field(f, :schedule_finish_time, :text_field)
-  = field(f, :schedule_start_time, :text_field)
-  = field(f, :timing_table, :text_field)
-  = field(f, :field_separator, :text_field)
-  = field(f, :headers_at_first_line, :check_box)
-  = field(f, :custom_message, :text_area)
-  = field(f, :skip_records, :number_field)
+  = render partial: 'subform', locals: {form: f}
   .col-sm-offset-2
     = f.submit class: "btn btn-primary", value: t(:save, scope: 'parse_config')

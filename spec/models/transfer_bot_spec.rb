@@ -22,7 +22,7 @@ RSpec.describe TransferBot, type: :model do
     }
   }
   let(:user){create(:user)}
-  let(:valid_attributes){ {worker_class: 'FileDownloadWorker', schedule: '* * * * * *', description: "Just a description", ftp_config_attributes: accessible_ftp_server_options, owner: user, remote_path: '.', patterns: '*.txt', enabled: true}}
+  let(:valid_attributes){ {worker_class: 'FileDownloadWorker', schedule: '* * * * * *', description: "Just a description", ftp_config_attributes: accessible_ftp_server_options, owner: user, remote_path: '.', patterns: '*.txt', enabled: true, schedule_span_config: create(:schedule_span_config), parse_config: create(:parse_config)}}
 
   it  {expect(described_class.new(valid_attributes)).to be_valid}
   context 'owner' do

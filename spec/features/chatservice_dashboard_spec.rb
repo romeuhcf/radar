@@ -20,7 +20,7 @@ def receive_an_answer(destination, content)
   ChatRoomService.new.receive_message_from(destination.address, content, Time.current)
 end
 
-feature 'Display ansered messages as a chat', :js do
+feature 'Display answered messages as a chat', :js do
   let(:user){create(:confirmed_user)}
   let(:destination) { create(:destination) }
 

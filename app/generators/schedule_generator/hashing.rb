@@ -9,13 +9,13 @@ module ScheduleGenerator
     def total=(total)
       @total = total
       @interval = available_seconds / @total
-      @current = @options.schedule_start_time.to_time - @interval
+      @current = @options.get_start_time - @interval
     end
 
     def available_seconds
       # TODO, consider business hours and holidays
-      ini = @options.schedule_start_time.to_time
-      fin = @options.schedule_finish_time.to_time
+      ini = @options.get_start_time
+      fin = @options.get_finish_time
       fin - ini
     end
 

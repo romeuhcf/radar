@@ -25,8 +25,16 @@ class TransmissionRequest < ActiveRecord::Base
   mount_uploader :batch_file, BatchFileUploader
   validates :owner, presence: true
   include AASM
+
   belongs_to :parse_config
   accepts_nested_attributes_for :parse_config
+  belongs_to :schedule_span_config
+  accepts_nested_attributes_for :schedule_span_config
+
+  before_save :set_configs_ownership
+
+  validates :parse_config, presence: true, unless: ->(me){ me.status.to_s == 'draft' or me.identification == 'inline' }
+  validates :schedule_span_config, presence: true, unless: ->(me){ me.status.to_s == 'draft' or me.identification == 'inline'}
 
   aasm column: "status" do
     state :draft, initial: true
@@ -58,5 +66,23 @@ class TransmissionRequest < ActiveRecord::Base
 
   def composer
     @composer ||= TransmissionRequestCompositionService.new(self)
+  end
+
+  def set_configs_ownership
+    if parse_config
+      parse_config.owner = self.owner
+      parse_config.save!
+    end
+    if schedule_span_config
+      schedule_span_config.owner = self.owner
+      schedule_span_config.save!
+    end
+  end
+
+  require 'extensions/file'
+  def batch_file_from_file(file_path, the_original_filename)
+    io = File.open(file_path)
+    io.force_name the_original_filename
+    self.batch_file = io
   end
 end

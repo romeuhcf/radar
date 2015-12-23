@@ -1,5 +1,5 @@
 .page-header
-  = link_to new_ftp_config_path, class: 'btn btn-primary' do 
+  = link_to new_ftp_config_path, class: 'btn btn-primary' do
     span.glyphicon.glyphicon-plus
     = t('new_record', scope:'ftp_config')
   h2
@@ -23,10 +23,10 @@
               = ftp_config.read_attribute(field)
           td
             - if policy(ftp_config).show?
-              = link_to t('Show'), ftp_config_path(id: ftp_config.id), class: 'action action-show', title: t('ftp_config.action.show') 
+              = link_to '', ftp_config_path(id: ftp_config.id), class: 'action action-show', title: t('ftp_config.action.show')
           td
             - if policy(ftp_config).update?
-              = link_to t('Edit'), edit_ftp_config_path(ftp_config), class: 'action action-update', title: t('ftp_config.action.update') 
+              = link_to '', edit_ftp_config_path(ftp_config), class: 'action action-update', title: t('ftp_config.action.update')
           td
             - if policy(ftp_config).destroy?
-              = link_to t('Destroy'), ftp_config_path(ftp_config), class: 'action action-destroy', title: t('ftp_config.action.destroy'), method: 'delete', data: {confirm:  t('ftp_config.confirm.destroy')}
+              = link_to '', ftp_config_path(ftp_config), class: 'action action-destroy', title: t('ftp_config.action.destroy'), method: 'delete', data: {confirm:  t('ftp_config.confirm.destroy')}

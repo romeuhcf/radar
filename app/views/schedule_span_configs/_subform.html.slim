@@ -1,0 +1,11 @@
+= render partial: 'layouts/form_errors', locals: {record: form.object}
+= field form, :name
+= field form, :time_table do |cls|
+  = form.select :time_table, ["business_hours", "extended_business_hours", "anytime"].map{|i| [ t(i, scope: :time_tables),i]} , {}, class: cls
+= field form, :relative
+= field form, :start_time
+= field form, :finish_time
+= field form, :start_span_id, :select  do |cls|
+  = form.select :start_span_id, named_time_spans_collection, {}, class: cls
+= field form, :finish_span_id, :select do |cls|
+  = form.select :finish_span_id, named_time_spans_collection, {}, class: cls

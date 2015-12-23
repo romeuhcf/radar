@@ -9,6 +9,7 @@ class TransmissionRequest::StepsController < ApplicationController
     @transmission_request = safe_scope.find(params[:transmission_request_id])
     @transmission_request.composer.step = step
     authorize @transmission_request.composer
+    @transmission_request.schedule_span_config || @transmission_request.schedule_span_config
 
     if step == :parse
       @parse_type = @transmission_request.batch_file_type + '_parse'
@@ -49,7 +50,7 @@ class TransmissionRequest::StepsController < ApplicationController
                            when :message
                              {:parse_config_attributes => [:id, :message_defined_at_column, :column_of_message, :custom_message, :column_of_number]}
                            when :schedule
-                             {:parse_config_attributes => [:id, :schedule_finish_time, :schedule_start_time, :timing_table]}
+                             {:schedule_span_config_attributes => [:id, :finish_time, :start_time, :time_table, :relative, :start_span_id, :finish_span_id]}
                            when :confirm
                              return {}
                            end

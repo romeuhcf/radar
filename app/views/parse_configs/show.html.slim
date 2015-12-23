@@ -8,7 +8,7 @@
   h2
     = t :show, scope: 'parse_config'
 dl.dl-horizontal
-  - [:kind, :name, :message_defined_at_column, :column_of_message, :column_of_number, :column_of_destination_reference, :schedule_start_time, :schedule_finish_time, :timing_table, :field_separator, :headers_at_first_line, :custom_message, :skip_records].each do |field|
+  - [:kind, :name, :message_defined_at_column, :column_of_message, :column_of_number, :column_of_destination_reference, :field_separator, :headers_at_first_line, :custom_message, :skip_records].each do |field|
     dt
       = t(field, scope: 'simple_form.labels.parse_config')
     dd
