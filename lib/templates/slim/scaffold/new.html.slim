@@ -1,0 +1,8 @@
+.page-header
+  = link_to <%= index_helper %>_path, class: 'btn btn-default' do 
+    span.glyphicon.glyphicon-list-alt
+    = t :back 
+  h1
+    = t :new_record, scope: '<%= singular_table_name %>'
+
+= render 'form'

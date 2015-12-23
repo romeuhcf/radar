@@ -7,7 +7,7 @@ div.row
         | Definições de conteúdo
       .panel-body
         = simple_form_for @transmission_request, {method: :put, url: wizard_path}.merge(simple_form_horizontal_setup)  do |f| 
-          =  f.simple_fields_for :options, @transmission_request.options do |ff|
+          =  f.simple_fields_for :parse_config, @transmission_request.parse_config do |ff|
             = ff.input :column_of_number , collection: @transmission_request.composer.available_fields, required: true
             = ff.input :message_defined_at_column , as: :boolean
             = ff.input :column_of_message , collection: @transmission_request.composer.available_fields, required: false
@@ -23,14 +23,14 @@ div.row
 - content_for :footer_js
   javascript: 
     function transmission_request_message_form_update(){
-      message_defined_at_column_checkbox = $('#transmission_request_options_message_defined_at_column');
+      message_defined_at_column_checkbox = $('#transmission_request_parse_config_attributes_message_defined_at_column');
       message_defined_at_column = message_defined_at_column_checkbox.prop('checked')
         if (message_defined_at_column){
-          $('#transmission_request_options_column_of_message').parents('.form-group').show();
-          $('#transmission_request_options_custom_message').parents('.form-group').hide();
+          $('#transmission_request_parse_config_attributes_column_of_message').parents('.form-group').show();
+          $('#transmission_request_parse_config_attributes_custom_message').parents('.form-group').hide();
         }else{
-          $('#transmission_request_options_column_of_message').parents('.form-group').hide();
-          $('#transmission_request_options_custom_message').parents('.form-group').show();
+          $('#transmission_request_parse_config_attributes_column_of_message').parents('.form-group').hide();
+          $('#transmission_request_parse_config_attributes_custom_message').parents('.form-group').show();
         }
     };
     function reload_parse_preview(){
@@ -53,7 +53,7 @@ div.row
     });
 
     $(function(){
-      $('#transmission_request_options_message_defined_at_column').change(function(){
+      $('#transmission_request_parse_config_attributes_message_defined_at_column').change(function(){
         transmission_request_message_form_update();
       });
       transmission_request_message_form_update();

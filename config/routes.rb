@@ -1,4 +1,17 @@
 Rails.application.routes.draw do
+  resources :parse_configs
+  resources :ftp_configs
+  resources :ftp_configs
+  resources :ftp_configs
+  resources :ftp_configs
+  resources :ftp_configs
+  resources :ftp_configs
+  resources :ftp_configs
+  resources :ftp_configs
+  resources :ftp_configs
+  resources :ftp_configs
+  resources :ftp_configs
+  resources :ftp_configs
   get 'dashboard/index'
 
   devise_for :users,  :controllers => {:masquerades => "users/masquerades"}
@@ -18,7 +31,7 @@ Rails.application.routes.draw do
     resources :transmission_requests, except: [:new, :update]  do
       resources :steps, only: [:show, :update], controller: 'transmission_request/steps'
       member do
-      get :parse_preview
+        get :parse_preview
         put :pause
         put :resume
       end
@@ -28,6 +41,15 @@ Rails.application.routes.draw do
       post :archive, on: :member
       resources :messages, only: [:index, :show]
     end
+
+    resources :transfer_bots do
+      member do
+        put :activate
+        put :deactivate
+      end
+    end
+    resources :api_clients
+
   end
 
   authenticated :user do

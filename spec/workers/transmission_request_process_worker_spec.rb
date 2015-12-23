@@ -1,21 +1,21 @@
 require 'rails_helper'
 describe TransmissionRequestProcessWorker do
-  let(:transmission_request) { create(:transmission_request, size: 0, options: csv_options, batch_file: csv, status: 'scheduled') }
+  let(:transmission_request) { create(:transmission_request, size: 0, parse_config: parse_config, batch_file: csv, status: 'scheduled') }
 
   context "with headers at first line" do
     let(:csv) { Rack::Test::UploadedFile.new(fixture_file('simple_sms_with_header.csv')) }
-    let(:csv_options) do
-      {
+    let(:parse_config) do
+      create(:parse_config, {
         message_defined_at_column: true,
         headers_at_first_line: true,
         column_of_number: 'numero',
         column_of_message: 'mensagem',
-        file_type: 'csv',
+        kind: 'csv',
         timing_table: 'business_hours',
         field_separator: ';',
         schedule_start_time: '2010-01-01T10:00:00-0200',
         schedule_finish_time: '2010-01-01T11:00:00-0200',
-      }
+      })
     end
 
     describe "#perform(transmission_request_id)" do

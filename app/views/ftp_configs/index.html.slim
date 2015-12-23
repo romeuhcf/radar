@@ -1,0 +1,32 @@
+.page-header
+  = link_to new_ftp_config_path, class: 'btn btn-primary' do 
+    span.glyphicon.glyphicon-plus
+    = t('new_record', scope:'ftp_config')
+  h2
+    = t('listing', scope: 'ftp_config')
+
+.table-responsive
+  table.table.table-striped.table-hover
+    thead
+      tr
+        - [:host, :port, :user, :passive].each do |field|
+          th
+            = t(field, scope: "simple_form.labels.ftp_config")
+        th
+        th
+        th
+    tbody
+      - @ftp_configs.each do | ftp_config |
+        tr
+          - [:host, :port, :user, :passive].each do |field|
+            td
+              = ftp_config.read_attribute(field)
+          td
+            - if policy(ftp_config).show?
+              = link_to t('Show'), ftp_config_path(id: ftp_config.id), class: 'action action-show', title: t('ftp_config.action.show') 
+          td
+            - if policy(ftp_config).update?
+              = link_to t('Edit'), edit_ftp_config_path(ftp_config), class: 'action action-update', title: t('ftp_config.action.update') 
+          td
+            - if policy(ftp_config).destroy?
+              = link_to t('Destroy'), ftp_config_path(ftp_config), class: 'action action-destroy', title: t('ftp_config.action.destroy'), method: 'delete', data: {confirm:  t('ftp_config.confirm.destroy')}

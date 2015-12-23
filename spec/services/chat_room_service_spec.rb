@@ -44,6 +44,4 @@ describe ChatRoomService do
     expect(the_chat.last_contacted_by).to eq user
   end
 
-  it "reopens chat when mobile originate message is received"
-  it "can be mark as closed"
 end

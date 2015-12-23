@@ -1,5 +1,12 @@
 ---
 pt-BR:
+  back: Voltar
+  edit: Editar
+  cancel: Cancelar 
+  no_records: 'Sem registros'
+  errors_on_save:
+    one: "Um erro impediu de salvar o registro:"
+    other: "%{count} erros impediram de salvar o registro:"
   date:
     abbr_day_names:
     - Dom

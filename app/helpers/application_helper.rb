@@ -24,26 +24,26 @@ module ApplicationHelper
 
   def stats_today
     @@stats_today||=begin
-                h = Message.where(owner: current_user).where(created_at: (Time.zone.now.beginning_of_day)..(Time.zone.now.end_of_day)).group(:transmission_state).count
-                h['total'] = h.values.sum
-                h
-              end
+                      h = Message.where(owner: current_user).where(created_at: (Time.zone.now.beginning_of_day)..(Time.zone.now.end_of_day)).group(:transmission_state).count
+                      h['total'] = h.values.sum
+                      h
+                    end
   end
 
   def stats_month
     @@stats_month||=begin
-                h = Message.where(owner: current_user).where(created_at: (Time.zone.now.beginning_of_month)..(Time.zone.now.end_of_month)).group(:transmission_state).count
-                h['total'] = h.values.sum
-                h
-              end
+                      h = Message.where(owner: current_user).where(created_at: (Time.zone.now.beginning_of_month)..(Time.zone.now.end_of_month)).group(:transmission_state).count
+                      h['total'] = h.values.sum
+                      h
+                    end
   end
 
   def stats_ever
     @@stats_ever||=begin
-                h = Message.where(owner: current_user).group(:transmission_state).count
-                h['total'] = h.values.sum
-                h
-              end
+                     h = Message.where(owner: current_user).group(:transmission_state).count
+                     h['total'] = h.values.sum
+                     h
+                   end
   end
 
 
@@ -52,4 +52,18 @@ module ApplicationHelper
     number_with_delimiter n
   end
 
+  def field(f, field)
+    type = 'text_field'
+    if field.is_a? Hash
+      field, type = *field.flatten
+    end
+    content_tag(:div, class:'form-group') do
+      [
+        f.label( field, t(field, scope: "simple_form.labels.#{f.object.class.name.underscore}"), class: "col-sm-2 control-label") ,
+        content_tag(:div, class: 'col-sm-6') do
+          f.send(type, field, class: "form-control" )
+        end
+      ].join(' ').html_safe
+    end
+  end
 end

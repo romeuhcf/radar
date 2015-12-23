@@ -1,0 +1,9 @@
+= simple_form_for(@api_client) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :description
+    = f.input :enabled
+
+  .form-actions
+    = f.button :submit

@@ -1,0 +1,16 @@
+  - if record.errors.any?
+    .alert.alert-danger.alert-dismissable role="alert"
+      button.close type="button" data-dismiss="alert"
+        span aria-hidden="true"
+          | &times;
+        span.sr-only
+          = t :close
+      h4 = t('errors_on_save', count: record.errors.count)
+      ul
+        - record.errors.each do |f, msg|
+          li
+            b
+              = t(f, scope: ['simple_form', 'labels', record.class.name.underscore].join('.'))
+            | : 
+            = msg 
+

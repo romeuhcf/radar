@@ -1,0 +1,11 @@
+.page-header
+  = link_to <%= index_helper %>_path, class: 'btn btn-default' do
+    span.glyphicon.glyphicon-list-alt
+    = t :back 
+  = link_to @<%= singular_table_name %>, class: 'btn btn-primary' do
+    span.glyphicon.glyphicon-info-sign
+    = t :show 
+  h1
+    = t(:editing, scope: '<%= singular_table_name %>' %>
+
+= render 'form'

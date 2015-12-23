@@ -8,7 +8,7 @@ div.row
       .panel-body
 
         = simple_form_for @transmission_request, {method: :put, url: wizard_path}.merge(simple_form_horizontal_setup)  do |f| 
-          =  f.simple_fields_for :options, @transmission_request.options do |ff|
+          =  f.simple_fields_for :parse_config, @transmission_request.parse_config do |ff|
             = ff.input :timing_table , collection: ["business_hours", "extended_business_hours", "anytime"].map{|i| [ t(i, scope: :timing_tables),i]}, required: true
             // = ff.input :dont_send_at_holidays, as: :boolean, # TODO
             .datetimerange

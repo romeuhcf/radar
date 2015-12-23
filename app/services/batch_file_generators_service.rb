@@ -14,10 +14,10 @@ class BatchFileGeneratorsService
 
   def content_generator
     if transmission_request.batch_file_type == 'csv'
-      if transmission_request.options.message_defined_at_column?
-        ContentGenerator::CsvColumn.new(transmission_request.options)
+      if transmission_request.parse_config.message_defined_at_column?
+        ContentGenerator::CsvColumn.new(transmission_request.parse_config)
       else
-        ContentGenerator::Static.new(options.custom_message)
+        ContentGenerator::MultiTemplate.new(transmission_request.parse_config)
       end
     else
       raise ArgumentError, "Unknown generator for type", transmission_request.batch_file_type
@@ -25,6 +25,6 @@ class BatchFileGeneratorsService
   end
 
   def schedule_generator
-    ScheduleGenerator::Hashing.new(transmission_request.options)
+    ScheduleGenerator::Hashing.new(transmission_request.parse_config)
   end
 end

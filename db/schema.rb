@@ -11,7 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151119212538) do
+ActiveRecord::Schema.define(version: 20151221101709) do
+
+  create_table "api_clients", force: :cascade do |t|
+    t.integer  "owner_id",     limit: 4
+    t.string   "owner_type",   limit: 255
+    t.string   "secret_key",   limit: 255
+    t.datetime "last_used_at"
+    t.boolean  "enabled"
+    t.string   "description",  limit: 255
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "api_clients", ["owner_type", "owner_id"], name: "index_api_clients_on_owner_type_and_owner_id", using: :btree
+  add_index "api_clients", ["secret_key", "enabled"], name: "index_api_clients_on_secret_key_and_enabled", using: :btree
 
   create_table "bills", force: :cascade do |t|
     t.integer  "customer_id",          limit: 4
@@ -77,6 +91,21 @@ ActiveRecord::Schema.define(version: 20151119212538) do
 
   add_index "divisions", ["owner_type", "owner_id"], name: "index_divisions_on_owner_type_and_owner_id", using: :btree
 
+  create_table "ftp_configs", force: :cascade do |t|
+    t.integer  "owner_id",   limit: 4
+    t.string   "owner_type", limit: 255
+    t.string   "host",       limit: 255
+    t.integer  "port",       limit: 4
+    t.string   "user",       limit: 255
+    t.string   "secret",     limit: 255
+    t.boolean  "passive"
+    t.string   "kind",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "ftp_configs", ["owner_type", "owner_id"], name: "index_ftp_configs_on_owner_type_and_owner_id", using: :btree
+
   create_table "localizers", force: :cascade do |t|
     t.integer  "item_id",    limit: 4
     t.string   "item_type",  limit: 255
@@ -123,6 +152,28 @@ ActiveRecord::Schema.define(version: 20151119212538) do
   add_index "messages", ["owner_type", "owner_id"], name: "index_messages_on_owner_type_and_owner_id", using: :btree
   add_index "messages", ["transmission_request_id"], name: "index_messages_on_transmission_request_id", using: :btree
 
+  create_table "parse_configs", force: :cascade do |t|
+    t.string   "kind",                            limit: 255
+    t.integer  "owner_id",                        limit: 4
+    t.string   "owner_type",                      limit: 255
+    t.string   "name",                            limit: 255
+    t.boolean  "message_defined_at_column"
+    t.string   "column_of_message",               limit: 255
+    t.string   "column_of_number",                limit: 255
+    t.string   "column_of_destination_reference", limit: 255
+    t.string   "schedule_start_time",             limit: 255
+    t.string   "schedule_finish_time",            limit: 255
+    t.string   "timing_table",                    limit: 255
+    t.string   "field_separator",                 limit: 255
+    t.boolean  "headers_at_first_line"
+    t.text     "custom_message",                  limit: 65535
+    t.integer  "skip_records",                    limit: 4,     default: 0
+    t.datetime "created_at",                                                null: false
+    t.datetime "updated_at",                                                null: false
+  end
+
+  add_index "parse_configs", ["owner_type", "owner_id"], name: "index_parse_configs_on_owner_type_and_owner_id", using: :btree
+
   create_table "roles", force: :cascade do |t|
     t.string   "name",          limit: 255
     t.integer  "resource_id",   limit: 4
@@ -158,24 +209,50 @@ ActiveRecord::Schema.define(version: 20151119212538) do
   add_index "status_notifications", ["message_id"], name: "index_status_notifications_on_message_id", using: :btree
   add_index "status_notifications", ["route_provider_id"], name: "index_status_notifications_on_route_provider_id", using: :btree
 
+  create_table "transfer_bots", force: :cascade do |t|
+    t.string   "worker_class",        limit: 255
+    t.integer  "owner_id",            limit: 4
+    t.string   "owner_type",          limit: 255
+    t.boolean  "enabled"
+    t.string   "description",         limit: 255
+    t.string   "schedule",            limit: 255
+    t.string   "status",              limit: 255
+    t.datetime "last_success_at"
+    t.datetime "last_failed_at"
+    t.text     "last_log",            limit: 65535
+    t.datetime "created_at",                                             null: false
+    t.datetime "updated_at",                                             null: false
+    t.string   "remote_path",         limit: 255
+    t.string   "patterns",            limit: 255
+    t.boolean  "source_delete_after"
+    t.string   "direction",           limit: 255,   default: "download"
+    t.integer  "ftp_config_id",       limit: 4
+  end
+
+  add_index "transfer_bots", ["enabled"], name: "index_transfer_bots_on_enabled", using: :btree
+  add_index "transfer_bots", ["ftp_config_id"], name: "index_transfer_bots_on_ftp_config_id", using: :btree
+  add_index "transfer_bots", ["owner_type", "owner_id"], name: "index_transfer_bots_on_owner_type_and_owner_id", using: :btree
+  add_index "transfer_bots", ["worker_class"], name: "index_transfer_bots_on_worker_class", using: :btree
+
   create_table "transmission_requests", force: :cascade do |t|
-    t.integer  "owner_id",       limit: 4
-    t.string   "owner_type",     limit: 255
-    t.integer  "user_id",        limit: 4
-    t.string   "identification", limit: 255
-    t.string   "requested_via",  limit: 255
-    t.string   "status",         limit: 255
+    t.integer  "owner_id",        limit: 4
+    t.string   "owner_type",      limit: 255
+    t.integer  "user_id",         limit: 4
+    t.string   "identification",  limit: 255
+    t.string   "requested_via",   limit: 255
+    t.string   "status",          limit: 255
     t.date     "reference_date"
-    t.integer  "messages_count", limit: 4
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
-    t.integer  "division_id",    limit: 4
-    t.string   "batch_file",     limit: 255
-    t.text     "options",        limit: 65535
+    t.integer  "messages_count",  limit: 4
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.integer  "division_id",     limit: 4
+    t.string   "batch_file",      limit: 255
+    t.integer  "parse_config_id", limit: 4
   end
 
   add_index "transmission_requests", ["division_id"], name: "index_transmission_requests_on_division_id", using: :btree
   add_index "transmission_requests", ["owner_type", "owner_id"], name: "index_transmission_requests_on_owner_type_and_owner_id", using: :btree
+  add_index "transmission_requests", ["parse_config_id"], name: "index_transmission_requests_on_parse_config_id", using: :btree
   add_index "transmission_requests", ["requested_via", "status", "reference_date"], name: "idx_requests_for_admin_report", using: :btree
   add_index "transmission_requests", ["user_id", "requested_via", "status", "reference_date"], name: "idx_requests_for_user_report", using: :btree
   add_index "transmission_requests", ["user_id"], name: "index_transmission_requests_on_user_id", using: :btree
@@ -214,12 +291,37 @@ ActiveRecord::Schema.define(version: 20151119212538) do
 
   add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
 
+  create_table "version_associations", force: :cascade do |t|
+    t.integer "version_id",       limit: 4
+    t.string  "foreign_key_name", limit: 255, null: false
+    t.integer "foreign_key_id",   limit: 4
+  end
+
+  add_index "version_associations", ["foreign_key_name", "foreign_key_id"], name: "index_version_associations_on_foreign_key", using: :btree
+  add_index "version_associations", ["version_id"], name: "index_version_associations_on_version_id", using: :btree
+
+  create_table "versions", force: :cascade do |t|
+    t.string   "item_type",      limit: 255,        null: false
+    t.integer  "item_id",        limit: 4,          null: false
+    t.string   "event",          limit: 255,        null: false
+    t.string   "whodunnit",      limit: 255
+    t.text     "object",         limit: 4294967295
+    t.datetime "created_at"
+    t.text     "object_changes", limit: 4294967295
+    t.integer  "transaction_id", limit: 4
+  end
+
+  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
+  add_index "versions", ["transaction_id"], name: "index_versions_on_transaction_id", using: :btree
+
   add_foreign_key "chat_rooms", "destinations"
   add_foreign_key "chat_rooms", "users", column: "last_contacted_by_id"
   add_foreign_key "message_contents", "messages"
   add_foreign_key "messages", "destinations"
   add_foreign_key "status_notifications", "messages"
   add_foreign_key "status_notifications", "route_providers"
+  add_foreign_key "transfer_bots", "ftp_configs"
   add_foreign_key "transmission_requests", "divisions"
+  add_foreign_key "transmission_requests", "parse_configs"
   add_foreign_key "transmission_requests", "users"
 end

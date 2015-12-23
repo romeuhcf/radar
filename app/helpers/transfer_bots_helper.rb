@@ -1,0 +1,2 @@
+module TransferBotsHelper
+end

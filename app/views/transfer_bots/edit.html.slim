@@ -1,0 +1,11 @@
+.page-header
+  = link_to transfer_bots_path, class: 'btn btn-default' do
+    span.glyphicon.glyphicon-list-alt
+    = t :back
+  = link_to @transfer_bot, class: 'btn btn-primary' do
+    span.glyphicon.glyphicon-info-sign
+    = t :cancel
+  h2
+    = t :editing, scope: 'transfer_bot'
+
+= render 'form'

@@ -8,10 +8,14 @@ module DestinationGenerator
       @list.size
     end
 
-    def generate(&block)
-      @list.each do |address|
-        destination = Destination.find_or_create(address)
-        block.call DestinationData.new(destination)
+    def generate(n_to_generate = nil, &block)
+      @list.each_with_index do |address, n_generated|
+        return if n_to_generate and n_generated >= n_to_generate
+        destination = Destination.find_or_new(address)
+        if destination.valid?
+          destination.save!
+          block.call DestinationData.new(destination)
+        end
       end
     end
 

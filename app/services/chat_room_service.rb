@@ -7,11 +7,23 @@ class ChatRoomService
 
   def receive_message_from(address, content, sent_time)
     destination = Destination.find_by_address(address)
-    fail "Unknown sender of MO message" unless destination
+
+    unless destination
+      Rails.logger.warn "Unknown sender of MO message from: #{address}"
+      return nil
+    end
 
     in_reply_to = destination.last_outgoing_sent_message
-    fail "Received message have no precedent transmission" unless  in_reply_to
-    fail "Null in reply to message owner " unless in_reply_to.owner
+
+    unless in_reply_to
+      Rails.logger.warn "Received message have no precedent transmission from #{address}"
+      return nil
+    end
+
+    unless in_reply_to.owner
+      Rails.logger.warn  "Null in reply to message owner from #{address}, #{in_reply_to.owner_id}"
+      return nil
+    end
 
     incoming_message = create_answer_message(content, destination, in_reply_to.owner, sent_time)
     create_or_update_chat_room(incoming_message)

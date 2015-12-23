@@ -3,8 +3,9 @@ pt-BR:
     labels:
       transmission_request:
         batch_file: 'Arquivo'
-        options: 
+        parse_config:
           file_type: "Tipo de arquivo"
+          kind: "Tipo de arquivo"
           field_separator: "Separador de campos" 
           column_of_message: "Coluna das mensagens"
           column_of_number: "Coluna dos telefones"

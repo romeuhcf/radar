@@ -40,5 +40,4 @@ class TransmissionRequestPolicy < ApplicationPolicy
   def resume?
     related? && record.paused?
   end
-
 end

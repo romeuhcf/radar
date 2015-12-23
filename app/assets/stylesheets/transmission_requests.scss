@@ -32,6 +32,13 @@
   &.action-cancel{ @extend .fa-remove; 
     background-color: $label-danger-bg; 
   }
+  &.action-deactivate { @extend .fa-pause; 
+    background-color: $label-warning-bg; 
+  }
+  &.action-activate{ @extend .fa-play; 
+    background-color: $label-danger-bg; 
+  }
+
 }
 
 div.ficha {
@@ -52,7 +59,7 @@ div.ficha {
       }
     }
   }
-  ul.transmission_request{
+  ul.details{
     list-style-type: none;
     li{
       span.hint {

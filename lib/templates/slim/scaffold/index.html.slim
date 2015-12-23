@@ -1,0 +1,40 @@
+.page-header
+  = link_to new_<%= singular_table_name %>_path, class: 'btn btn-primary' do 
+    span.glyphicon.glyphicon-plus
+    = t('new_record', scope: '<%= singular_table_name %>')
+  h2
+    = t('listing', scope: '<%= singular_table_name %>')
+
+.table-responsive
+  table.table.table-striped.table-hover
+    thead
+      tr
+<%- for attribute in attributes -%>
+        th
+          | <%= attribute.human_name %>
+<%- end -%>
+        th
+        th
+        th
+    tbody
+      - @<%= plural_table_name %>.each do | <%= singular_table_name %> |
+        tr
+<%- for attribute in attributes -%>
+          td
+            = <%= singular_table_name %>.<%= attribute.name %>
+<%- end -%>
+          td
+            - if policy(<%= singular_table_name %>).show?
+              = link_to t('Show'), <%= singular_table_name %>_path(id: <%= singular_table_name %>.id), class: 'action action-show', title: t('<%= singular_table_name %>.action.show') 
+          td
+            - if policy(<%= singular_table_name %>).update?
+              = link_to t('Edit'), edit_<%= singular_table_name %>_path(<%= singular_table_name %>), class: 'action action-update', title: t('<%= singular_table_name %>.action.update') 
+          td
+            - if policy(<%= singular_table_name %>).deactivate?
+              = link_to t('Deactivate'), deactivate_<%= singular_table_name %>_path(<%= singular_table_name %>), class: 'action action-deactivate', title: t('<%= singular_table_name %>.action.deactivate'), method: 'put', data:{confirm:   t('<%= singular_table_name %>.confirm.deactivate')}
+          td
+            - if policy(<%= singular_table_name %>).activate?
+              = link_to t('Activate'), activate_<%= singular_table_name %>_path(<%= singular_table_name %>), class: 'action action-activate', title: t('<%= singular_table_name %>.action.activate'), method: 'put', data: {confirm:  t('<%= singular_table_name %>.confirm.activate')}
+          td
+            - if policy(<%= singular_table_name %>).destroy?
+              = link_to t('Destroy'), <%= singular_table_name %>_path(<%= singular_table_name %>), class: 'action action-destroy', title: t('<%= singular_table_name %>.action.destroy'), method: 'delete', data: {confirm:  t('<%= singular_table_name %>.confirm.destroy')}

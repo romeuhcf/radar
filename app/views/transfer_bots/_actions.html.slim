@@ -1,0 +1,12 @@
+  td
+    - if policy(transfer_bot).show?
+      = link_to '', transfer_bot_path(id: transfer_bot.id), class: 'action action-show', title: t('transfer_bot.action.show') 
+  td
+    - if policy(transfer_bot).update?
+      = link_to '', edit_transfer_bot_path(transfer_bot), class: 'action action-update', title: t('transfer_bot.action.update') 
+  td
+    - if policy(transfer_bot).deactivate?
+      = link_to '', deactivate_transfer_bot_path(transfer_bot), class: 'action action-deactivate', title: t('transfer_bot.action.deactivate'), method: 'put', data:{confirm:   t('transfer_bot.confirm.deactivate')}
+  td
+    - if policy(transfer_bot).activate?
+      = link_to '', activate_transfer_bot_path(transfer_bot), class: 'action action-activate', title: t('transfer_bot.action.activate'), method: 'put', data: {confirm:  t('transfer_bot.confirm.activate')}

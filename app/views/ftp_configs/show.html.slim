@@ -1,0 +1,16 @@
+.page-header
+  = link_to ftp_configs_path, class: 'btn btn-default' do 
+    span.glyphicon.glyphicon-list-alt
+    = t(:back)
+  = link_to edit_ftp_config_path(@ftp_config), class: 'btn btn-primary' do 
+    span.glyphicon.glyphicon-pencil
+    = t(:edit)
+  h1
+    = t(:show, scope: 'ftp_config')
+dl.dl-horizontal
+  - [:host, :port, :user, :secret, :passive].each do |field|
+    dt
+      = t(field, scope: "simple_form.labels.ftp_config")
+    dd
+      = @ftp_config.read_attribute(field)
+ 

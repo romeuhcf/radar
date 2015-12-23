@@ -23,9 +23,10 @@ class TransmissionRequest < ActiveRecord::Base
   belongs_to :owner, polymorphic: true
   has_many :messages
   mount_uploader :batch_file, BatchFileUploader
-  serialize :options, Hash
   validates :owner, presence: true
   include AASM
+  belongs_to :parse_config
+  accepts_nested_attributes_for :parse_config
 
   aasm column: "status" do
     state :draft, initial: true
@@ -44,15 +45,6 @@ class TransmissionRequest < ActiveRecord::Base
     end
     event :pause do
       transitions from: :processing, to: :paused
-    end
-  end
-
-  def options
-    case batch_file_type
-    when 'csv'
-      CsvOptions.new(read_attribute(:options))
-    when nil
-      Options.new
     end
   end
 

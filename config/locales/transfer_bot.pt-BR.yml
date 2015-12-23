@@ -1,0 +1,74 @@
+pt-BR: 
+  ftp_config:
+    new_record: "Novo acesso FTP"
+    listing: "Listando acessos FTP"
+    show: "Detalhando acesso FTP"
+    editing: "Editando acesso FTP"
+    save: "Salvar"
+    action:
+      show: Exibir
+      destroy: Remover
+      update: Alterar
+      edit: Alterar 
+    confirm:
+      deactivate: "Deseja realmente desativá-lo?"
+      activate: "Deseja realmente ativá-lo?"
+      destroy: "Deseja realmente removê-lo?"  
+    notify:
+      success:
+        create: "Acesso FTP foi criado com sucesso"
+        update: "Acesso FTP foi alterado com sucesso"
+        destroy: "Acesso FTP foi removido com sucesso"
+
+  transfer_bot: 
+    new_record: "Novo robô de transmissão"
+    listing: "Listando robôs cadastrados"
+    show: "Detalhando robô de transmissão"
+    editing: "Editando robô de transmissão"
+    save: "Salvar"
+    action:
+      show: 'Detalhar'
+      update: 'Editar'
+      cancel: 'Cancelar'
+      deactivate: 'Desativar'
+      activate: 'Ativar'
+      destroy: 'Excluir'
+
+    confirm:
+      deactivate: "Deseja realmente desativá-lo?"
+      activate: "Deseja realmente ativá-lo?"
+      cancel: "Deseja realmente cancelar?" 
+
+    status:
+      success: Sucesso
+      new: Novo
+      failed: Falho
+
+    notify:
+      success:
+        create: "Robô de transmissão foi criado com sucesso"
+        update: "Robô de transmissão foi alterado com sucesso"
+        destroy: "Robô de transmissão foi removido com sucesso"
+        activate: "Robô de transmissão foi ativado com sucesso"
+        deactivate: "Robô de transmissão foi desativado o com sucesso"
+
+
+  simple_form:
+    labels:
+      ftp_config: 
+        port: Porta
+        host: Servidor
+        passive: Modo passivo
+        user: Usuário
+        secret: Senha
+        kind: Protocolo
+      transfer_bot:
+        last_log: Último log 
+        last_success_at: Data de último sucesso
+        last_failed_at: Data de última falha
+        description: Descrição
+        schedule: Programação
+        patterns: Arquivos
+        remote_path: Caminho remoto
+        enabled: Ativo
+        worker_class: Tipo de Processo

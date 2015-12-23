@@ -1,0 +1,8 @@
+.page-header
+  = link_to ftp_configs_path, class: 'btn btn-default' do 
+    span.glyphicon.glyphicon-list-alt
+    = t('back')
+  h2
+    = t('listing', scope: 'ftp_config')
+
+= render 'form'

@@ -16,6 +16,8 @@ end
 
 feature "Preview CSV", :js do
   let(:user){create(:confirmed_user)}
+  let(:ini){ "2020/10/10 12:13" }
+  let(:fin){ "2020/10/11 12:13" }
 
   scenario 'csv with header' do
     start_creating_transmission_request_with_csv('simple_sms_with_header.csv')
@@ -46,6 +48,8 @@ end
 
 feature "CSV Estimations", :js do
   let(:user){create(:confirmed_user)}
+  let(:ini){ "2020/10/10 12:13" }
+  let(:fin){ "2020/10/11 12:13" }
 
   scenario 'csv with header' do
     start_creating_transmission_request_with_csv('large_sms_with_header.csv')
@@ -56,6 +60,8 @@ feature "CSV Estimations", :js do
     select("A", from: "Coluna dos telefones")
 
     click_on("Próximo passo");
+    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_start_time').val('#{ini}')")
+    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_finish_time').val('#{fin}')")
     select("Horário Comercial (08:00 às 19:00)", from: 'Horários válidos')
     click_on("Próximo passo");
 
@@ -69,6 +75,8 @@ feature "CSV Estimations", :js do
     select("B", from: "Coluna das mensagens")
     select("A", from: "Coluna dos telefones")
     click_on("Próximo passo");
+    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_start_time').val('#{ini}')")
+    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_finish_time').val('#{fin}')")
     select("Horário Comercial (08:00 às 19:00)", from: 'Horários válidos')
     click_on("Próximo passo");
     expect(page).to have_content('750 mensagens')
@@ -77,6 +85,8 @@ end
 
 feature "Send CSV" , :js do
   let(:user){create(:confirmed_user)}
+  let(:ini){ "2020/10/10 12:13" }
+  let(:fin){ "2020/10/11 12:13" }
 
   scenario 'simple without headers with message on field' do
     Sidekiq::Testing.fake!
@@ -101,10 +111,8 @@ feature "Send CSV" , :js do
     click_on("Próximo passo");
 
     # Schedule step
-    ini = "2020/10/10 12:13"
-    fin = "2020/10/11 12:13"
-    page.execute_script("$('#transmission_request_options_schedule_start_time').val('#{ini}')")
-    page.execute_script("$('#transmission_request_options_schedule_finish_time').val('#{fin}')")
+    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_start_time').val('#{ini}')")
+    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_finish_time').val('#{fin}')")
     select("Horário Comercial (08:00 às 19:00)", from: 'Horários válidos')
     click_on("Próximo passo");
 
@@ -143,10 +151,8 @@ feature "Send CSV" , :js do
     click_on("Próximo passo");
 
     # Schedule step
-    ini = "2020/10/10 12:13"
-    fin = "2020/10/11 12:13"
-    page.execute_script("$('#transmission_request_options_schedule_start_time').val('#{ini}')")
-    page.execute_script("$('#transmission_request_options_schedule_finish_time').val('#{fin}')")
+    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_start_time').val('#{ini}')")
+    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_finish_time').val('#{fin}')")
     select("Horário Comercial (08:00 às 19:00)", from: 'Horários válidos')
     click_on("Próximo passo");
 
@@ -158,9 +164,6 @@ feature "Send CSV" , :js do
     click_on("Confirmar");
     expect(page).to have_content('Requisição criada com sucesso')
   end
-
-
-
 
   scenario 'simple without headers with message defined by user' do
     Sidekiq::Testing.fake!
@@ -179,27 +182,70 @@ feature "Send CSV" , :js do
 
     # Message step
     uncheck("Usar mensagem de uma coluna?")
-    fill_in('Mensagem customizada', with: "Caro cliente do banco Nacional, informamos que nossas funções foram encerradas há tempos.")
+    fill_in('Mensagem customizada', with: "Cliente cliente do banco Nacional, informamos que nossas funções foram encerradas há tempos.")
     select("A", from: "Coluna dos telefones")
 
     # Message step
     click_on("Próximo passo");
 
     # Schedule step
-    ini = "2020/10/10 12:13"
-    fin = "2020/10/11 12:13"
-    page.execute_script("$('#transmission_request_options_schedule_start_time').val('#{ini}')")
-    page.execute_script("$('#transmission_request_options_schedule_finish_time').val('#{fin}')")
+    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_start_time').val('#{ini}')")
+    page.execute_script("$('#transmission_request_parse_config_attributes_schedule_finish_time').val('#{fin}')")
     select("Horário Comercial (08:00 às 19:00)", from: 'Horários válidos')
     click_on("Próximo passo");
 
     # Confirmar step
-    expect(page).to have_content('Caro cliente do banco Nacional')
+    expect(page).to have_content('Cliente cliente do banco Nacional')
 
 
     click_on("Confirmar");
     expect(page).to have_content('Requisição criada com sucesso')
   end
+
+  let!(:route_provider){create(:route_provider) }
+  scenario 'simple with headers with message defined by user' do
+    Sidekiq::Testing.inline! do
+      sign_in user
+      click_on('Lista de Envios')
+      click_on('Enviar lote')
+
+      attach_file('Arquivo', File.absolute_path(fixture_file('nome_telefone.csv')))
+      click_on("Próximo passo");
+
+      # Parse step
+      expect(page.has_select?("Tipo de arquivo", selected: 'csv')).to be_truthy
+      expect(page.has_select?("Separador de campos", selected: ';')).to be_truthy
+      check("Títulos das colunas na primeira linha")
+      click_on("Próximo passo");
+
+      # Message step
+      uncheck("Usar mensagem de uma coluna?")
+      fill_in('Mensagem customizada', with: "Cliente {{nome | palavra 1 }}, tudo bem?")
+      select("telefone", from: "Coluna dos telefones")
+
+      # Message step
+      click_on("Próximo passo");
+
+      # Schedule step
+
+      page.execute_script("$('#transmission_request_parse_config_attributes_schedule_start_time').val('#{ini}')")
+      page.execute_script("$('#transmission_request_parse_config_attributes_schedule_finish_time').val('#{fin}')")
+      select("Horário Comercial (08:00 às 19:00)", from: 'Horários válidos')
+      click_on("Próximo passo");
+
+      # Confirmar step
+      expect(page).to have_content('Cliente Joao, tudo bem')
+
+
+      click_on("Confirmar");
+      expect(page).to have_content('Requisição criada com sucesso')
+    end
+    click_on('Lista de Envios')
+    click_on('Detalhar')
+    expect(page).to have_content('Cliente Joao, tudo bem')
+    expect(page).to have_content('Cliente Maria, tudo bem')
+  end
+
 
   scenario "reject unknown type" , :js do
     sign_in user
