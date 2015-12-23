@@ -1,9 +1,8 @@
 .page-header
-  = link_to parse_configs_path, class: 'btn btn-default' do 
+  = link_to parse_configs_path, class: 'btn btn-default' do
     span.glyphicon.glyphicon-list-alt
-    |  Back 
-  h1
-    | New 
-    | parse_config
+    = t :back
+  h2
+    = t :new_record, scope: :parse_config
 
 = render 'form'

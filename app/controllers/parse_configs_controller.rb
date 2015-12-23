@@ -69,7 +69,7 @@ class ParseConfigPolicy < ApplicationPolicy
         scope.all
       else
         scope.where(owner: user)
-      end
+      end .where.not('parse_configs.name' => nil)
     end
   end
 

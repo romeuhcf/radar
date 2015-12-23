@@ -14,6 +14,7 @@ pt-BR:
       pause: 'Pausar'
       resume: 'Continuar'
       destroy: 'Excluir'
+      export_parse_config: 'Exportar Configuração de Tratamento'
 
     confirm:
       pause: "Deseja realmente pausar/suspender esse envio?"

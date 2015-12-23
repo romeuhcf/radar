@@ -1,4 +1,18 @@
 pt-BR: 
+  parse_config:
+    new_record: "Nova configuração de tratamento"
+    listing: "Listando configurações de tratamento"
+    show: "Detalhando configuração de tratamento"
+    editing: "Editando configuração de tratamento"
+    save: "Salvar"
+    action:
+      show: Exibir
+      destroy: Remover
+      update: Alterar
+      edit: Alterar 
+    confirm:
+      destroy: "Deseja realmente removê-lo?"  
+
   ftp_config:
     new_record: "Novo acesso FTP"
     listing: "Listando acessos FTP"

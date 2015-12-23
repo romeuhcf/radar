@@ -1,62 +1,15 @@
 .page-header
-  = link_to parse_configs_path, class: 'btn btn-default' do 
+  = link_to parse_configs_path, class: 'btn btn-default' do
     span.glyphicon.glyphicon-list-alt
-    |  Back 
-  = link_to edit_parse_config_path(@parse_config), class: 'btn btn-primary' do 
+    = t :back
+  = link_to edit_parse_config_path(@parse_config), class: 'btn btn-primary' do
     span.glyphicon.glyphicon-pencil
-    |  Edit 
-  h1
-    | Show parse_config
+    = t :edit
+  h2
+    = t :show, scope: 'parse_config'
 dl.dl-horizontal
-  dt
-    | Kind:
-  dd
-    = @parse_config.kind
-  dt
-    | Name:
-  dd
-    = @parse_config.name
-  dt
-    | Message defined at column:
-  dd
-    = @parse_config.message_defined_at_column
-  dt
-    | Column of message:
-  dd
-    = @parse_config.column_of_message
-  dt
-    | Column of number:
-  dd
-    = @parse_config.column_of_number
-  dt
-    | Column of destination reference:
-  dd
-    = @parse_config.column_of_destination_reference
-  dt
-    | Schedule Finish Time:
-  dd
-    = @parse_config.schedule_finish_time
-  dt
-    | Schedule Start Time:
-  dd
-    = @parse_config.schedule_start_time
-  dt
-    | Timing table:
-  dd
-    = @parse_config.timing_table
-  dt
-    | Field separator:
-  dd
-    = @parse_config.field_separator
-  dt
-    | Headers at first line:
-  dd
-    = @parse_config.headers_at_first_line
-  dt
-    | Custom message:
-  dd
-    = @parse_config.custom_message
-  dt
-    | Skip records:
-  dd
-    = @parse_config.skip_records
+  - [:kind, :name, :message_defined_at_column, :column_of_message, :column_of_number, :column_of_destination_reference, :schedule_start_time, :schedule_finish_time, :timing_table, :field_separator, :headers_at_first_line, :custom_message, :skip_records].each do |field|
+    dt
+      = t(field, scope: 'simple_form.labels.parse_config')
+    dd
+      = @parse_config.read_attribute(field)

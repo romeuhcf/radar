@@ -27,8 +27,6 @@ RSpec.describe "ftp_configs/new", type: :view do
       assert_select "input#ftp_config_secret[name=?]", "ftp_config[secret]"
 
       assert_select "input#ftp_config_passive[name=?]", "ftp_config[passive]"
-
-      assert_select "input#ftp_config_kind[name=?]", "ftp_config[kind]"
     end
   end
 end

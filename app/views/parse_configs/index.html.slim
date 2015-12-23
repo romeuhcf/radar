@@ -1,78 +1,30 @@
 .page-header
-  = link_to new_parse_config_path, class: 'btn btn-primary' do 
+  = link_to new_parse_config_path, class: 'btn btn-primary' do
     span.glyphicon.glyphicon-plus
-    = t('New Parse config')
+    = t(:new_record, scope: 'parse_config')
   h2
-    = t('listing  parse_configs')
+    = t(:listing, scope: 'parse_config')
 
 .table-responsive
   table.table.table-striped.table-hover
     thead
       tr
-        th
-          | Kind
-        th
-          | Name
-        th
-          | Is message defined at column
-        th
-          | Column of message
-        th
-          | Column of number
-        th
-          | Column of destination reference
-        th
-          | Schedule finish time
-        th
-          | Schedule start time
-        th
-          | Timing table
-        th
-          | Field separator
-        th
-          | Headers at first line
-        th
-          | Custom message
-        th
-          | Skip records
+        - [:kind, :name, :schedule_start_time, :schedule_finish_time, :timing_table, :custom_message].each do |field|
+          th = t(field, scope: 'simple_form.labels.parse_config')
         th
         th
         th
     tbody
       - @parse_configs.each do | parse_config |
         tr
-          td
-            = parse_config.kind
-          td
-            = parse_config.name
-          td
-            = parse_config.message_defined_at_column
-          td
-            = parse_config.column_of_message
-          td
-            = parse_config.column_of_number
-          td
-            = parse_config.column_of_destination_reference
-          td
-            = parse_config.schedule_finish_time
-          td
-            = parse_config.schedule_start_time
-          td
-            = parse_config.timing_table
-          td
-            = parse_config.field_separator
-          td
-            = parse_config.headers_at_first_line
-          td
-            = parse_config.custom_message
-          td
-            = parse_config.skip_records
+          - [:kind, :name, :schedule_start_time, :schedule_finish_time, :timing_table, :custom_message].each do |field|
+            td = parse_config.read_attribute(field)
           td
             - if policy(parse_config).show?
-              = link_to t('Show'), parse_config_path(id: parse_config.id), class: 'action action-show', title: t('parse_config.action.show') 
+              = link_to '', parse_config_path(id: parse_config.id), class: 'action action-show', title: t('parse_config.action.show')
           td
             - if policy(parse_config).update?
-              = link_to t('Edit'), edit_parse_config_path(parse_config), class: 'action action-update', title: t('parse_config.action.update') 
+              = link_to '', edit_parse_config_path(parse_config), class: 'action action-update', title: t('parse_config.action.update')
           td
             - if policy(parse_config).destroy?
-              = link_to t('Destroy'), parse_config_path(parse_config), class: 'action action-destroy', title: t('parse_config.action.destroy'), method: 'delete', data: {confirm:  t('parse_config.confirm.destroy')}
+              = link_to '', parse_config_path(parse_config), class: 'action action-destroy', title: t('parse_config.action.destroy'), method: 'delete', data: {confirm:  t('parse_config.confirm.destroy')}

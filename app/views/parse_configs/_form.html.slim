@@ -1,67 +1,17 @@
 = form_for(@parse_config, html: { class: "form-horizontal", role: "form" }) do |f|
-  - if @parse_config.errors.any?
-    .alert.alert-danger.alert-dismissable role="alert"
-      button.close type="button" data-dismiss="alert"
-        span aria-hidden="true"
-          | &times;
-        span.sr-only
-          | Close
-      h4= "#{pluralize(@parse_config.errors.count,"error")} prohibited this parse_config from being saved:"
-      ul
-        - @parse_config.errors.full_messages.each do |msg|
-          li= msg
-  .form-group
-    = f.label :kind, class: "col-sm-2 control-label"
-    .col-sm-10
-      = f.text_field :kind, class: "form-control"
-  .form-group
-    = f.label :name, class: "col-sm-2 control-label"
-    .col-sm-10
-      = f.text_field :name, class: "form-control"
-  .form-group
-    = f.label :message_defined_at_column, class: "col-sm-2 control-label"
-    .col-sm-10
-      = f.check_box :message_defined_at_column, class: "form-control"
-  .form-group
-    = f.label :column_of_message, class: "col-sm-2 control-label"
-    .col-sm-10
-      = f.text_field :column_of_message, class: "form-control"
-  .form-group
-    = f.label :column_of_number, class: "col-sm-2 control-label"
-    .col-sm-10
-      = f.text_field :column_of_number, class: "form-control"
-  .form-group
-    = f.label :column_of_destination_reference, class: "col-sm-2 control-label"
-    .col-sm-10
-      = f.text_field :column_of_destination_reference, class: "form-control"
-  .form-group
-    = f.label :schedule_finish_time, class: "col-sm-2 control-label"
-    .col-sm-10
-      = f.text_field :schedule_finish_time, class: "form-control"
-  .form-group
-    = f.label :schedule_start_time, class: "col-sm-2 control-label"
-    .col-sm-10
-      = f.text_field :schedule_start_time, class: "form-control"
-  .form-group
-    = f.label :timing_table, class: "col-sm-2 control-label"
-    .col-sm-10
-      = f.text_field :timing_table, class: "form-control"
-  .form-group
-    = f.label :field_separator, class: "col-sm-2 control-label"
-    .col-sm-10
-      = f.text_field :field_separator, class: "form-control"
-  .form-group
-    = f.label :headers_at_first_line, class: "col-sm-2 control-label"
-    .col-sm-10
-      = f.check_box :headers_at_first_line, class: "form-control"
-  .form-group
-    = f.label :custom_message, class: "col-sm-2 control-label"
-    .col-sm-10
-      = f.text_area :custom_message, class: "form-control"
-  .form-group
-    = f.label :skip_records, class: "col-sm-2 control-label"
-    .col-sm-10
-      = f.number_field :skip_records, class: "form-control"
-  .form-group
-    .col-sm-offset-2.col-sm-10
-      = f.submit class: "btn btn-primary"
+  = render partial: 'layouts/form_errors', locals: {record: @parse_config}
+  = field(f, :kind, :text_field)
+  = field(f, :name, :text_field)
+  = field(f, :message_defined_at_column, :check_box)
+  = field(f, :column_of_message, :text_field)
+  = field(f, :column_of_number, :text_field)
+  = field(f, :column_of_destination_reference, :text_field)
+  = field(f, :schedule_finish_time, :text_field)
+  = field(f, :schedule_start_time, :text_field)
+  = field(f, :timing_table, :text_field)
+  = field(f, :field_separator, :text_field)
+  = field(f, :headers_at_first_line, :check_box)
+  = field(f, :custom_message, :text_area)
+  = field(f, :skip_records, :number_field)
+  .col-sm-offset-2
+    = f.submit class: "btn btn-primary", value: t(:save, scope: 'parse_config')

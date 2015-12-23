@@ -12,9 +12,11 @@
           td = o.description
           td = o.enabled
           td
-            span.status.label [class="label-#{o.status == 'success' ? 'success' : 'danger'  }"] = t(:last_transmission)+ ': ' + t( o.status || 'unknown', scope: 'transfer_bot.status' )
-          td =
-            span.status.label [class="label-#{o.enabled? ? 'primary' : 'warning'}"] = t('enabled') + ': '+ t( (o.enabled? ? 'yes' : 'no'), scope: 'transfer_bot.enabled')
+            span.status.label [class="label-#{o.status == 'success' ? 'success' : 'danger'  }"]
+              = t(:last_transmission)+ ': ' + t( o.status || 'unknown', scope: 'transfer_bot.status' )
+          td
+            span.status.label [class="label-#{(o.enabled? ? 'primary' : 'warning')}"]
+              = t('enabled') + ': '+ t( (o.enabled? ? 'yes' : 'no'), scope: 'transfer_bot.enabled')
           td = o.remote_path
           td
             span [title="#{o.last_success_at}"]

@@ -1,10 +1,8 @@
 ul.nav.nav-sidebar
-  li Monitoração 
+  li Monitoração
   li.active
     a[href="#{authenticated_root_path}"]
       | Painel
-      span.sr-only
-        | (current)
   li Transmissão
   li
     a[href="#{transmission_requests_path}"]
@@ -16,10 +14,13 @@ ul.nav.nav-sidebar
     = link_to 'Enviar Lote', transmission_requests_path, method: :post
 
 ul.nav.nav-sidebar
+  li Integrações
   li
     = link_to 'Robôs de Transmissão', transfer_bots_path
   li
     = link_to 'Acessos FTP', ftp_configs_path
+  li
+    = link_to 'Configuraçõs de Tratamento', parse_configs_path
 
 - if current_user && current_user.has_role?(:admin)
   ul.nav.nav-sidebar

@@ -42,9 +42,5 @@ RSpec.describe "parse_configs/index", type: :view do
     render
     assert_select "tr>td", :text => "Kind".to_s, :count => 2
     assert_select "tr>td", :text => "Name".to_s, :count => 2
-    assert_select "tr>td", :text => true.to_s, :count => 2
-    assert_select "tr>td", :text => "Column Of Message".to_s, :count => 2
-    assert_select "tr>td", :text => "Column Of Number".to_s, :count => 2
-    assert_select "tr>td", :text => "Column Of Destination Reference".to_s, :count => 2
   end
 end

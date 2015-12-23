@@ -40,4 +40,8 @@ class TransmissionRequestPolicy < ApplicationPolicy
   def resume?
     related? && record.paused?
   end
+
+  def export_parse_config?
+    record.parse_config && record.parse_config.name.nil? && related?
+  end
 end

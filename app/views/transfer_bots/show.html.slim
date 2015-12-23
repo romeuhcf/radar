@@ -1,48 +1,48 @@
 .well.ficha
   h2
-    | Regra 
+    | Regra
     = @transfer_bot.description
-    |   
+    |
   span.status.label [class="label-#{@transfer_bot.status == 'success' ? 'success' : 'danger'  }"] = t(:last_transmission)+ ': ' + t( @transfer_bot.status || 'unknown', scope: 'transfer_bot.status' )
-  span.status.label [class="label-#{@transfer_bot.enabled? ? 'primary' : 'warning'}"] = t('enabled') + ': '+ t( (@transfer_bot.enabled? ? 'yes' : 'no'), scope: 'transfer_bot.enabled') 
+  span.status.label [class="label-#{@transfer_bot.enabled? ? 'primary' : 'warning'}"] = t('enabled') + ': '+ t( (@transfer_bot.enabled? ? 'yes' : 'no'), scope: 'transfer_bot.enabled')
   | |
-  = distance_of_time_in_words_to_now @transfer_bot.update_at
+  = distance_of_time_in_words_to_now @transfer_bot.updated_at
   hr
   ul.details
     li
-      span.field_name 
+      span.field_name
         =t 'enabled' , scope: 'simple_form.labels.transfer_bot'
       = @transfer_bot.enabled
     li
-      span.field_name 
+      span.field_name
         =t ' schedule', scope: 'simple_form.labels.transfer_bot'
       = @transfer_bot.schedule
     li
-      span.field_name 
+      span.field_name
         =t 'host', scope: 'simple_form.labels.transfer_bot.ftp_config'
       = @transfer_bot.ftp_config.host
     li
-      span.field_name 
+      span.field_name
         =t 'port', scope: 'simple_form.labels.transfer_bot.ftp_config'
       = @transfer_bot.ftp_config.port
     li
-      span.field_name 
+      span.field_name
         =t 'user', scope: 'simple_form.labels.transfer_bot.ftp_config'
       = @transfer_bot.ftp_config.user
     li
-      span.field_name 
+      span.field_name
         =t 'secret', scope: 'simple_form.labels.transfer_bot.ftp_config'
       = @transfer_bot.ftp_config.secret
     li
-      span.field_name 
+      span.field_name
         =t 'passive', scope: 'simple_form.labels.transfer_bot.ftp_config'
       = @transfer_bot.ftp_config.passive
     li
-      span.field_name 
+      span.field_name
         =t 'remote_path', scope: 'simple_form.labels.transfer_bot'
       = @transfer_bot.remote_path
     li
-      span.field_name 
+      span.field_name
         = t('patterns', scope: 'simple_form.labels.transfer_bot')
       = @transfer_bot.patterns
 
@@ -52,25 +52,25 @@
 h3 Histórico
 table.table.table-striped.table-condensed
   thead
-    tr 
+    tr
       th Data
       th Autor
       th Evento
       th Diferença
   tbody
     - @transfer_bot.versions.order('id DESC').limit(20).each do |version|
-      tr 
+      tr
         td = version.created_at
         td = version.whodunnit =~ /\A[0-9]+\z/ ? User.find(version.whodunnit).email : version.whodunnit
-        td = version.event 
-        td 
+        td = version.event
+        td
           - version.changeset.except(:updated_at).each do |k, v|
             p
               strong
                 = t(k, scope: 'simple_form.labels.transfer_bot')
-              i passou a ser: 
+              i passou a ser:
               strong
                 pre = v.last.to_s
-              
+
 
 

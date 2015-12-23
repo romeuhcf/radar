@@ -52,10 +52,10 @@ module ApplicationHelper
     number_with_delimiter n
   end
 
-  def field(f, field)
-    type = 'text_field'
+  def field(f, field, type = 'text_field')
     if field.is_a? Hash
-      field, type = *field.flatten
+      field = field.flatten.first
+      type ||= field.flatten.last
     end
     content_tag(:div, class:'form-group') do
       [
